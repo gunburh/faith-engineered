@@ -1,0 +1,22 @@
+/* css/main.css — imports all stylesheets in correct order */
+
+/* 1. Foundation */
+@import 'tokens.css';
+@import 'reset.css';
+@import 'base.css';
+
+/* 2. Layout */
+@import 'layout.css';
+
+/* 3. Components */
+@import 'components.css';
+
+/* 4. Chapters */
+@import 'chapters/00-hero.css';
+@import 'chapters/01-stack.css';
+@import 'chapters/02-geography.css';
+@import 'chapters/03-economy.css';
+@import 'chapters/04-saints.css';
+
+/* 5. Utilities (last — highest specificity) */
+@import 'utilities.css';

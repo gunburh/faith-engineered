@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Faith Engineered — How Thailand designed a religion for the modern world.">
+    <title>Faith Engineered · วิศวกรรมศรัทธา</title>
+
+    <!-- Preconnect for Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300..700;1,300..700&family=IBM+Plex+Thai:wght@300;400;500;600&family=IBM+Plex+Thai+Looped:wght@300;400;500&family=Inter:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="css/main.css">
+</head>
+
+<body>
+
+    <!-- NAVIGATION -->
+    <header class="site-header" role="banner">
+        <nav class="site-nav" aria-label="Main navigation">
+            <a href="#hero" class="nav-logo">Faith Engineered</a>
+            <ol class="nav-chapters" role="list">
+                <li><a href="#chapter-stack" data-i18n="nav.chapter1">The Stack</a></li>
+                <li><a href="#chapter-geography" data-i18n="nav.chapter2">Geography of Luck</a></li>
+                <li><a href="#chapter-economy" data-i18n="nav.chapter3">Offering Economy</a></li>
+                <li><a href="#chapter-saints" data-i18n="nav.chapter4">The New Saints</a></li>
+            </ol>
+            <div class="lang-toggle" role="group" aria-label="Language">
+                <button aria-pressed="true" data-lang="en">EN</button>
+                <span class="divider" aria-hidden="true">/</span>
+                <button aria-pressed="false" data-lang="th">TH</button>
+            </div>
+        </nav>
+    </header>
+
+    <main id="main-content">
+
+        <!-- HERO -->
+        <section id="hero" class="chapter chapter--hero" aria-labelledby="hero-title">
+            <canvas id="hero-canvas" aria-hidden="true"></canvas>
+            <article class="hero__content">
+                <p class="chapter-eyebrow" data-i18n="hero.eyebrow">An Editorial Investigation</p>
+                <h1 id="hero-title" class="hero__title">
+                    <span data-i18n="hero.title.en">Faith Engineered</span>
+                </h1>
+                <p class="hero__subtitle" data-i18n="hero.subtitle">How Thailand designed a religion for the modern
+                    world.</p>
+                <a href="#chapter-stack" class="btn btn-primary" data-i18n="hero.cta">Begin Reading</a>
+            </article>
+            <div class="scroll-cue" aria-hidden="true">
+                <span class="scroll-cue__line"></span>
+            </div>
+        </section>
+
+        <!-- CHAPTER 1: THE STACK -->
+        <section id="chapter-stack" class="chapter chapter--stack" aria-labelledby="stack-title">
+            <article class="chapter__content">
+                <div class="chapter-eyebrow">
+                    <span class="chapter-number">01</span>
+                    <span class="chapter-label" data-i18n="chapter1.label">The Stack</span>
+                </div>
+                <h2 id="stack-title" class="chapter__title" data-i18n="chapter1.title">The Stack</h2>
+                <p class="chapter__subtitle" data-i18n="chapter1.subtitle">TBD</p>
+                <div class="chapter__body" data-i18n="chapter1.body">
+                    <p>Content coming Day 2.</p>
+                </div>
+            </article>
+        </section>
+
+        <!-- CHAPTER 2: GEOGRAPHY OF LUCK -->
+        <section id="chapter-geography" class="chapter chapter--geography" aria-labelledby="geography-title">
+            <article class="chapter__content">
+                <div class="chapter-eyebrow">
+                    <span class="chapter-number">02</span>
+                    <span class="chapter-label" data-i18n="chapter2.label">Geography of Luck</span>
+                </div>
+                <h2 id="geography-title" class="chapter__title" data-i18n="chapter2.title">Geography of Luck</h2>
+                <div class="map-container" aria-label="Interactive shrine map of Bangkok">
+                    <!-- SVG map goes here Day 9 -->
+                </div>
+            </article>
+        </section>
+
+        <!-- CHAPTER 3: OFFERING ECONOMY -->
+        <section id="chapter-economy" class="chapter chapter--economy" aria-labelledby="economy-title">
+            <article class="chapter__content">
+                <div class="chapter-eyebrow">
+                    <span class="chapter-number">03</span>
+                    <span class="chapter-label" data-i18n="chapter3.label">Offering Economy</span>
+                </div>
+                <h2 id="economy-title" class="chapter__title" data-i18n="chapter3.title">Offering Economy</h2>
+                <div class="data-number">
+                    <span class="data-prefix">฿</span>
+                    <span class="data-value" data-target="0">TBD</span>
+                    <span class="data-label" data-i18n="chapter3.dataLabel">estimated annual offering economy</span>
+                </div>
+            </article>
+        </section>
+
+        <!-- CHAPTER 4: THE NEW SAINTS -->
+        <section id="chapter-saints" class="chapter chapter--saints" aria-labelledby="saints-title">
+            <article class="chapter__content">
+                <div class="chapter-eyebrow">
+                    <span class="chapter-number">04</span>
+                    <span class="chapter-label" data-i18n="chapter4.label">The New Saints</span>
+                </div>
+                <h2 id="saints-title" class="chapter__title" data-i18n="chapter4.title">The New Saints</h2>
+                <div class="saints-grid">
+                    <!-- 4 portrait cards go here Day 11 -->
+                </div>
+            </article>
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="site-footer" role="contentinfo">
+        <div class="footer__content">
+            <p class="footer__credit">Faith Engineered · วิศวกรรมศรัทธา</p>
+            <p class="footer__course">SWU COSCI Final Project 2026 · Bhanupong</p>
+            <nav aria-label="Footer navigation">
+                <a href="sources.html" data-i18n="footer.sources">Sources & Credits</a>
+            </nav>
+            <p class="footer__libraries">
+                Built with:
+                <a href="https://threejs.org" target="_blank" rel="noopener">Three.js</a> ·
+                <a href="https://gsap.com" target="_blank" rel="noopener">GSAP</a> ·
+                <a href="https://lenis.darkroom.engineering" target="_blank" rel="noopener">Lenis</a> ·
+                <a href="https://howlerjs.com" target="_blank" rel="noopener">Howler.js</a> ·
+                <a href="https://splitting.js.org" target="_blank" rel="noopener">Splitting.js</a>
+            </p>
+        </div>
+    </footer>
+
+    <!-- Vendor libraries (self-hosted — add files to /vendor on Day 14-15) -->
+    <!-- <script src="vendor/three.min.js"></script> -->
+    <!-- <script src="vendor/gsap.min.js"></script> -->
+    <!-- <script src="vendor/ScrollTrigger.min.js"></script> -->
+    <!-- <script src="vendor/lenis.min.js"></script> -->
+    <!-- <script src="vendor/howler.min.js"></script> -->
+    <!-- <script src="vendor/splitting.min.js"></script> -->
+
+    <!-- Main JS -->
+    <script type="module" src="js/main.js"></script>
+
+</body>
+
+</html>
