@@ -1,0 +1,257 @@
+/* ============================================================
+   layout.css — Faith Engineered
+   12-column CSS Grid page layout.
+   Containers and section rhythm.
+   Flexbox for component-level (in components.css).
+   ============================================================ */
+
+/* ──────────────────────────────────────────
+   Page-level CSS Grid
+   12 columns with named areas for flexibility
+────────────────────────────────────────── */
+body {
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    /* header · main · footer */
+    grid-template-areas:
+        "header"
+        "main"
+        "footer";
+}
+
+.site-header {
+    grid-area: header;
+}
+
+main {
+    grid-area: main;
+}
+
+.site-footer {
+    grid-area: footer;
+}
+
+/* ──────────────────────────────────────────
+   Container widths (from design system)
+   Use as utility wrappers inside sections
+────────────────────────────────────────── */
+
+/* Default content container */
+.container {
+    width: 100%;
+    max-width: var(--container-default);
+    /* 72rem */
+    margin-inline: auto;
+    padding-inline: var(--space-5);
+}
+
+/* Reading-optimized narrow container */
+.container--reading {
+    max-width: var(--container-reading);
+    /* 65ch */
+}
+
+/* Narrow container for focused content */
+.container--narrow {
+    max-width: var(--container-narrow);
+    /* 48rem */
+}
+
+/* Wide container for full-bleed data / maps */
+.container--wide {
+    max-width: var(--container-wide);
+    /* 90rem */
+}
+
+/* Full-bleed (edge to edge) */
+.container--full {
+    width: 100%;
+    max-width: none;
+    padding-inline: 0;
+}
+
+/* ──────────────────────────────────────────
+   Section rhythm
+   Each chapter section gets consistent
+   vertical padding from the spacing scale
+────────────────────────────────────────── */
+.chapter {
+    padding-block: var(--space-9);
+    /* 6rem top/bottom */
+    /* Container inside each chapter handles horizontal */
+}
+
+.chapter>article {
+    width: 100%;
+    max-width: var(--container-default);
+    margin-inline: auto;
+    padding-inline: var(--space-5);
+}
+
+/* Chapter header: eyebrow → title → subtitle stacked */
+.chapter__header {
+    margin-bottom: var(--space-8);
+    /* 4rem below header */
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+}
+
+/* Thesis block: slightly wider, more space above */
+.chapter__thesis {
+    margin-block: var(--space-7) var(--space-6);
+}
+
+/* Evidence block: standard spacing */
+.chapter__evidence {
+    margin-top: var(--space-6);
+}
+
+/* Aside / pull quote: breathe on both sides */
+.chapter__aside {
+    margin-block: var(--space-8);
+    padding-block: var(--space-6);
+    border-top: 1px solid rgba(201, 169, 97, 0.2);
+    /* --color-gold at 20% */
+    border-bottom: 1px solid rgba(201, 169, 97, 0.2);
+}
+
+/* ──────────────────────────────────────────
+   Hero section layout
+   Full viewport, position relative for layers
+────────────────────────────────────────── */
+.hero {
+    position: relative;
+    min-height: 100svh;
+    /* safe viewport height (iOS safari) */
+    display: grid;
+    place-items: center start;
+    /* vertically center, left-align */
+    overflow: hidden;
+}
+
+.hero__content {
+    position: relative;
+    z-index: 2;
+    /* above video + canvas */
+    max-width: var(--container-default);
+    width: 100%;
+    margin-inline: auto;
+    padding-inline: var(--space-5);
+    padding-block: var(--space-9);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+}
+
+/* ──────────────────────────────────────────
+   Sources section
+────────────────────────────────────────── */
+.sources-section {
+    padding-block: var(--space-9);
+}
+
+.sources-section>article {
+    width: 100%;
+    max-width: var(--container-default);
+    margin-inline: auto;
+    padding-inline: var(--space-5);
+}
+
+/* ──────────────────────────────────────────
+   Footer layout
+────────────────────────────────────────── */
+.site-footer {
+    padding-block: var(--space-8) var(--space-6);
+    border-top: 1px solid rgba(245, 241, 234, 0.08);
+}
+
+.footer__inner {
+    max-width: var(--container-wide);
+    margin-inline: auto;
+    padding-inline: var(--space-5);
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: var(--space-7);
+    margin-bottom: var(--space-7);
+}
+
+.footer__meta {
+    max-width: var(--container-wide);
+    margin-inline: auto;
+    padding-inline: var(--space-5);
+    padding-top: var(--space-5);
+    border-top: 1px solid rgba(245, 241, 234, 0.06);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+}
+
+/* ──────────────────────────────────────────
+   Data grid (Ch03 — stat numbers)
+────────────────────────────────────────── */
+.data-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-5);
+    margin-block: var(--space-8);
+}
+
+/* ──────────────────────────────────────────
+   Saints grid (Ch04 — portrait layout)
+────────────────────────────────────────── */
+.saints-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-5);
+    margin-block: var(--space-8);
+}
+
+/* ──────────────────────────────────────────
+   Responsive breakpoints
+   Mobile-first: base = 375px
+────────────────────────────────────────── */
+
+/* Tablet: 768px+ */
+@media (min-width: 768px) {
+
+    .chapter>article,
+    .hero__content,
+    .sources-section>article {
+        padding-inline: var(--space-7);
+    }
+
+    .data-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+
+    .saints-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+
+    .footer__inner {
+        grid-template-columns: repeat(4, 1fr);
+        padding-inline: var(--space-7);
+    }
+}
+
+/* Desktop: 1024px+ */
+@media (min-width: 1024px) {
+
+    .chapter>article,
+    .hero__content,
+    .sources-section>article {
+        padding-inline: var(--space-8);
+    }
+
+    .chapter {
+        padding-block: var(--space-10);
+    }
+}
+
+/* Large: 1440px+ */
+@media (min-width: 1440px) {
+    .hero__content {
+        padding-inline: var(--space-9);
+    }
+}

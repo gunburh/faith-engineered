@@ -1,22 +1,30 @@
-/* css/main.css — imports all stylesheets in correct order */
+/* ============================================================
+   main.css — Faith Engineered
+   Import order matters. Do not reorder.
+   ============================================================ */
 
 /* 1. Foundation */
 @import 'tokens.css';
+/* CSS custom properties — single source of truth */
 @import 'reset.css';
+/* Minimal modern reset */
 @import 'base.css';
+/* Body, typography, font-face */
 
 /* 2. Layout */
 @import 'layout.css';
+/* 12-col grid, containers, section rhythm */
 
 /* 3. Components */
 @import 'components.css';
+/* Nav, buttons, eyebrow, pull-quote, lang-toggle, etc. */
 
-/* 4. Chapters */
+/* 4. Chapter-specific (scoped to .chapter--X) */
 @import 'chapters/00-hero.css';
 @import 'chapters/01-stack.css';
 @import 'chapters/02-geography.css';
 @import 'chapters/03-economy.css';
 @import 'chapters/04-saints.css';
 
-/* 5. Utilities (last — highest specificity) */
+/* 5. Utilities — highest specificity, load last */
 @import 'utilities.css';

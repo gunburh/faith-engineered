@@ -1,0 +1,64 @@
+/* ============================================================
+   utilities.css — Faith Engineered
+   Single-purpose utility classes. Loaded last = highest
+   specificity without !important abuse.
+   ============================================================ */
+
+/* Visually hidden but accessible to screen readers */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+}
+
+/* Hide from all (decorative) */
+.u-hidden {
+    display: none;
+}
+
+/* Text alignment */
+.u-text-center {
+    text-align: center;
+}
+
+.u-text-left {
+    text-align: left;
+}
+
+/* Color utilities */
+.u-color-gold {
+    color: var(--color-gold);
+}
+
+.u-color-cream {
+    color: var(--color-cream);
+}
+
+.u-color-oxblood {
+    color: var(--color-oxblood);
+}
+
+/* Opacity */
+.u-opacity-50 {
+    opacity: 0.5;
+}
+
+.u-opacity-75 {
+    opacity: 0.75;
+}
+
+/* Will-change: only apply during animation via JS data attributes */
+[data-animating="true"] {
+    will-change: transform, opacity;
+}
+
+/* Remove will-change after animation completes */
+[data-animating="false"] {
+    will-change: auto;
+}

@@ -97,4 +97,21 @@
     --z-nav: 100;
     --z-modal: 1000;
     --z-toast: 10000;
+
+    /* ALIASES — for CSS file compatibility */
+    --font-body-en: var(--font-display-en);
+    --font-ui: var(--font-ui-en);
+    --ease-out: var(--ease-out-quad);
+
+    /* TYPE ALIASES */
+    --text-body: var(--text-base);
+    --text-small: var(--text-sm);
+    --text-caption: var(--text-xs);
+    --text-eyebrow: var(--text-xs);
+    --text-quote: var(--text-xl);
+    --text-quote-large: var(--text-2xl);
+    --text-h1: var(--text-5xl);
+    --text-h2: var(--text-4xl);
+    --text-h3: var(--text-3xl);
+    --text-h4: var(--text-2xl);
 }

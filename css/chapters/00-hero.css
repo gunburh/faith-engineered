@@ -1,0 +1,55 @@
+/* ============================================================
+   00-hero.css — Faith Engineered
+   Hero section specific styles.
+   Layout handled in layout.css. This file = visual details.
+   ============================================================ */
+
+/* Hero title — very large, Cormorant Garamond */
+.hero__title {
+    font-family: var(--font-display-en);
+    font-size: clamp(3.5rem, 10vw, 9rem);
+    font-weight: 300;
+    line-height: 0.95;
+    letter-spacing: -0.02em;
+    color: var(--color-cream);
+    /* Splitting.js will wrap each char in <span> for animation */
+}
+
+[data-lang="th"] .hero__title {
+    font-family: var(--font-display-th);
+    font-size: clamp(3rem, 8vw, 7rem);
+    letter-spacing: 0;
+    line-height: 1.1;
+}
+
+.hero__subtitle {
+    font-family: var(--font-display-en);
+    font-size: clamp(1.1rem, 2.5vw, 1.75rem);
+    font-weight: 300;
+    font-style: italic;
+    line-height: 1.4;
+    color: var(--color-cream);
+    opacity: 0.85;
+    max-width: 22ch;
+}
+
+[data-lang="th"] .hero__subtitle {
+    font-family: var(--font-display-th);
+    font-style: normal;
+    max-width: 28ch;
+}
+
+.hero__quote {
+    border-left: none;
+    padding-left: 0;
+    font-size: clamp(0.9rem, 1.5vw, 1.1rem);
+    opacity: 0.55;
+    max-width: 36ch;
+    font-style: italic;
+}
+
+/* Eyebrow in hero context — slightly dimmer */
+.hero .eyebrow {
+    opacity: 0.6;
+    color: var(--color-gold);
+}
