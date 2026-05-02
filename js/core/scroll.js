@@ -85,7 +85,7 @@ export function initSmoothScroll() {
 
     // Initialize Lenis
     lenis = new Lenis({
-        duration: 1.4,                           // scroll duration (seconds)
+        duration: 0.8,                           // scroll duration (seconds)
         easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), // expo ease out
         orientation: 'vertical',
         gestureOrientation: 'vertical',
