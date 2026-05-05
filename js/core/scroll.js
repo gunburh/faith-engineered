@@ -95,6 +95,8 @@ export function initSmoothScroll() {
         infinite: false,
     });
 
+    window.__lenis = lenis;
+
     // Create progress bar
     createProgressBar();
 
