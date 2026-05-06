@@ -115,12 +115,10 @@
 
             <!-- Dual video background — bg02 plays on load, bg05 fades in on scroll -->
             <div class="hero__bg" aria-hidden="true">
-                <video id="hero-video-bg02" class="hero__video hero__video--bg02"
-                       src="assets/video/hero_bg02.mov"
-                       autoplay muted loop playsinline preload="auto" aria-hidden="true"></video>
-                <video id="hero-video-bg05" class="hero__video hero__video--bg05"
-                       src="assets/video/hero_bg05.mov"
-                       muted playsinline preload="auto" aria-hidden="true"></video>
+                <video id="hero-video-bg02" class="hero__video hero__video--bg02" src="assets/video/hero_bg02.mov"
+                    autoplay muted loop playsinline preload="auto" aria-hidden="true"></video>
+                <video id="hero-video-bg05" class="hero__video hero__video--bg05" src="assets/video/hero_bg05.mov" muted
+                    playsinline preload="auto" aria-hidden="true"></video>
                 <!-- WebGL particle canvas overlays the videos -->
                 <canvas id="smoke-canvas" class="hero__canvas" aria-hidden="true"></canvas>
                 <!-- Gradient overlay for text legibility -->
@@ -130,7 +128,8 @@
             <!-- Hero typography content -->
             <div class="hero__content">
                 <h1 id="hero-title" class="hero__title">
-                    <img src="assets/images/hero/hero_logo.png" alt="Faith Engineered" class="hero__logo" width="945" height="109">
+                    <img src="assets/images/hero/hero_logo.png" alt="Faith Engineered" class="hero__logo" width="945"
+                        height="109">
                     <span class="visually-hidden" data-i18n="hero.title">Faith Engineered</span>
                 </h1>
 
@@ -163,140 +162,191 @@
         <div class="chapter chapter--stack">
             <article id="chapter-01" aria-labelledby="ch01-title">
 
-                <header class="chapter__header">
-                    <p class="eyebrow" data-i18n="ch01.eyebrow">01 · Chapter One</p>
-                    <h2 id="ch01-title" class="chapter__title" data-i18n="ch01.title">The Stack</h2>
-                    <p class="chapter__subtitle" data-i18n="ch01.subtitle">
-                        Six belief systems. One person. Zero contradictions.
+                <!-- ─── BLOCK 1 · Chapter header ─── -->
+                <header class="ch01-header">
+                    <p class="ch01-header__eyebrow">CHAPTER 01</p>
+                    <hr class="ch01-header__divider">
+                    <h2 id="ch01-title" class="ch01-headline">The <em>Stack</em></h2>
+                    <p class="ch01-header__subhead">| Six Layers, One System</p>
+                    <p class="ch01-header__lead">
+                        One Thai person, one day, six belief systems, zero contradictions.<br>
+                        The Thai spiritual stack is not syncretism — it is architecture.
                     </p>
                 </header>
 
-                <!-- Hook paragraph -->
-                <div class="chapter__hook">
-                    <p class="pull-quote" data-i18n="ch01.hook"></p>
-                </div>
-
-                <!-- Thesis paragraph -->
-                <div class="chapter__thesis">
-                    <p data-i18n="ch01.thesis"></p>
-                </div>
-
-                <!-- Interactive stack diagram
-             6 layers rendered as tech architecture diagram
-             Each <dt> = layer label, <dd> = description
-             JS adds click/hover interactivity -->
-                <div class="stack-diagram" role="list" aria-label="The six layers of Thai spiritual belief">
-
-                    <!-- Layer 6 (top) — most recent -->
-                    <div class="stack-diagram__layer" role="listitem" data-layer="6" data-active="false">
-                        <div class="stack-diagram__layer-inner">
-                            <span class="stack-diagram__number" aria-hidden="true">06</span>
-                            <dl class="stack-diagram__terms">
-                                <dt class="stack-diagram__name-en" data-i18n="ch01.layers.6.name_en">Global Astrology
-                                </dt>
-                                <dt class="stack-diagram__name-th" data-i18n="ch01.layers.6.name_th" lang="th">
-                                    โหราศาสตร์สากล</dt>
-                                <dd class="stack-diagram__desc" data-i18n="ch01.layers.6.desc">
-                                    The newest layer. Western astrology + K-pop tarot absorbed into the system.
-                                </dd>
-                            </dl>
-                        </div>
-                    </div>
-
-                    <!-- Layer 5 -->
-                    <div class="stack-diagram__layer" role="listitem" data-layer="5" data-active="false">
-                        <div class="stack-diagram__layer-inner">
-                            <span class="stack-diagram__number" aria-hidden="true">05</span>
-                            <dl class="stack-diagram__terms">
-                                <dt class="stack-diagram__name-en" data-i18n="ch01.layers.5.name_en">Pop Spirituality
-                                </dt>
-                                <dt class="stack-diagram__name-th" data-i18n="ch01.layers.5.name_th" lang="th">
-                                    ไสยศาสตร์สมัยใหม่</dt>
-                                <dd class="stack-diagram__desc" data-i18n="ch01.layers.5.desc">
-                                    Celebrity monks. Lucky phone numbers. Lottery-linked amulets. Faith commodified.
-                                </dd>
-                            </dl>
-                        </div>
-                    </div>
-
-                    <!-- Layer 4 -->
-                    <div class="stack-diagram__layer" role="listitem" data-layer="4" data-active="false">
-                        <div class="stack-diagram__layer-inner">
-                            <span class="stack-diagram__number" aria-hidden="true">04</span>
-                            <dl class="stack-diagram__terms">
-                                <dt class="stack-diagram__name-en" data-i18n="ch01.layers.4.name_en">Chinese Folk
-                                    Religion</dt>
-                                <dt class="stack-diagram__name-th" data-i18n="ch01.layers.4.name_th" lang="th">
-                                    ศาสนาพื้นบ้านจีน</dt>
-                                <dd class="stack-diagram__desc" data-i18n="ch01.layers.4.desc">
-                                    Merchant class import. Triads of wealth gods. Erawan's Chinese name: Thao Maha
-                                    Phrom.
-                                </dd>
-                            </dl>
-                        </div>
-                    </div>
-
-                    <!-- Layer 3 -->
-                    <div class="stack-diagram__layer" role="listitem" data-layer="3" data-active="false">
-                        <div class="stack-diagram__layer-inner">
-                            <span class="stack-diagram__number" aria-hidden="true">03</span>
-                            <dl class="stack-diagram__terms">
-                                <dt class="stack-diagram__name-en" data-i18n="ch01.layers.3.name_en">Theravada Buddhism
-                                </dt>
-                                <dt class="stack-diagram__name-th" data-i18n="ch01.layers.3.name_th" lang="th">
-                                    พุทธศาสนาเถรวาท</dt>
-                                <dd class="stack-diagram__desc" data-i18n="ch01.layers.3.desc">
-                                    The formal OS. State religion since the 13th century. Structures merit, karma,
-                                    rebirth.
-                                </dd>
-                            </dl>
-                        </div>
-                    </div>
-
-                    <!-- Layer 2 -->
-                    <div class="stack-diagram__layer" role="listitem" data-layer="2" data-active="false">
-                        <div class="stack-diagram__layer-inner">
-                            <span class="stack-diagram__number" aria-hidden="true">02</span>
-                            <dl class="stack-diagram__terms">
-                                <dt class="stack-diagram__name-en" data-i18n="ch01.layers.2.name_en">Hindu Mythology
-                                </dt>
-                                <dt class="stack-diagram__name-th" data-i18n="ch01.layers.2.name_th" lang="th">
-                                    พราหมณ์-ฮินดู</dt>
-                                <dd class="stack-diagram__desc" data-i18n="ch01.layers.2.desc">
-                                    Royal court religion. Brahma, Ganesh, Shiva as power-brokers. Erawan Shrine runs on
-                                    this layer.
-                                </dd>
-                            </dl>
-                        </div>
-                    </div>
-
-                    <!-- Layer 1 (bottom) — oldest -->
-                    <div class="stack-diagram__layer" role="listitem" data-layer="1" data-active="false">
-                        <div class="stack-diagram__layer-inner">
-                            <span class="stack-diagram__number" aria-hidden="true">01</span>
-                            <dl class="stack-diagram__terms">
-                                <dt class="stack-diagram__name-en" data-i18n="ch01.layers.1.name_en">Animism</dt>
-                                <dt class="stack-diagram__name-th" data-i18n="ch01.layers.1.name_th" lang="th">ผี /
-                                    ไสยศาสตร์</dt>
-                                <dd class="stack-diagram__desc" data-i18n="ch01.layers.1.desc">
-                                    The oldest layer. Everything alive has a spirit. The spirit house predates the
-                                    temple.
-                                </dd>
-                            </dl>
-                        </div>
-                    </div>
-
-                </div><!-- /.stack-diagram -->
-
-                <!-- Evidence paragraph -->
-                <aside class="chapter__aside">
-                    <blockquote class="pull-quote">
-                        <p data-i18n="ch01.pullquote"></p>
+                <!-- ─── BLOCK 2a · Quote 1 (gold left-border) ─── -->
+                <div class="ch01-quote ch01-quote--left">
+                    <video class="ch01-quote__video" src="assets/video/quote1.mov" autoplay muted loop playsinline
+                        preload="auto" aria-hidden="true"></video>
+                    <blockquote class="ch01-quote__card">
+                        <p>"In Thailand, the sacred has a business model. And it's working."</p>
                     </blockquote>
-                </aside>
+                </div>
 
-                <div class="chapter__evidence">
-                    <p data-i18n="ch01.evidence"></p>
+                <!-- ─── BLOCK 2b · Quote 2 (gold right-border) ─── -->
+                <div class="ch01-quote ch01-quote--right">
+                    <video class="ch01-quote__video" src="assets/video/quote2.mov" autoplay muted loop playsinline
+                        preload="auto" aria-hidden="true"></video>
+                    <blockquote class="ch01-quote__card">
+                        <p>"belief is not an anomaly; it is an engineered response to a meticulously designed structural
+                            void."</p>
+                    </blockquote>
+                </div>
+
+                <!-- ─── BLOCK 3 · Stack diagram ─── -->
+                <section class="ch01-stack-section" aria-labelledby="ch01-stack-label">
+                    <p id="ch01-stack-label" class="ch01-section-label">Belief System Stack</p>
+
+                    <div class="ch01-stack-grid">
+
+                        <ul class="ch01-stack-cards" data-stack-cards role="list">
+
+                            <li class="ch01-stack-card" data-layer-idx="06" data-active="true" tabindex="0"
+                                role="button" aria-label="Layer 06 — New Media / Influencer"
+                                style="--tag-color:#38F593; --card-grad-end:#1C362A;">
+                                <div class="ch01-stack-card__meta">
+                                    <span class="ch01-stack-card__num">LAYER 06</span>
+                                    <span class="ch01-stack-card__tag">Distribution</span>
+                                </div>
+                                <h3 class="ch01-stack-card__name">New Media / Influencer</h3>
+                                <p class="ch01-stack-card__sub">Idol / Social</p>
+                                <p class="ch01-stack-card__desc">The distribution layer. TikTok monks, LINE stickers,
+                                    shrine selfies.</p>
+                                <img class="ch01-stack-card__icon" src="assets/icons/stack_icon.png" alt=""
+                                    aria-hidden="true" width="18" height="18">
+                            </li>
+
+                            <li class="ch01-stack-card" data-layer-idx="05" data-active="false" tabindex="0"
+                                role="button" aria-label="Layer 05 — Royal Brahmanism"
+                                style="--tag-color:#F53838; --card-grad-end:#361C1C;">
+                                <div class="ch01-stack-card__meta">
+                                    <span class="ch01-stack-card__num">LAYER 05</span>
+                                    <span class="ch01-stack-card__tag">State</span>
+                                </div>
+                                <h3 class="ch01-stack-card__name">Royal Brahmanism</h3>
+                                <p class="ch01-stack-card__sub">Brahminical Rite of Power</p>
+                                <p class="ch01-stack-card__desc">State religion layer. Legitimizes power through ritual
+                                    spectacle.</p>
+                                <img class="ch01-stack-card__icon" src="assets/icons/stack_icon.png" alt=""
+                                    aria-hidden="true" width="18" height="18">
+                            </li>
+
+                            <li class="ch01-stack-card" data-layer-idx="04" data-active="false" tabindex="0"
+                                role="button" aria-label="Layer 04 — Chinese Folk Religion"
+                                style="--tag-color:#F56A38; --card-grad-end:#36211C;">
+                                <div class="ch01-stack-card__meta">
+                                    <span class="ch01-stack-card__num">LAYER 04</span>
+                                    <span class="ch01-stack-card__tag">Merchant</span>
+                                </div>
+                                <h3 class="ch01-stack-card__name">Chinese Folk Religion</h3>
+                                <p class="ch01-stack-card__sub">Guanyin / Chinese New Year</p>
+                                <p class="ch01-stack-card__desc">Merchant layer. Imported by Sino-Thai trading class,
+                                    19th century.</p>
+                                <img class="ch01-stack-card__icon" src="assets/icons/stack_icon.png" alt=""
+                                    aria-hidden="true" width="18" height="18">
+                            </li>
+
+                            <li class="ch01-stack-card" data-layer-idx="03" data-active="false" tabindex="0"
+                                role="button" aria-label="Layer 03 — Theravada Buddhism"
+                                style="--tag-color:#385BF5; --card-grad-end:#1C1F36;">
+                                <div class="ch01-stack-card__meta">
+                                    <span class="ch01-stack-card__num">LAYER 03</span>
+                                    <span class="ch01-stack-card__tag">Formal OS</span>
+                                </div>
+                                <h3 class="ch01-stack-card__name">Theravada Buddhism</h3>
+                                <p class="ch01-stack-card__sub">Theravada Karmic System</p>
+                                <p class="ch01-stack-card__desc">The formal OS. Merit, karma, reincarnation as operating
+                                    logic.</p>
+                                <img class="ch01-stack-card__icon" src="assets/icons/stack_icon.png" alt=""
+                                    aria-hidden="true" width="18" height="18">
+                            </li>
+
+                            <li class="ch01-stack-card" data-layer-idx="02" data-active="false" tabindex="0"
+                                role="button" aria-label="Layer 02 — Hindu Mythology"
+                                style="--tag-color:#8A38F5; --card-grad-end:#2D1C36;">
+                                <div class="ch01-stack-card__meta">
+                                    <span class="ch01-stack-card__num">LAYER 02</span>
+                                    <span class="ch01-stack-card__tag">Court</span>
+                                </div>
+                                <h3 class="ch01-stack-card__name">Hindu Mythology</h3>
+                                <p class="ch01-stack-card__sub">Brahmin-Hindu</p>
+                                <p class="ch01-stack-card__desc">Royal court religion. Brahma, Ganesh, Shiva as
+                                    power-brokers.</p>
+                                <img class="ch01-stack-card__icon" src="assets/icons/stack_icon.png" alt=""
+                                    aria-hidden="true" width="18" height="18">
+                            </li>
+
+                            <li class="ch01-stack-card" data-layer-idx="01" data-active="false" tabindex="0"
+                                role="button" aria-label="Layer 01 — Animism"
+                                style="--tag-color:#E6C878; --card-grad-end:#362E1C;">
+                                <div class="ch01-stack-card__meta">
+                                    <span class="ch01-stack-card__num">LAYER 01</span>
+                                    <span class="ch01-stack-card__tag">Foundation</span>
+                                </div>
+                                <h3 class="ch01-stack-card__name">Animism</h3>
+                                <p class="ch01-stack-card__sub">Ghost / Superstition</p>
+                                <p class="ch01-stack-card__desc">The oldest layer. Everything alive has a spirit.</p>
+                                <img class="ch01-stack-card__icon" src="assets/icons/stack_icon.png" alt=""
+                                    aria-hidden="true" width="18" height="18">
+                            </li>
+
+                        </ul>
+
+                        <!-- Sticky detail panel — populated by stack-build.js -->
+                        <aside class="ch01-stack-detail" data-stack-detail aria-live="polite"></aside>
+
+                    </div>
+                </section>
+
+                <!-- ─── BLOCK 4 · Why this is not syncretism ─── -->
+                <section class="ch01-syncretism" aria-labelledby="ch01-syncretism-label">
+                    <p id="ch01-syncretism-label" class="ch01-section-label">Why This Is Not Syncretism</p>
+                    <p class="ch01-syncretism__lead">
+                        Western observers call Thai spirituality "syncretic" — mixing incompatible systems.<br>
+                        This is wrong. The Stack is modular. Each layer has a defined function.
+                    </p>
+                    <ul class="ch01-syncretism__cards" role="list">
+                        <li class="ch01-syncretism-card">
+                            <img class="ch01-syncretism-card__icon" src="assets/icons/LAYER ISOLATION_icon.png" alt=""
+                                aria-hidden="true" width="28" height="28">
+                            <h3 class="ch01-syncretism-card__title">Layer Isolation</h3>
+                            <hr class="ch01-syncretism-card__divider">
+                            <p class="ch01-syncretism-card__body">A Thai person prays to Ganesha for business success
+                                (Hindu layer), then meditates at a Buddhist temple (Buddhist layer). No contradiction —
+                                different layers serve different functions.</p>
+                        </li>
+                        <li class="ch01-syncretism-card">
+                            <img class="ch01-syncretism-card__icon" src="assets/icons/ERROR HANDLING_icon.png" alt=""
+                                aria-hidden="true" width="28" height="28">
+                            <h3 class="ch01-syncretism-card__title">Error Handling</h3>
+                            <hr class="ch01-syncretism-card__divider">
+                            <p class="ch01-syncretism-card__body">When Buddhist merit alone doesn't suffice, animist
+                                rites are invoked. The system has fallback logic — not theological confusion.</p>
+                        </li>
+                        <li class="ch01-syncretism-card">
+                            <img class="ch01-syncretism-card__icon" src="assets/icons/VERSION CONTROL_icon.png" alt=""
+                                aria-hidden="true" width="28" height="28">
+                            <h3 class="ch01-syncretism-card__title">Version Control</h3>
+                            <hr class="ch01-syncretism-card__divider">
+                            <p class="ch01-syncretism-card__body">Each layer retains its original logic. Buddhism was
+                                not corrupted by Hinduism — it was extended. The stack grew without breaking backward
+                                compatibility.</p>
+                        </li>
+                    </ul>
+                </section>
+
+                <!-- ─── BLOCK 5 · Closing visual + scroll cue ─── -->
+                <div class="ch01-closing">
+                    <div class="ch01-closing__media">
+                        <video class="ch01-closing__video" src="assets/video/closing%20visual%20ch1.mp4" autoplay muted loop
+                            playsinline preload="auto" aria-hidden="true"></video>
+                    </div>
+                    <hr class="ch01-closing__line">
+                    <div class="ch01-closing__cue" aria-hidden="true">
+                        <p class="ch01-closing__cue-label">SCROLL ↓ CONTINUE TO CHAPTER 02</p>
+                        <p class="ch01-closing__cue-title"><em>The Geography of Luck</em></p>
+                        <div class="ch01-closing__cue-line"></div>
+                    </div>
                 </div>
 
             </article>

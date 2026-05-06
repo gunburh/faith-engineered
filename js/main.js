@@ -18,6 +18,7 @@ import { initSmoothScroll } from './core/scroll.js';
 import { initNav }            from './core/nav.js';
 import { initHeroVideo }      from './chapters/hero-video.js';
 import { initHeroSmoke }      from './chapters/hero-smoke.js';
+import { initStackBuild }     from './chapters/stack-build.js';
 // import { initMotion }         from './core/motion.js';
 // import { initHeroSmoke }      from './chapters/hero-smoke.js';
 // import { initStackDiagram }   from './chapters/stack-diagram.js';
@@ -46,6 +47,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     // 5. Chapter interactions — uncomment as each is built
     initHeroVideo();
     initHeroSmoke();
+    initStackBuild();
     // initStackDiagram();
     // initShrineMap();
     // initCounters();

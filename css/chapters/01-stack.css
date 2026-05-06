@@ -1,128 +1,742 @@
 /* ============================================================
    01-stack.css — Faith Engineered · Chapter 1: The Stack
-   Interactive vertical stack diagram.
-   Tech architecture aesthetic — Pentagram / Bloomberg feel.
+   Hi-fi spec match: 5 blocks
+   1. Header  2. Quote 1  3. Quote 2 / Stack diagram
+   4. Why this is not syncretism  5. Closing visual + scroll cue
    ============================================================ */
 
-/* Stack diagram container */
-.stack-diagram {
+/* Widen the article for the 2-col stack grid (589px + detail panel) */
+.chapter--stack > article {
+    max-width: 1280px;
+}
+
+/* ──────────────────────────────────────────
+   BLOCK 1 — Chapter header
+────────────────────────────────────────── */
+.ch01-header {
     display: flex;
     flex-direction: column;
-    gap: 2px;
-    /* tight layers, separated by hairline */
-    margin-block: var(--space-8);
-    position: relative;
+    gap: var(--space-3);
+    margin-bottom: var(--space-9);
 }
 
-/* Individual layer */
-.stack-diagram__layer {
-    border: 1px solid rgba(245, 241, 234, 0.08);
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background var(--motion-base) var(--ease-out),
-        border-color var(--motion-base) var(--ease-out),
-        transform var(--motion-base) var(--ease-brand);
-    /* JS sets data-active="true" on click */
-}
-
-.stack-diagram__layer:hover,
-.stack-diagram__layer:focus-within {
-    background: rgba(201, 169, 97, 0.05);
-    border-color: rgba(201, 169, 97, 0.3);
-}
-
-.stack-diagram__layer[data-active="true"] {
-    background: rgba(201, 169, 97, 0.08);
-    border-color: var(--color-gold);
-}
-
-/* Layer inner: number + terms side by side */
-.stack-diagram__layer-inner {
-    display: grid;
-    grid-template-columns: 3rem 1fr;
-    align-items: start;
-    gap: var(--space-4);
-    padding: var(--space-4) var(--space-5);
-}
-
-/* Layer number */
-.stack-diagram__number {
+.ch01-header__eyebrow {
     font-family: var(--font-ui);
-    font-size: var(--text-caption);
-    font-weight: 400;
-    letter-spacing: 0.1em;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
     color: var(--color-gold);
-    opacity: 0.4;
-    padding-top: 3px;
-    /* align with dt */
-    transition: opacity var(--motion-base) var(--ease-out);
+    margin: 0;
 }
 
-.stack-diagram__layer[data-active="true"] .stack-diagram__number {
+.ch01-header__divider {
+    width: 100%;
+    height: 1px;
+    border: 0;
+    background: var(--color-line);
+    margin: var(--space-2) 0 var(--space-5);
+}
+
+.ch01-headline {
+    font-family: var(--font-display-en);
+    font-weight: 500;
+    font-style: normal;
+    font-size: clamp(3.5rem, 9vw, 96px);
+    line-height: 1;
+    letter-spacing: -0.005em;
+    color: var(--color-cream);
+    text-shadow: 0 0 25px rgba(255, 255, 255, 0.55);
+    margin: 0;
+}
+
+.ch01-headline em {
+    font-style: italic;
+    font-weight: 500;
+}
+
+.ch01-header__subhead {
+    font-family: var(--font-display-th);
+    font-weight: 400;
+    font-size: 24px;
+    color: var(--color-slate);
+    margin: 0;
+    max-width: none;
     opacity: 1;
 }
 
-/* Layer names */
-.stack-diagram__terms {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-1);
+.ch01-header__lead {
+    font-family: var(--font-display-en);
+    font-style: italic;
+    font-weight: 400;
+    font-size: 22px;
+    line-height: 1.5;
+    color: var(--color-cream);
+    margin: var(--space-3) 0 0;
+    max-width: 70ch;
+    opacity: 1;
 }
 
-.stack-diagram__name-en {
+/* ──────────────────────────────────────────
+   BLOCK 2 — Quote blocks (video + glass card)
+────────────────────────────────────────── */
+.ch01-quote {
+    position: relative;
+    width: 700px;
+    max-width: 100%;
+    height: 448px;            /* 388 video + 60 card overhang */
+    margin-block: var(--space-9);
+}
+
+/* Dark backdrop sized to the video — gives mix-blend-mode: lighten
+   something to blend against. Sits BEHIND the video. */
+.ch01-quote::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 700px;
+    max-width: 100%;
+    height: 388px;
+    background: var(--color-ink);
+    z-index: 0;
+}
+
+.ch01-quote--left {
+    margin-left: 0;
+    margin-right: auto;
+}
+
+.ch01-quote--right {
+    margin-left: auto;
+    margin-right: 0;
+}
+
+.ch01-quote__video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 700px;
+    max-width: 100%;
+    height: 388px;
+    object-fit: cover;
+    mix-blend-mode: lighten;
+    display: block;
+}
+
+.ch01-quote__card {
+    position: absolute;
+    bottom: 0;
+    z-index: 1;
+    width: 640px;
+    max-width: 100%;
+    min-height: 98px;
+    margin: 0;
+    padding: var(--space-4) var(--space-6);
+
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border-radius: 0;
+    box-shadow: 3px 16px 22px rgba(255, 255, 255, 0.07);
+
+    display: flex;
+    align-items: center;
+}
+
+.ch01-quote__card p {
     font-family: var(--font-display-en);
-    font-size: clamp(1rem, 2vw, 1.35rem);
+    font-style: italic;
     font-weight: 400;
+    font-size: 22px;
+    line-height: 1.4;
     color: var(--color-cream);
+    margin: 0;
+    max-width: none;
+    opacity: 1;
+}
+
+/* Quote 1 — card overlaps video bottom-left, gold LEFT border */
+.ch01-quote--left .ch01-quote__card {
+    left: 30px;             /* center 640 in 700 → (700-640)/2 */
+    border-left: 2px solid var(--color-gold);
+    border-right: 0;
+    text-align: left;
+}
+
+/* Quote 2 — card overlaps video bottom-right, gold RIGHT border */
+.ch01-quote--right .ch01-quote__card {
+    right: 30px;
+    left: auto;
+    border-right: 2px solid var(--color-gold);
+    border-left: 0;
+    text-align: right;
+}
+
+/* ──────────────────────────────────────────
+   BLOCK 3 — Stack diagram
+────────────────────────────────────────── */
+.ch01-stack-section {
+    margin-block: var(--space-9);
+}
+
+/* Section label — same spec as eyebrow */
+.ch01-section-label {
+    font-family: var(--font-ui);
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--color-gold);
+    margin: 0 0 var(--space-2);
+    max-width: none;
+    width: 100%;
+    display: block;
+    opacity: 1;
+}
+
+.ch01-stack-section .ch01-section-label {
+    padding-bottom: var(--space-3);
+    border-bottom: 1px solid var(--color-line);
+    margin-bottom: var(--space-7);
+}
+
+.ch01-stack-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 589px) minmax(0, 1fr);
+    gap: var(--space-5);
+    align-items: start;
+    position: relative;            /* anchor for the SVG glow string */
+}
+
+/* ── Animated glow-string connector (SVG, injected by JS) ── */
+.ch01-stack-string {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    overflow: visible;
+    z-index: 2;
+    opacity: 0;
+    transition: opacity 400ms var(--ease-brand);
+}
+
+.ch01-stack-string[data-visible="true"] {
+    opacity: 1;
+}
+
+.ch01-stack-string__path {
+    fill: none;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+/* Wide outer halo — heavy blur, low alpha, slow breathing pulse */
+.ch01-stack-string__path--halo {
+    stroke: rgba(201, 169, 97, 0.32);
+    stroke-width: 9;
+    filter: blur(7px);
+    animation: ch01-string-pulse 3.2s ease-in-out infinite;
+}
+
+/* Mid ribbon — softly blurred gold-leaf, medium width */
+.ch01-stack-string__path--mid {
+    stroke: rgba(230, 200, 120, 0.55);
+    stroke-width: 3;
+    filter: blur(1.6px);
+    animation: ch01-string-pulse 2.1s ease-in-out infinite;
+}
+
+/* Bright core filament — crisp, near-white-gold, with own drop-shadow */
+.ch01-stack-string__path--core {
+    stroke: rgba(255, 244, 218, 0.95);
+    stroke-width: 1.2;
+    filter: drop-shadow(0 0 4px rgba(230, 200, 120, 0.95));
+}
+
+/* Traveling sparkle particles */
+.ch01-stack-string__sparkle {
+    fill: rgba(255, 244, 218, 1);
+    filter:
+        drop-shadow(0 0 3px rgba(255, 220, 150, 1))
+        drop-shadow(0 0 6px rgba(230, 200, 120, 0.7));
+}
+
+@keyframes ch01-string-pulse {
+    0%, 100% { opacity: 0.62; }
+    50%      { opacity: 1; }
+}
+
+/* ── Stack cards column ── */
+.ch01-stack-cards {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.ch01-stack-card {
+    position: relative;
+    width: 100%;
+    min-height: 135px;
+    border-radius: 20px;
+    border: 1px solid rgba(245, 241, 234, 0.08);
+    padding: var(--space-4) var(--space-5);
+    cursor: pointer;
+
+    background: linear-gradient(135deg, var(--card-grad-start, #050505) 55%, var(--card-grad-end, #050505) 100%);
+
+    transition:
+        border-color var(--motion-base) var(--ease-brand),
+        transform var(--motion-base) var(--ease-brand);
+}
+
+.ch01-stack-card:hover {
+    border-color: rgba(201, 169, 97, 0.45);
+}
+
+.ch01-stack-card:focus-visible {
+    outline: 2px solid var(--color-gold);
+    outline-offset: 2px;
+}
+
+.ch01-stack-card[data-active="true"] {
+    border-color: var(--color-gold);
+}
+
+/* Active card → connected to detail panel by an animated SVG glow-string
+   (built in js/chapters/stack-build.js). The static ::after connector is
+   intentionally absent here. */
+
+/* ── Card internal layout ── */
+.ch01-stack-card__meta {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+}
+
+.ch01-stack-card__num {
+    font-family: var(--font-mono);
+    font-size: 14px;
+    font-weight: 400;
+    letter-spacing: 0.08em;
+    color: var(--color-cream);
+    text-transform: uppercase;
+}
+
+.ch01-stack-card__tag {
+    display: inline-flex;
+    align-items: center;
+    height: 22px;
+    padding: 0 10px;
+    border-radius: 4px;
+    background: color-mix(in srgb, var(--tag-color) 25%, transparent);
+    color: var(--tag-color);
+
+    font-family: var(--font-display-th);
+    font-weight: 400;
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    line-height: 1;
+}
+
+.ch01-stack-card__name {
+    font-family: var(--font-display-en);
+    font-weight: 400;
+    font-size: 28px;
+    line-height: 1.1;
+    color: var(--color-cream);
+    margin: var(--space-2) 0 4px;
+    text-shadow: 0 0 16px rgba(255, 255, 255, 0.18);
+}
+
+.ch01-stack-card__sub {
+    font-family: var(--font-ui);
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 1.3;
+    color: var(--color-cream);
+    margin: 0 0 var(--space-2);
+    max-width: none;
+    opacity: 1;
+}
+
+.ch01-stack-card__desc {
+    font-family: var(--font-ui);
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 1.5;
+    color: var(--color-slate);
+    margin: 0;
+    max-width: none;
+    opacity: 1;
+}
+
+/* Stack icon — center-right of card; hidden when active */
+.ch01-stack-card__icon {
+    position: absolute;
+    top: 50%;
+    right: var(--space-5);
+    transform: translateY(-50%);
+    width: 18px;
+    height: 18px;
+    opacity: 0.55;
+    pointer-events: none;
+    transition: opacity var(--motion-base) var(--ease-brand);
+}
+
+.ch01-stack-card[data-active="true"] .ch01-stack-card__icon {
+    opacity: 0;
+}
+
+/* ── Sticky detail panel ── */
+.ch01-stack-detail {
+    position: sticky;
+    top: 6rem;
+    align-self: start;
+    min-height: 135px;
+    border-radius: 20px;
+    border: 1px solid rgba(245, 241, 234, 0.18);
+    padding: var(--space-5);
+    background: var(--color-charcoal);
+}
+
+.ch01-stack-detail__head .ch01-stack-card__meta {
+    margin-bottom: var(--space-2);
+}
+
+.ch01-stack-detail__divider {
+    width: 100%;
+    height: 1px;
+    border: 0;
+    background: var(--color-line);
+    margin: var(--space-4) 0;
+}
+
+.ch01-stack-detail__sections {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+}
+
+.ch01-stack-detail__sub {
+    font-family: var(--font-ui);
+    font-weight: 500;
+    font-size: 13px;
+    color: var(--color-cream);
+    opacity: 0.85;
+    margin: 0 0 var(--space-2);
+    text-transform: none;
+    letter-spacing: 0;
+}
+
+.ch01-stack-detail__sections p {
+    font-family: var(--font-ui);
+    font-size: 13px;
+    line-height: 1.65;
+    color: var(--color-cream);
+    opacity: 0.7;
+    margin: 0;
+    max-width: none;
+}
+
+/* ──────────────────────────────────────────
+   BLOCK 4 — Why this is not syncretism
+────────────────────────────────────────── */
+.ch01-syncretism {
+    margin-block: var(--space-9);
+}
+
+.ch01-syncretism .ch01-section-label {
+    padding-bottom: var(--space-3);
+    border-bottom: 1px solid var(--color-line);
+    margin-bottom: var(--space-7);
+}
+
+.ch01-syncretism__lead {
+    font-family: var(--font-display-en);
+    font-style: italic;
+    font-weight: 400;
+    font-size: 22px;
+    line-height: 1.5;
+    color: var(--color-cream);
+    margin: 0 0 var(--space-7);
+    max-width: 90ch;
+    opacity: 1;
+}
+
+.ch01-syncretism__cards {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 387px));
+    gap: var(--space-4);
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.ch01-syncretism-card {
+    width: 100%;
+    border-radius: 20px;
+    background: var(--color-charcoal);
+    border: 1px solid rgba(245, 241, 234, 0.08);
+    padding: var(--space-5);
+    display: flex;
+    flex-direction: column;
+}
+
+.ch01-syncretism-card__icon {
+    width: 28px;
+    height: 28px;
+    object-fit: contain;
+    margin-bottom: var(--space-4);
+    display: block;
+}
+
+.ch01-syncretism-card__title {
+    font-family: var(--font-mono);
+    font-weight: 400;
+    font-size: 14px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-cream);
+    margin: 0;
     line-height: 1.2;
 }
 
-.stack-diagram__name-th {
-    font-family: var(--font-display-th);
-    font-size: clamp(0.85rem, 1.5vw, 1rem);
+.ch01-syncretism-card__divider {
+    width: 100%;
+    height: 1px;
+    border: 0;
+    background: var(--color-line);
+    margin: var(--space-4) 0;
+}
+
+.ch01-syncretism-card__body {
+    font-family: var(--font-ui);
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 1.55;
     color: var(--color-cream);
-    opacity: 0.5;
-    line-height: 1.4;
+    margin: 0;
+    max-width: none;
+    opacity: 0.9;
 }
 
-/* Description — visible only when active */
-.stack-diagram__desc {
-    font-size: var(--text-small);
+/* ──────────────────────────────────────────
+   BLOCK 5 — Closing visual + scroll cue
+────────────────────────────────────────── */
+.ch01-closing {
+    margin-top: var(--space-10);
+}
+
+.ch01-closing__media {
+    position: relative;
+    width: 794px;
+    max-width: 100%;
+    height: 443px;
+    margin: 0 auto;
+}
+
+/* Dark backdrop sized to the video — gives mix-blend-mode: lighten
+   something to blend against. Sits BEHIND the video. */
+.ch01-closing__media::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: var(--color-ink);
+    z-index: 0;
+}
+
+.ch01-closing__video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    mix-blend-mode: lighten;
+    display: block;
+    z-index: 1;
+}
+
+.ch01-closing__line {
+    width: 100%;
+    height: 1px;
+    border: 0;
+    background: var(--color-line);
+    margin: var(--space-7) 0 var(--space-5);
+}
+
+.ch01-closing__cue {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-2);
+    position: relative;
+}
+
+.ch01-closing__cue-label {
+    font-family: var(--font-ui);
+    font-weight: 500;
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: #FFF1CC;
+    opacity: 0.7;
+    margin: 0;
+}
+
+.ch01-closing__cue-title {
+    font-family: var(--font-display-en);
+    font-style: italic;
+    font-weight: 400;
+    font-size: 20px;
     color: var(--color-cream);
-    opacity: 0;
-    max-height: 0;
-    overflow: hidden;
-    padding-left: 0;
-    transition: opacity var(--motion-slow) var(--ease-out),
-        max-height var(--motion-slow) var(--ease-brand);
+    margin: 0;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    opacity: 1;
+    max-width: none;
 }
 
-.stack-diagram__layer[data-active="true"] .stack-diagram__desc {
-    opacity: 0.75;
-    max-height: 6rem;
-    /* enough for 2-3 lines */
-    padding-top: var(--space-2);
+.ch01-closing__cue-line {
+    width: 1px;
+    height: 220px;
+    margin-top: var(--space-4);
+    /* Horizontal-center under the word "SCROLL"
+       (Inter medium 11px + 0.18em tracking ≈ 48px wide → center ~24px) */
+    margin-left: 24px;
+    background: linear-gradient(to bottom,
+            rgba(255, 241, 204, 0.85) 0%,
+            rgba(255, 241, 204, 0.55) 25%,
+            rgba(255, 241, 204, 0.25) 60%,
+            rgba(255, 241, 204, 0) 100%);
+    position: relative;
+    transform-origin: top;
+    animation: scroll-cue-draw 2.6s var(--ease-brand) infinite;
 }
 
-/* Bottom layer (Layer 1 = oldest) gets gold accent border-bottom */
-.stack-diagram__layer[data-layer="1"] {
-    border-bottom-color: rgba(201, 169, 97, 0.15);
+.ch01-closing__cue-line::after {
+    content: "";
+    position: absolute;
+    left: -3px;
+    top: 0;
+    width: 7px;
+    height: 100%;
+    background: linear-gradient(to bottom,
+            rgba(255, 241, 204, 0.20),
+            rgba(255, 241, 204, 0));
+    filter: blur(3px);
+    pointer-events: none;
 }
 
-/* Top layer (Layer 6 = newest) subtle top accent */
-.stack-diagram__layer[data-layer="6"] {
-    border-top-color: rgba(245, 241, 234, 0.12);
-}
+/* ──────────────────────────────────────────
+   PREFERS-REDUCED-MOTION — kill all transitions/animations
+────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
 
-/* Mobile: stack number hidden, layout tightened */
-@media (max-width: 767px) {
-    .stack-diagram__layer-inner {
-        grid-template-columns: 2rem 1fr;
-        gap: var(--space-3);
-        padding: var(--space-3) var(--space-4);
+    .ch01-stack-card,
+    .ch01-stack-card__icon {
+        transition: none;
     }
 
-    .stack-diagram__name-en {
-        font-size: 1rem;
+    .ch01-closing__cue-line,
+    .ch01-stack-string__path,
+    .ch01-stack-string__path--halo,
+    .ch01-stack-string__path--mid,
+    .ch01-stack-string__path--core {
+        animation: none;
+    }
+
+    .ch01-quote__video,
+    .ch01-closing__video {
+        /* Pause autoplay-loop videos when user prefers reduced motion */
+        display: none;
+    }
+}
+
+/* ──────────────────────────────────────────
+   RESPONSIVE — collapse to single column on tablet/mobile
+────────────────────────────────────────── */
+@media (max-width: 1023px) {
+    .ch01-stack-grid {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .ch01-stack-detail {
+        position: relative;
+        top: auto;
+    }
+
+    .ch01-stack-card[data-active="true"]::after {
+        display: none;
+    }
+
+    .ch01-syncretism__cards {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 767px) {
+
+    .ch01-headline {
+        font-size: clamp(3rem, 14vw, 4.5rem);
+    }
+
+    .ch01-header__subhead {
+        font-size: 18px;
+    }
+
+    .ch01-header__lead,
+    .ch01-syncretism__lead,
+    .ch01-quote__card p {
+        font-size: 18px;
+    }
+
+    .ch01-quote {
+        width: 100%;
+        height: auto;
+        min-height: 0;
+        margin-inline: auto;
+    }
+
+    .ch01-quote__video {
+        position: relative;
+        width: 100%;
+        height: auto;
+        aspect-ratio: 700 / 388;
+    }
+
+    .ch01-quote__card {
+        position: relative;
+        width: 92%;
+        max-width: 92%;
+        margin-top: -52px;
+        padding: var(--space-3) var(--space-4);
+        bottom: auto;
+    }
+
+    .ch01-quote--left .ch01-quote__card,
+    .ch01-quote--right .ch01-quote__card {
+        left: auto;
+        right: auto;
+        margin-inline: auto;
+    }
+
+    .ch01-stack-card__name {
+        font-size: 22px;
+    }
+
+    .ch01-syncretism__cards {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .ch01-closing__media {
+        width: 100%;
+        height: auto;
+        aspect-ratio: 794 / 443;
     }
 }
