@@ -1,92 +1,924 @@
 /* ============================================================
-   02-geography.css — Faith Engineered · Chapter 2
-   Bangkok shrine map + modal cards.
+   02-geography.css — Faith Engineered · Chapter 2: Geography of Luck
+   Hi-fi spec match: 6 blocks
+   1. Header  2. Opening image + quote  3. Bangkok shrine map (Leaflet)
+   4. All 6 shrines row  5. Infrastructure thesis  6. Closing
    ============================================================ */
 
-/* Map container */
-.shrine-map {
-    margin-block: var(--space-8);
-    position: relative;
+/* Wider article so the 692 + 488 map grid fits */
+.chapter--geography > article {
+    max-width: 1280px;
 }
 
-.shrine-map__container {
-    position: relative;
+/* ──────────────────────────────────────────
+   Section label — used across blocks 3-5
+────────────────────────────────────────── */
+.ch02-section-label {
+    font-family: var(--font-ui);
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--color-gold);
+    margin: 0 0 var(--space-7);
+    max-width: none;
     width: 100%;
-    aspect-ratio: 16 / 10;
-    background: rgba(245, 241, 234, 0.03);
+    display: block;
+    padding-bottom: var(--space-3);
+    border-bottom: 1px solid var(--color-line);
+    opacity: 1;
+}
+
+/* ──────────────────────────────────────────
+   API endpoint pill — reused in detail card + mini cards
+   linear-gradient(135deg, #050505 → #383838),
+   gold-tinted shadow, gold "GET" badge
+────────────────────────────────────────── */
+.ch02-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 5px 14px 5px 5px;
+    border-radius: 100px;
+    background: linear-gradient(135deg, #050505 0%, #383838 100%);
+    box-shadow: 1px 4px 12.9px rgba(201, 169, 97, 0.20);
     border: 1px solid rgba(245, 241, 234, 0.06);
-    border-radius: 4px;
+    width: max-content;
+    max-width: 100%;
+}
+
+.ch02-pill__badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    background: transparent;
+    color: var(--color-cream);
+    border: 1px solid rgba(245, 241, 234, 0.6);
+    border-radius: 50%;
+    font-family: var(--font-mono);
+    font-weight: 500;
+    font-size: 11px;
+    letter-spacing: 0.04em;
+    line-height: 1;
+}
+
+.ch02-pill__path {
+    font-family: var(--font-mono);
+    font-weight: 400;
+    font-size: 13px;
+    letter-spacing: 0.02em;
+    color: var(--color-gold);
+}
+
+/* ──────────────────────────────────────────
+   BLOCK 1 — Chapter header
+────────────────────────────────────────── */
+.ch02-header {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    margin-bottom: var(--space-9);
+}
+
+.ch02-header__eyebrow {
+    font-family: var(--font-ui);
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--color-gold);
+    margin: 0;
+}
+
+.ch02-header__divider {
+    width: 100%;
+    height: 1px;
+    border: 0;
+    background: var(--color-line);
+    margin: var(--space-2) 0 var(--space-5);
+}
+
+.ch02-headline {
+    font-family: var(--font-display-en);
+    font-weight: 500;
+    font-style: normal;
+    font-size: clamp(3.5rem, 9vw, 96px);
+    line-height: 1;
+    letter-spacing: -0.005em;
+    color: var(--color-cream);
+    text-shadow: 0 0 25px rgba(255, 255, 255, 0.55);
+    margin: 0;
+}
+
+.ch02-headline em {
+    font-style: italic;
+    font-weight: 500;
+}
+
+.ch02-header__subhead {
+    font-family: var(--font-display-th);
+    font-weight: 400;
+    font-size: 24px;
+    color: var(--color-slate);
+    margin: 0;
+    max-width: none;
+    opacity: 1;
+}
+
+.ch02-header__lead {
+    font-family: var(--font-display-en);
+    font-style: italic;
+    font-weight: 400;
+    font-size: 22px;
+    line-height: 1.5;
+    color: var(--color-cream);
+    margin: var(--space-3) 0 0;
+    max-width: 70ch;
+    opacity: 1;
+}
+
+/* ──────────────────────────────────────────
+   BLOCK 2 — Opening image with quote overlay
+────────────────────────────────────────── */
+.ch02-opening {
+    position: relative;
+    width: 794px;
+    max-width: 100%;
+    height: 443px;
+    margin: var(--space-9) auto;
+}
+
+.ch02-opening__img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.ch02-opening__card {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    z-index: 1;
+    width: 794px;
+    max-width: 100%;
+    min-height: 98px;
+    margin: 0;
+    padding: var(--space-4) var(--space-6);
+
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border-radius: 0;
+    border-left: 2px solid var(--color-gold);
+    box-shadow: 3px 16px 22px rgba(255, 255, 255, 0.07);
+
+    display: flex;
+    align-items: center;
+}
+
+.ch02-opening__card p {
+    font-family: var(--font-display-en);
+    font-style: italic;
+    font-weight: 400;
+    font-size: 22px;
+    line-height: 1.4;
+    color: var(--color-cream);
+    margin: 0;
+    max-width: none;
+    opacity: 1;
+}
+
+/* ──────────────────────────────────────────
+   BLOCK 3 — Bangkok Shrine Map
+────────────────────────────────────────── */
+.ch02-mapsection {
+    margin-block: var(--space-9);
+}
+
+.ch02-mapgrid {
+    display: grid;
+    grid-template-columns: minmax(0, 692px) minmax(0, 488px);
+    grid-template-rows: clamp(420px, 50vw, 692px) auto;
+    grid-template-areas:
+        "map detail"
+        "caption .";
+    column-gap: var(--space-5);
+    row-gap: var(--space-2);
+}
+
+.ch02-map     { grid-area: map; }
+.ch02-detail  { grid-area: detail; }
+.ch02-map__caption { grid-area: caption; }
+
+.ch02-map {
+    position: relative;
+    z-index: 0;
+    /* Create a fresh stacking context so Leaflet's high z-indexes
+       (zoom buttons z-1000, attribution, panes) can't leak above the
+       fixed nav (z-100). */
+    isolation: isolate;
+    width: 100%;
+    height: 100%;
+    border-radius: 20px;
+    border: 1px solid rgba(245, 241, 234, 0.12);
+    background: var(--color-void);
     overflow: hidden;
 }
 
-/* Placeholder until SVG map is ready */
-.shrine-map__placeholder {
+.ch02-map__placeholder {
+    position: absolute;
+    inset: 0;
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 100%;
-    height: 100%;
+    color: var(--color-slate);
     font-family: var(--font-ui);
-    font-size: var(--text-caption);
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+}
+
+.ch02-map__caption {
+    margin: var(--space-4) 0 0;
+    font-family: var(--font-display-en);
+    font-style: italic;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 1.4;
+    color: var(--color-slate);
+    text-align: center;
+    max-width: none;
+    opacity: 1;
+}
+
+/* ── Leaflet overrides — dark editorial theme ── */
+.ch02-map .leaflet-container {
+    background: var(--color-void);
+    font-family: var(--font-ui);
+}
+
+.ch02-map .leaflet-control-zoom {
+    border: 1px solid rgba(201, 169, 97, 0.25);
+    border-radius: 0;
+    box-shadow: none;
+}
+
+.ch02-map .leaflet-control-zoom a {
+    background: rgba(10, 10, 10, 0.85);
+    color: var(--color-gold);
+    border-bottom: 1px solid rgba(201, 169, 97, 0.18);
+    border-radius: 0;
+    width: 28px;
+    height: 28px;
+    line-height: 28px;
+    font-family: var(--font-ui);
+}
+
+.ch02-map .leaflet-control-zoom a:last-child {
+    border-bottom: none;
+}
+
+.ch02-map .leaflet-control-zoom a:hover {
+    background: rgba(201, 169, 97, 0.18);
+}
+
+.ch02-map .leaflet-control-attribution {
+    background: rgba(10, 10, 10, 0.85);
+    color: rgba(245, 241, 234, 0.35);
+    font-size: 10px;
+    border-top: 1px solid rgba(201, 169, 97, 0.18);
+}
+
+.ch02-map .leaflet-control-attribution a {
+    color: rgba(201, 169, 97, 0.55);
+}
+
+/* ── Custom shrine pin marker ── */
+.ch02-pin {
+    background: transparent !important;
+    border: none !important;
+    overflow: visible !important;
+    position: relative;
+}
+
+.ch02-pin__ring {
+    position: absolute;
+    top: 1px;
+    left: 1px;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    border: 2px solid rgba(201, 169, 97, 0.35);
+    transition: transform var(--motion-fast) var(--ease-brand),
+                border-color var(--motion-fast) var(--ease-brand);
+    pointer-events: none;
+}
+
+.ch02-pin__dot {
+    position: absolute;
+    top: 6px;
+    left: 6px;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--color-gold);
+    box-shadow: 0 0 8px rgba(201, 169, 97, 0.7);
+    transition: transform var(--motion-fast) var(--ease-brand);
+    pointer-events: none;
+}
+
+.ch02-pin:hover .ch02-pin__ring,
+.ch02-pin[data-active="true"] .ch02-pin__ring {
+    transform: scale(1.5);
+    border-color: var(--color-gold);
+}
+
+.ch02-pin:hover .ch02-pin__dot,
+.ch02-pin[data-active="true"] .ch02-pin__dot {
+    transform: scale(1.3);
+}
+
+/* Permanent map labels (Leaflet tooltip) */
+.ch02-map .leaflet-tooltip.ch02-tip {
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    padding: 0 0 0 10px;
+    pointer-events: none;
+    font-family: var(--font-ui);
+    font-size: 11px;
+    color: var(--color-cream);
+    text-shadow:
+        0 1px 4px rgba(0, 0, 0, 0.95),
+        0 0 12px rgba(0, 0, 0, 0.9);
+}
+
+.ch02-map .leaflet-tooltip.ch02-tip::before {
+    display: none;
+}
+
+/* ── Detail card ── */
+.ch02-detail {
+    width: 100%;
+    height: 100%;        /* fills the grid row → matches map height exactly */
+    border-radius: 20px;
+    border: 1px solid rgba(245, 241, 234, 0.12);
+    background: var(--color-charcoal);
+    padding: var(--space-6);
+    overflow-y: auto;
+    scrollbar-width: thin;
+}
+
+.ch02-detail__name {
+    font-family: var(--font-display-en);
+    font-weight: 400;
+    font-size: 40px;
+    line-height: 1.05;
+    color: var(--color-cream);
+    margin: 0;
+    text-shadow: 0 0 16px rgba(255, 255, 255, 0.18);
+}
+
+.ch02-detail__hood {
+    font-family: var(--font-mono);
+    font-weight: 400;
+    font-size: 14px;
+    color: var(--color-slate);
+    margin: var(--space-1) 0 0;
+    max-width: none;
+    opacity: 1;
+}
+
+.ch02-detail__rule {
+    width: 100%;
+    height: 1px;
+    border: 0;
+    background: var(--color-line);
+    margin: var(--space-5) 0;
+}
+
+.ch02-detail__list {
+    display: grid;
+    grid-template-columns: 110px 1fr;
+    column-gap: var(--space-4);
+    row-gap: var(--space-2);
+    margin: 0;
+}
+
+.ch02-detail__list dt {
+    font-family: var(--font-ui);
+    font-weight: 500;
+    font-size: 14px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--color-gold);
+}
+
+.ch02-detail__list dd {
+    font-family: var(--font-ui);
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--color-cream);
+    padding-left: 0;
+    margin: 0;
+    opacity: 1;
+}
+
+.ch02-detail__pill {
+    margin: 0 0 var(--space-5);
+}
+
+.ch02-detail__body {
+    font-family: var(--font-ui);
+    font-weight: 300;
+    font-size: 14px;
+    line-height: 1.65;
+    color: var(--color-cream);
+    margin: 0;
+    max-width: none;
+    opacity: 0.85;
+}
+
+/* ──────────────────────────────────────────
+   BLOCK 4 — All 6 Shrines row
+────────────────────────────────────────── */
+.ch02-shrines {
+    margin-block: var(--space-9);
+}
+
+.ch02-shrines__viewport {
+    position: relative;
+}
+
+.ch02-shrines__row {
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: 285px;
+    gap: var(--space-3);
+    overflow-x: auto;
+    overflow-y: hidden;
+    list-style: none;
+    margin: 0;
+    padding: var(--space-3) 64px var(--space-4) 0;
+    scroll-snap-type: x proximity;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(201, 169, 97, 0.3) transparent;
+}
+
+.ch02-shrines__row::-webkit-scrollbar { height: 4px; }
+.ch02-shrines__row::-webkit-scrollbar-track { background: transparent; }
+.ch02-shrines__row::-webkit-scrollbar-thumb { background: rgba(201, 169, 97, 0.3); }
+
+.ch02-mini {
+    width: 285px;
+    min-height: 170px;
+    border-radius: 20px;
+    background: var(--color-charcoal);
+    border: 1px solid rgba(245, 241, 234, 0.08);
+    padding: var(--space-4);
+    cursor: pointer;
+    scroll-snap-align: start;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: left;
+    gap: var(--space-3);
+    transition: border-color var(--motion-base) var(--ease-brand),
+                transform var(--motion-base) var(--ease-brand);
+}
+
+.ch02-mini:hover {
+    border-color: rgba(201, 169, 97, 0.4);
+}
+
+.ch02-mini[data-active="true"] {
+    border-color: var(--color-gold);
+}
+
+.ch02-mini:focus-visible {
+    outline: 2px solid var(--color-gold);
+    outline-offset: 2px;
+}
+
+.ch02-mini__head {
+    margin: 0;
+    width: 100%;
+    text-align: left;
+}
+
+.ch02-mini__rule {
+    width: 100%;
+    height: 1px;
+    border: 0;
+    background: var(--color-line);
+    margin: auto 0 var(--space-2); /* push pill to bottom, hairline tight above it */
+}
+
+.ch02-mini__name {
+    font-family: var(--font-display-en);
+    font-weight: 400;
+    font-size: 24px;
+    line-height: 1.1;
+    color: var(--color-cream);
+    margin: 0 0 4px;
+}
+
+.ch02-mini__hood {
+    font-family: var(--font-mono);
+    font-weight: 400;
+    font-size: 12px;
+    color: var(--color-slate);
+    margin: 0;
+    max-width: none;
+    opacity: 1;
+}
+
+/* Chevron — gold arrow at right edge of viewport */
+.ch02-shrines__chevron {
+    position: absolute;
+    top: 50%;
+    right: 0;
+    transform: translateY(-50%);
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: rgba(10, 10, 10, 0.85);
+    border: 1px solid rgba(201, 169, 97, 0.35);
+    color: var(--color-gold);
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    line-height: 1;
+    transition: background var(--motion-fast) var(--ease-out),
+                border-color var(--motion-fast) var(--ease-out);
+}
+
+.ch02-shrines__chevron:hover {
+    background: rgba(201, 169, 97, 0.15);
+    border-color: var(--color-gold);
+}
+
+.ch02-shrines__chevron:focus-visible {
+    outline: 2px solid var(--color-gold);
+    outline-offset: 2px;
+}
+
+/* ──────────────────────────────────────────
+   BLOCK 5 — The Infrastructure Thesis
+────────────────────────────────────────── */
+.ch02-thesis {
+    margin-block: var(--space-9);
+}
+
+.ch02-thesis__lead {
+    font-family: var(--font-display-en);
+    font-style: normal;
+    font-weight: 400;
+    font-size: clamp(1.5rem, 2.5vw, 32px);
+    line-height: 1.35;
+    color: var(--color-cream);
+    margin: 0 0 var(--space-7);
+    max-width: 90ch;
+    opacity: 1;
+}
+
+.ch02-thesis__row {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 590px));
+    gap: var(--space-4);
+}
+
+.ch02-thesis__card {
+    width: 100%;
+    min-height: 266px;
+    border-radius: 20px;
+    background: var(--color-charcoal);
+    border: 1px solid rgba(245, 241, 234, 0.08);
+    padding: var(--space-5);
+    display: flex;
+    flex-direction: column;
+}
+
+/* ── Cultural Comparison card ── */
+.ch02-thesis__card--compare {
+    gap: var(--space-3);
+}
+
+.ch02-thesis__icon {
+    width: 28px;
+    height: 28px;
+    object-fit: contain;
+    display: block;
+    margin-bottom: var(--space-2);
+}
+
+.ch02-thesis__title {
+    font-family: var(--font-mono);
+    font-weight: 400;
+    font-size: 14px;
     letter-spacing: 0.1em;
     text-transform: uppercase;
     color: var(--color-cream);
-    opacity: 0.2;
+    margin: 0 0 var(--space-2);
+    padding-bottom: var(--space-3);
+    border-bottom: 1px solid var(--color-line);
 }
 
-/* Shrine pins — JS renders these as <button> elements */
-.shrine-pin {
+.ch02-thesis__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+}
+
+.ch02-thesis__list li {
+    position: relative;
+    padding-left: var(--space-4);
+    font-family: var(--font-ui);
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 1.55;
+    color: var(--color-cream);
+    max-width: none;
+    opacity: 1;
+}
+
+.ch02-thesis__list li::before {
+    content: "•";
     position: absolute;
-    width: 12px;
-    height: 12px;
-    background: var(--color-gold);
-    border-radius: 50%;
-    transform: translate(-50%, -50%);
-    cursor: pointer;
-    transition: transform var(--motion-fast) var(--ease-brand),
-        box-shadow var(--motion-fast) var(--ease-out);
-    /* Pulse ring via pseudo element */
+    left: 0;
+    top: 0;
+    color: var(--color-gold);
 }
 
-.shrine-pin::after {
-    content: '';
+.ch02-thesis__list li em {
+    font-style: italic;
+    color: var(--color-cream);
+}
+
+/* ── Big number card ── */
+.ch02-thesis__card--bignum {
+    flex-direction: row;
+    align-items: flex-start;
+    gap: var(--space-5);
+    /* tight top so "2,400+" almost touches the card edge */
+    padding: var(--space-2) var(--space-6) var(--space-5);
+}
+
+.ch02-thesis__card--bignum .ch02-thesis__count {
+    margin-top: -0.18em;          /* trim the big-number's intrinsic line-box top */
+}
+
+.ch02-thesis__bignum {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+}
+
+.ch02-thesis__count {
+    font-family: var(--font-display-en);
+    font-weight: 500;
+    font-size: clamp(4rem, 9vw, 128px);
+    line-height: 1;
+    color: var(--color-gold);
+    text-shadow: 0 0 25px rgba(255, 255, 255, 0.5);
+    margin: 0;
+    letter-spacing: -0.02em;
+}
+
+.ch02-thesis__sub {
+    font-family: var(--font-mono);
+    font-weight: 400;
+    font-size: 14px;
+    letter-spacing: 0.04em;
+    color: var(--color-cream);
+    margin: 0;
+    max-width: none;
+    opacity: 1;
+}
+
+.ch02-thesis__foot {
+    font-family: var(--font-display-en);
+    font-style: italic;
+    font-weight: 600;
+    font-size: 22px;
+    line-height: 1.35;
+    color: var(--color-cream);
+    margin: var(--space-2) 0 0;
+    max-width: none;
+    opacity: 0.9;
+}
+
+.ch02-thesis__shrineicon {
+    width: 160px;
+    height: auto;
+    object-fit: contain;
+    flex-shrink: 0;
+    align-self: center;
+    filter: drop-shadow(0 0 16px rgba(201, 169, 97, 0.45));
+}
+
+/* ──────────────────────────────────────────
+   BLOCK 6 — Closing visual + scroll cue
+────────────────────────────────────────── */
+.ch02-closing {
+    margin-top: var(--space-10);
+}
+
+.ch02-closing__media {
+    position: relative;
+    width: 794px;
+    max-width: 100%;
+    height: 443px;
+    margin: 0 auto;
+}
+
+.ch02-closing__media::before {
+    content: "";
     position: absolute;
-    inset: -4px;
-    border-radius: 50%;
-    border: 1px solid rgba(201, 169, 97, 0.4);
-    animation: shrine-pin-pulse 2.5s ease-out infinite;
+    inset: 0;
+    background: var(--color-ink);
+    z-index: 0;
 }
 
-@keyframes shrine-pin-pulse {
-    0% {
-        transform: scale(1);
-        opacity: 0.6;
-    }
-
-    70% {
-        transform: scale(2.2);
-        opacity: 0;
-    }
-
-    100% {
-        transform: scale(2.2);
-        opacity: 0;
-    }
+.ch02-closing__video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    mix-blend-mode: lighten;
+    display: block;
+    z-index: 1;
 }
 
+.ch02-closing__line {
+    width: 100%;
+    height: 1px;
+    border: 0;
+    background: var(--color-line);
+    margin: var(--space-7) 0 var(--space-5);
+}
+
+.ch02-closing__cue {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-2);
+}
+
+.ch02-closing__cue-label {
+    font-family: var(--font-ui);
+    font-weight: 500;
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: #FFF1CC;
+    opacity: 0.7;
+    margin: 0;
+}
+
+.ch02-closing__cue-title {
+    font-family: var(--font-display-en);
+    font-style: italic;
+    font-weight: 400;
+    font-size: 20px;
+    color: var(--color-cream);
+    margin: 0;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    opacity: 1;
+    max-width: none;
+}
+
+.ch02-closing__cue-line {
+    width: 1px;
+    height: 220px;
+    margin-top: var(--space-4);
+    margin-left: 24px;
+    background: linear-gradient(to bottom,
+            rgba(255, 241, 204, 0.85) 0%,
+            rgba(255, 241, 204, 0.55) 25%,
+            rgba(255, 241, 204, 0.25) 60%,
+            rgba(255, 241, 204, 0) 100%);
+    position: relative;
+    transform-origin: top;
+    animation: scroll-cue-draw 2.6s var(--ease-brand) infinite;
+}
+
+.ch02-closing__cue-line::after {
+    content: "";
+    position: absolute;
+    left: -3px;
+    top: 0;
+    width: 7px;
+    height: 100%;
+    background: linear-gradient(to bottom,
+            rgba(255, 241, 204, 0.20),
+            rgba(255, 241, 204, 0));
+    filter: blur(3px);
+    pointer-events: none;
+}
+
+/* ──────────────────────────────────────────
+   PREFERS-REDUCED-MOTION
+────────────────────────────────────────── */
 @media (prefers-reduced-motion: reduce) {
-    .shrine-pin::after {
+
+    .ch02-mini,
+    .ch02-pin__ring,
+    .ch02-pin__dot,
+    .ch02-shrines__chevron,
+    .ch02-closing__cue-line {
+        transition: none;
         animation: none;
     }
+
+    .ch02-closing__video {
+        display: none;
+    }
 }
 
-.shrine-pin:hover,
-.shrine-pin:focus-visible {
-    transform: translate(-50%, -50%) scale(1.5);
-    box-shadow: 0 0 12px rgba(201, 169, 97, 0.5);
+/* ──────────────────────────────────────────
+   RESPONSIVE
+────────────────────────────────────────── */
+@media (max-width: 1023px) {
+
+    .ch02-mapgrid {
+        grid-template-columns: minmax(0, 1fr);
+        grid-template-rows: auto auto auto;
+        grid-template-areas:
+            "map"
+            "caption"
+            "detail";
+    }
+
+    .ch02-map {
+        aspect-ratio: 1 / 1;
+        height: auto;
+    }
+
+    .ch02-detail {
+        height: auto;
+        min-height: 480px;
+    }
+
+    .ch02-thesis__row {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .ch02-thesis__card--bignum {
+        flex-direction: column;
+        text-align: left;
+    }
+
+    .ch02-thesis__shrineicon {
+        align-self: flex-end;
+    }
 }
 
-/* Shrine map caption */
-.shrine-map__caption {
-    margin-top: var(--space-3);
+@media (max-width: 767px) {
+
+    .ch02-headline {
+        font-size: clamp(3rem, 14vw, 4.5rem);
+    }
+
+    .ch02-header__subhead {
+        font-size: 18px;
+    }
+
+    .ch02-header__lead,
+    .ch02-opening__card p {
+        font-size: 18px;
+    }
+
+    .ch02-opening,
+    .ch02-closing__media {
+        width: 100%;
+        height: auto;
+        aspect-ratio: 794 / 443;
+    }
+
+    .ch02-detail__name {
+        font-size: 30px;
+    }
+
+    .ch02-detail__list {
+        grid-template-columns: 100px 1fr;
+    }
+
+    .ch02-thesis__lead {
+        font-size: 22px;
+    }
 }

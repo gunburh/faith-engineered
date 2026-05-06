@@ -14,11 +14,13 @@
 
 import { initLanguageToggle } from './core/lang-toggle.js';
 import { initSmoothScroll } from './core/scroll.js';
+import { initVideoVisibilityGate } from './utils.js';
 // Uncomment as each module is built:
 import { initNav }            from './core/nav.js';
 import { initHeroVideo }      from './chapters/hero-video.js';
 import { initHeroSmoke }      from './chapters/hero-smoke.js';
 import { initStackBuild }     from './chapters/stack-build.js';
+import { initGeographyMap }   from './chapters/geography-map.js';
 // import { initMotion }         from './core/motion.js';
 // import { initHeroSmoke }      from './chapters/hero-smoke.js';
 // import { initStackDiagram }   from './chapters/stack-diagram.js';
@@ -48,6 +50,10 @@ document.addEventListener('DOMContentLoaded', async () => {
     initHeroVideo();
     initHeroSmoke();
     initStackBuild();
+    initGeographyMap();
+
+    // Pause videos that are off-screen — biggest scroll-jank fix on this page.
+    initVideoVisibilityGate();
     // initStackDiagram();
     // initShrineMap();
     // initCounters();

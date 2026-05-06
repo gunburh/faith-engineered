@@ -103,13 +103,13 @@ export function initHeroVideo() {
             },
         });
 
-        // Gradual fade: bg02 + hero content over first ~55% of scrub,
-        // bg05 fades in slightly faster (40%) so the new layer settles before
-        // the old one is fully gone — gives an overlap/cross-dissolve feel.
-        tl.to(bg02, { opacity: 0, duration: 0.45, ease: 'power1.inOut' }, 0);
-        tl.to(bg05, { opacity: 1, duration: 0.40, ease: 'power1.inOut' }, 0);
+        // Snappier fade: bg02 + hero content over first ~30% of scrub,
+        // bg05 settles in slightly faster (22%) so the new layer is in place
+        // before the old one is fully gone — overlap/cross-dissolve feel.
+        tl.to(bg02, { opacity: 0, duration: 0.25, ease: 'power1.inOut' }, 0);
+        tl.to(bg05, { opacity: 1, duration: 0.22, ease: 'power1.inOut' }, 0);
         if (heroContent) {
-            tl.to(heroContent, { opacity: 0, duration: 0.55, ease: 'power1.inOut' }, 0);
+            tl.to(heroContent, { opacity: 0, duration: 0.30, ease: 'power1.inOut' }, 0);
         }
 
         // Full scrub: bg05.currentTime dragged 0 → duration

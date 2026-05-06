@@ -14,6 +14,9 @@
         href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300..700;1,300..700&family=IBM+Plex+Thai:wght@300;400;500;600&family=IBM+Plex+Thai+Looped:wght@300;400;500&family=Inter:wght@400;500;600;700&display=swap"
         rel="stylesheet">
 
+    <!-- Leaflet (Chapter 02 — Bangkok shrine map) -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+
     <!-- Main stylesheet (imports all others) -->
     <link rel="stylesheet" href="css/main.css">
 
@@ -360,65 +363,109 @@
         <div class="chapter chapter--geography">
             <article id="chapter-02" aria-labelledby="ch02-title">
 
-                <header class="chapter__header">
-                    <p class="eyebrow" data-i18n="ch02.eyebrow">02 · Chapter Two</p>
-                    <h2 id="ch02-title" class="chapter__title" data-i18n="ch02.title">The Geography of Luck</h2>
-                    <p class="chapter__subtitle" data-i18n="ch02.subtitle">
-                        Bangkok's shrines are not random. They are a network.
+                <!-- ─── BLOCK 1 · Chapter header ─── -->
+                <header class="ch02-header">
+                    <p class="ch02-header__eyebrow">CHAPTER 02</p>
+                    <hr class="ch02-header__divider">
+                    <h2 id="ch02-title" class="ch02-headline">The <em>Geography of Luck</em></h2>
+                    <p class="ch02-header__subhead">| Coordinates of Fortune</p>
+                    <p class="ch02-header__lead">
+                        Bangkok is not a city with shrines.<br>
+                        Bangkok is a city that is a shrine — with districts in between.
                     </p>
                 </header>
 
-                <div class="chapter__thesis">
-                    <p data-i18n="ch02.thesis"></p>
+                <!-- ─── BLOCK 2 · Opening image with quote overlay ─── -->
+                <div class="ch02-opening">
+                    <img class="ch02-opening__img"
+                         src="assets/images/geography/opening visual ch2.jpeg"
+                         alt="Cinematic shrine sculpture composition" width="794" height="443">
+                    <blockquote class="ch02-opening__card">
+                        <p>"Bangkok is a CRUD application for the soul."</p>
+                    </blockquote>
                 </div>
 
-                <!-- SVG Bangkok shrine map
-             JS adds interactive pins + tooltips + modal trigger -->
-                <figure class="shrine-map" aria-labelledby="shrine-map-caption">
-                    <div class="shrine-map__container" role="img"
-                        aria-label="Interactive map of Bangkok's major shrines">
-                        <!-- SVG map injected or loaded here by JS -->
-                        <div id="shrine-map-svg" class="shrine-map__svg-wrapper">
-                            <!-- Placeholder until SVG is ready -->
-                            <div class="shrine-map__placeholder" aria-hidden="true">[ Bangkok shrine map ]</div>
+                <!-- ─── BLOCK 3 · Bangkok Shrine Map (signature interaction) ─── -->
+                <section class="ch02-mapsection" aria-labelledby="ch02-map-label">
+                    <p id="ch02-map-label" class="ch02-section-label">Bangkok Shrine Map</p>
+
+                    <div class="ch02-mapgrid">
+                        <div id="ch02-map" class="ch02-map" role="application"
+                             aria-label="Interactive Leaflet map — click any pin to see shrine details">
+                            <div class="ch02-map__placeholder" aria-hidden="true">[ Bangkok shrine map ]</div>
                         </div>
 
-                        <!-- Shrine pins rendered by JS from copy.json -->
-                        <!-- Each pin: <button class="shrine-pin" data-shrine="erawan" aria-label="Erawan Shrine"> -->
+                        <aside class="ch02-detail" data-shrine-detail aria-live="polite"></aside>
+
+                        <p class="ch02-map__caption">
+                            Click any pin on the map to select and explore shrine details.
+                        </p>
                     </div>
-                    <figcaption id="shrine-map-caption" class="shrine-map__caption" data-i18n="ch02.map_caption">
-                        Six major Bangkok shrines, mapped by deity, daily footfall, and commercial density.
-                    </figcaption>
-                </figure>
+                </section>
 
-                <!-- Shrine detail modal (native <dialog>) -->
-                <dialog class="shrine-modal" id="shrine-modal" aria-labelledby="shrine-modal-title">
-                    <button class="shrine-modal__close" aria-label="Close shrine detail">×</button>
-                    <article class="shrine-modal__content">
-                        <header>
-                            <p class="eyebrow shrine-modal__eyebrow" id="shrine-modal-eyebrow"></p>
-                            <h3 id="shrine-modal-title" class="shrine-modal__title">Shrine Detail</h3>
-                        </header>
-                        <p class="shrine-modal__body"></p>
-                        <dl class="shrine-modal__stats">
-                            <dt data-i18n="ch02.modal.visitors_label">Daily visitors</dt>
-                            <dd id="shrine-modal-visitors"></dd>
-                            <dt data-i18n="ch02.modal.deity_label">Deity</dt>
-                            <dd id="shrine-modal-deity"></dd>
-                            <dt data-i18n="ch02.modal.layer_label">Belief layer</dt>
-                            <dd id="shrine-modal-layer"></dd>
-                        </dl>
-                    </article>
-                </dialog>
+                <!-- ─── BLOCK 4 · All 6 Shrines row ─── -->
+                <section class="ch02-shrines" aria-labelledby="ch02-shrines-label">
+                    <p id="ch02-shrines-label" class="ch02-section-label">All 6 Shrines</p>
+                    <div class="ch02-shrines__viewport">
+                        <ul class="ch02-shrines__row" data-shrine-row role="list"></ul>
+                        <button class="ch02-shrines__chevron" data-shrine-chevron type="button"
+                                aria-label="Scroll shrine row right">
+                            <span aria-hidden="true">›</span>
+                        </button>
+                    </div>
+                </section>
 
-                <aside class="chapter__aside">
-                    <blockquote class="pull-quote">
-                        <p data-i18n="ch02.pullquote"></p>
-                    </blockquote>
-                </aside>
+                <!-- ─── BLOCK 5 · The Infrastructure Thesis ─── -->
+                <section class="ch02-thesis" aria-labelledby="ch02-thesis-label">
+                    <p id="ch02-thesis-label" class="ch02-section-label">The Infrastructure Thesis</p>
+                    <p class="ch02-thesis__lead">
+                        Thailand has productized spirituality.<br>
+                        Every shrine is a specialized service with a known success rate and a known price.
+                    </p>
+                    <div class="ch02-thesis__row">
 
-                <div class="chapter__evidence">
-                    <p data-i18n="ch02.evidence"></p>
+                        <div class="ch02-thesis__card ch02-thesis__card--compare">
+                            <img class="ch02-thesis__icon"
+                                 src="assets/icons/cultcomp_icon.png" alt="" aria-hidden="true"
+                                 width="28" height="28">
+                            <h3 class="ch02-thesis__title">Cultural Comparison</h3>
+                            <ul class="ch02-thesis__list">
+                                <li>Japan has <em>ema</em> — wooden wish plaques at Shinto shrines.</li>
+                                <li>The Vatican has <em>ex-votos</em> — silver offerings for answered prayers.</li>
+                                <li>Thailand has all of these — plus a hyperlocal delivery network and an Instagram-optimized shrine aesthetic.</li>
+                            </ul>
+                        </div>
+
+                        <div class="ch02-thesis__card ch02-thesis__card--bignum">
+                            <div class="ch02-thesis__bignum">
+                                <p class="ch02-thesis__count">2,400+</p>
+                                <p class="ch02-thesis__sub">Registered shrines in Bangkok alone</p>
+                                <p class="ch02-thesis__foot">
+                                    That's one shrine per ~0.04 km².<br>
+                                    &lsquo;Denser than 7-Elevens&rsquo;
+                                </p>
+                            </div>
+                            <img class="ch02-thesis__shrineicon"
+                                 src="assets/icons/shrine_icon.png" alt="" aria-hidden="true">
+                        </div>
+
+                    </div>
+                </section>
+
+                <!-- ─── BLOCK 6 · Closing visual + scroll cue ─── -->
+                <div class="ch02-closing">
+                    <div class="ch02-closing__media">
+                        <video class="ch02-closing__video"
+                               src="assets/video/closing%20visual%20ch2.MOV"
+                               autoplay muted loop playsinline preload="auto"
+                               aria-hidden="true"></video>
+                    </div>
+                    <hr class="ch02-closing__line">
+                    <div class="ch02-closing__cue" aria-hidden="true">
+                        <p class="ch02-closing__cue-label">SCROLL ↓ CONTINUE TO CHAPTER 03</p>
+                        <p class="ch02-closing__cue-title"><em>The Offering Economy</em></p>
+                        <div class="ch02-closing__cue-line"></div>
+                    </div>
                 </div>
 
             </article>
@@ -726,6 +773,9 @@
     <script src="vendor/lenis.min.js"></script>
     <script src="vendor/howler.min.js"></script>
     <script src="vendor/splitting.min.js"></script>
+
+    <!-- Leaflet 1.9.4 — Chapter 02 Bangkok shrine map (CDN) -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
     <!-- Main JS entry (ES module) -->
     <script type="module" src="js/main.js"></script>

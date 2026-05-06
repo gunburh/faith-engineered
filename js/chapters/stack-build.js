@@ -156,12 +156,12 @@ function ensureString(grid) {
 
     // Organic wisp distortion via fractal noise + displacement.
     // baseFrequency: low X, higher Y → mostly vertical undulation.
+    // NOTE: the seed is STATIC (no <animate>) — animating it forces a full
+    // filter re-render every frame and crushes scroll perf.
     const defs = document.createElementNS(SVG_NS, 'defs');
     defs.innerHTML = `
         <filter id="${WARP_FILTER_ID}" x="-30%" y="-40%" width="160%" height="180%" color-interpolation-filters="sRGB">
-            <feTurbulence type="fractalNoise" baseFrequency="0.018 0.06" numOctaves="2" seed="3" result="noise">
-                <animate attributeName="seed" values="0;30" dur="9s" repeatCount="indefinite"/>
-            </feTurbulence>
+            <feTurbulence type="fractalNoise" baseFrequency="0.018 0.06" numOctaves="2" seed="3" result="noise"/>
             <feDisplacementMap in="SourceGraphic" in2="noise" scale="11" xChannelSelector="R" yChannelSelector="G"/>
         </filter>
     `;
@@ -268,21 +268,28 @@ function drawString(state) {
  * Continuous rAF loop. Slides each sparkle along the (un-warped) core path
  * using SVGGeometryElement.getPointAtLength, fading in mid-traversal so it
  * looks like a stream of light flowing from card → panel.
+ *
+ * The loop only runs while the chapter section is intersecting the viewport
+ * (managed by an IntersectionObserver). Off-screen, it stops completely so
+ * the rest of the page can scroll smoothly.
  */
-function startSparkleLoop(state) {
+function startSparkleLoop(state, isVisibleRef) {
     if (prefersReducedMotion()) return () => {};
 
     const { core, sparkles } = state;
     let raf = 0;
-    let last = performance.now();
+    let last = 0;
 
     const tick = (now) => {
+        if (!isVisibleRef.current) {
+            raf = 0;
+            return;
+        }
         raf = requestAnimationFrame(tick);
 
-        const dt = Math.min(0.05, (now - last) / 1000);   // clamp big jumps
+        const dt = Math.min(0.05, (now - last) / 1000);
         last = now;
 
-        // path may not have a `d` yet on first frame
         const dAttr = core.getAttribute('d');
         if (!dAttr) return;
 
@@ -298,36 +305,43 @@ function startSparkleLoop(state) {
             s.el.setAttribute('cx', pt.x.toFixed(2));
             s.el.setAttribute('cy', pt.y.toFixed(2));
 
-            // Bell-curve fade across the trip — bright in the middle, soft at the ends
             const fade = Math.sin(s.t * Math.PI);
             s.el.setAttribute('opacity', (fade * 0.95).toFixed(2));
         }
     };
 
-    raf = requestAnimationFrame((t) => { last = t; tick(t); });
+    const start = () => {
+        if (raf) return;
+        last = performance.now();
+        raf = requestAnimationFrame(tick);
+    };
 
-    return () => cancelAnimationFrame(raf);
+    return { start, stop: () => { if (raf) { cancelAnimationFrame(raf); raf = 0; } } };
 }
 
 /**
  * Wire up scroll + resize listeners (rAF-throttled) so the string
  * follows the sticky panel as it moves through the viewport.
+ *
+ * Listeners only do work while the chapter is on-screen — the rAF
+ * is scheduled, but if the chapter is not visible the draw is a no-op.
  */
-function bindStringUpdates(state) {
+function bindStringUpdates(state, isVisibleRef) {
     let raf = 0;
     const schedule = () => {
         if (raf) return;
         raf = requestAnimationFrame(() => {
             raf = 0;
-            drawString(state);
+            if (isVisibleRef.current) drawString(state);
         });
     };
 
     window.addEventListener('scroll', schedule, { passive: true });
     window.addEventListener('resize', schedule);
 
-    // Initial draw after layout settles
-    schedule();
+    // Initial draw — force regardless of visibility so the SVG path is set
+    // before the user scrolls to the section.
+    requestAnimationFrame(() => drawString(state));
 
     return schedule;
 }
@@ -348,14 +362,30 @@ export function initStackBuild() {
     const grid = root.parentElement;
     const { svg, halo, mid, core, sparkles } = ensureString(grid);
     const state = { grid, detail, svg, halo, mid, core, sparkles };
-    const redrawString = bindStringUpdates(state);
+
+    // Visibility gate — the expensive work (path redraw + sparkle loop)
+    // only runs while the stack section is actually on-screen.
+    const isVisibleRef = { current: false };
+    const redrawString = bindStringUpdates(state, isVisibleRef);
+    const sparkle = startSparkleLoop(state, isVisibleRef);
+
+    const section = grid.closest('section') || grid;
+    const io = new IntersectionObserver((entries) => {
+        for (const entry of entries) {
+            isVisibleRef.current = entry.isIntersecting;
+            if (entry.isIntersecting) {
+                redrawString();
+                sparkle?.start?.();
+            } else {
+                sparkle?.stop?.();
+            }
+        }
+    }, { rootMargin: '120px 0px' });
+    io.observe(section);
 
     // Default: Layer 06 (the first / topmost card)
     setActiveLayer('06', cards, detail);
     redrawString();
-
-    // Particles flowing along the path, continuously
-    startSparkleLoop(state);
 
     cards.forEach((card) => {
         const activate = () => {
