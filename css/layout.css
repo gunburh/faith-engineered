@@ -159,32 +159,48 @@ main {
 }
 
 /* ──────────────────────────────────────────
-   Footer layout
+   Footer layout — charcoal background, 4-col grid + bottom meta row
 ────────────────────────────────────────── */
 .site-footer {
-    padding-block: var(--space-8) var(--space-6);
+    background: var(--color-charcoal);
+    padding-block: var(--space-8) var(--space-5);
     border-top: 1px solid rgba(245, 241, 234, 0.08);
 }
 
 .footer__inner {
-    max-width: var(--container-wide);
+    max-width: var(--container-default);  /* tighter — was --container-wide */
     margin-inline: auto;
-    padding-inline: var(--space-5);
+    padding-inline: var(--space-7);
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: var(--space-7);
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: var(--space-6);  /* tighter gap — was --space-7 */
     margin-bottom: var(--space-7);
 }
 
+/* Bottom row — copyright LEFT, lang toggle RIGHT — same width/padding as columns */
 .footer__meta {
-    max-width: var(--container-wide);
+    position: relative;
+    max-width: var(--container-default);
     margin-inline: auto;
-    padding-inline: var(--space-5);
+    padding-inline: var(--space-7);
     padding-top: var(--space-5);
-    border-top: 1px solid rgba(245, 241, 234, 0.06);
     display: flex;
-    flex-direction: column;
-    gap: var(--space-2);
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-4);
+    flex-wrap: wrap;
+}
+
+/* Divider line — inset by padding so it aligns with column 1 left + column 4 right */
+.footer__meta::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: var(--space-7);
+    right: var(--space-7);
+    height: 1px;
+    background: rgba(255, 255, 255, 0.08);
 }
 
 /* ──────────────────────────────────────────

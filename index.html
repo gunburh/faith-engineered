@@ -26,6 +26,30 @@
 
 <body>
 
+    <!-- ─────────────────────────────────────────
+       SVG filters — real refraction for liquid glass pills
+       Used via backdrop-filter: url(#fe-liquid-distort)
+  ───────────────────────────────────────── -->
+    <svg width="0" height="0" style="position:absolute;pointer-events:none" aria-hidden="true">
+        <defs>
+            <!-- Subtle organic distortion — Apple-style refraction -->
+            <filter id="fe-liquid-distort" x="-10%" y="-10%" width="120%" height="120%">
+                <feTurbulence type="fractalNoise" baseFrequency="0.008 0.012" numOctaves="2" seed="3" result="noise" />
+                <feGaussianBlur in="noise" stdDeviation="2" result="softNoise" />
+                <feDisplacementMap in="SourceGraphic" in2="softNoise" scale="55" xChannelSelector="R"
+                    yChannelSelector="G" />
+            </filter>
+
+            <!-- Stronger distortion for the audio circle (more visible on small surface) -->
+            <filter id="fe-liquid-distort-strong" x="-15%" y="-15%" width="130%" height="130%">
+                <feTurbulence type="fractalNoise" baseFrequency="0.012 0.018" numOctaves="2" seed="7" result="noise" />
+                <feGaussianBlur in="noise" stdDeviation="1.5" result="softNoise" />
+                <feDisplacementMap in="SourceGraphic" in2="softNoise" scale="35" xChannelSelector="R"
+                    yChannelSelector="G" />
+            </filter>
+        </defs>
+    </svg>
+
     <!-- Skip to main content (accessibility) -->
     <a href="#main" class="skip-to-main">Skip to main content</a>
 
@@ -34,21 +58,26 @@
        Glassmorphism floating bar per hi-fi design
   ───────────────────────────────────────── -->
     <header class="site-header">
-        <nav class="site-nav" aria-label="Primary navigation">
+        <nav data-nav data-visible="false" aria-label="Chapter navigation">
 
             <!-- Wordmark / brand -->
-            <a href="#hero" class="site-brand" aria-label="Faith Engineered — go to top">
-                <span class="site-brand__en" aria-hidden="true">FAITH ENGINEERED</span>
+            <a href="/" class="nav__logo">
+                <img src="assets/logo/fe_logo01.png" alt="Faith Engineered" width="154" height="80">
             </a>
 
             <!-- Chapter navigation -->
-            <ul class="nav-chapters">
-                <li><a href="#ch01" class="nav-chapters__link" data-i18n="nav.ch01">01 · The Stack</a></li>
-                <li><a href="#ch02" class="nav-chapters__link" data-i18n="nav.ch02">02 · Geography</a></li>
-                <li><a href="#ch03" class="nav-chapters__link" data-i18n="nav.ch03">03 · Economy</a></li>
-                <li><a href="#ch04" class="nav-chapters__link" data-i18n="nav.ch04">04 · Saints</a></li>
-                <li><a href="#sources" class="nav-chapters__link" data-i18n="nav.about">About</a></li>
-            </ul>
+            <div class="nav__links">
+                <a data-nav-link="#chapter-01" data-active="false" aria-current="false" href="#chapter-01"
+                    data-i18n="nav.ch01">01 · The Stack</a>
+                <a data-nav-link="#chapter-02" data-active="false" aria-current="false" href="#chapter-02"
+                    data-i18n="nav.ch02">02 · Geography</a>
+                <a data-nav-link="#chapter-03" data-active="false" aria-current="false" href="#chapter-03"
+                    data-i18n="nav.ch03">03 · Economy</a>
+                <a data-nav-link="#chapter-04" data-active="false" aria-current="false" href="#chapter-04"
+                    data-i18n="nav.ch04">04 · Saints</a>
+                <a data-nav-link="#about" data-active="false" aria-current="false" href="#about"
+                    data-i18n="nav.about">About</a>
+            </div>
 
             <!-- Language toggle + audio toggle -->
             <div class="nav-controls">
@@ -57,8 +86,7 @@
                 <div class="lang-toggle" role="group" aria-label="Language selection">
                     <button class="lang-toggle__btn" data-lang="en" aria-pressed="true"
                         aria-label="Switch to English">EN</button>
-                    <span class="lang-toggle__divider" aria-hidden="true">|</span>
-                    <button class="lang-toggle__btn" data-lang="th" aria-pressed="false"
+                    <button class="lang-toggle__btn lang-toggle__btn--right" data-lang="th" aria-pressed="false"
                         aria-label="เปลี่ยนเป็นภาษาไทย">TH</button>
                 </div>
 
@@ -117,7 +145,7 @@
                 </blockquote>
 
                 <!-- CTA button -->
-                <a href="#ch01" class="btn btn--primary" data-i18n="hero.cta">
+                <a href="#chapter-01" class="btn btn--primary" data-i18n="hero.cta">
                     BEGIN READING →
                 </a>
 
@@ -136,7 +164,7 @@
          Purpose: Thai spirituality as layered software
     ══════════════════════════════════════ -->
         <div class="chapter chapter--stack">
-            <article id="ch01" aria-labelledby="ch01-title">
+            <article id="chapter-01" aria-labelledby="ch01-title">
 
                 <header class="chapter__header">
                     <p class="eyebrow" data-i18n="ch01.eyebrow">01 · Chapter One</p>
@@ -283,7 +311,7 @@
          Purpose: Shrine placement as urban infrastructure
     ══════════════════════════════════════ -->
         <div class="chapter chapter--geography">
-            <article id="ch02" aria-labelledby="ch02-title">
+            <article id="chapter-02" aria-labelledby="ch02-title">
 
                 <header class="chapter__header">
                     <p class="eyebrow" data-i18n="ch02.eyebrow">02 · Chapter Two</p>
@@ -355,7 +383,7 @@
          Purpose: Spirituality as economic system
     ══════════════════════════════════════ -->
         <div class="chapter chapter--economy">
-            <article id="ch03" aria-labelledby="ch03-title">
+            <article id="chapter-03" aria-labelledby="ch03-title">
 
                 <header class="chapter__header">
                     <p class="eyebrow" data-i18n="ch03.eyebrow">03 · Chapter Three</p>
@@ -443,7 +471,7 @@
          Purpose: Celebrity monks + influencer spirituality
     ══════════════════════════════════════ -->
         <div class="chapter chapter--saints">
-            <article id="ch04" aria-labelledby="ch04-title">
+            <article id="chapter-04" aria-labelledby="ch04-title">
 
                 <header class="chapter__header">
                     <p class="eyebrow" data-i18n="ch04.eyebrow">04 · Chapter Four</p>
@@ -536,7 +564,7 @@
          SECTION 05 · SOURCES & ABOUT
     ══════════════════════════════════════ -->
         <div class="sources-section">
-            <article id="sources" aria-labelledby="sources-title">
+            <article id="about" aria-labelledby="sources-title">
 
                 <header class="chapter__header">
                     <p class="eyebrow">Sources & About</p>
@@ -569,63 +597,73 @@
     <footer class="site-footer">
         <div class="footer__inner">
 
-            <!-- About the project -->
+            <!-- THE PROJECT — logo, description, social -->
             <section class="footer__col footer__about" aria-labelledby="footer-about-heading">
                 <h3 id="footer-about-heading" class="footer__heading">The Project</h3>
-                <p>A cinematic visual essay on Thai Mutelu culture. Final project for COSCI, Srinakharinwirot
-                    University, 2026.</p>
-                <p>Built by <strong>Bhanupong (gunburh)</strong>.</p>
+                <a href="/" class="footer__logo" aria-label="Faith Engineered home">
+                    <img src="assets/logo/fe_logo01.png" alt="Faith Engineered" width="154" height="80">
+                </a>
+                <p class="footer__about-desc">Editorial Interactive Essay on<br>Thai Mutelu Culture.</p>
+                <p class="footer__about-meta">SWU COSCI COMMU TRACK B<br>| Final Project · 2026.</p>
+                <a href="https://www.instagram.com/gunburh" class="footer__social" rel="noopener"
+                    aria-label="Instagram @gunburh">
+                    <img src="assets/icons/instagram_icon.png" alt="" width="18" height="18">
+                </a>
             </section>
 
-            <!-- Chapter links -->
+            <!-- CHAPTERS — full chapter titles (no data-i18n; lang toggle keeps full names) -->
             <nav class="footer__col footer__chapters" aria-label="Chapter links">
                 <h3 class="footer__heading">Chapters</h3>
                 <ul>
-                    <li><a href="#ch01" data-i18n="nav.ch01">01 · The Stack</a></li>
-                    <li><a href="#ch02" data-i18n="nav.ch02">02 · Geography</a></li>
-                    <li><a href="#ch03" data-i18n="nav.ch03">03 · Economy</a></li>
-                    <li><a href="#ch04" data-i18n="nav.ch04">04 · Saints</a></li>
-                    <li><a href="#sources">Sources</a></li>
+                    <li><a href="#chapter-01">01 · The Stack</a></li>
+                    <li><a href="#chapter-02">02 · The Geography of Luck</a></li>
+                    <li><a href="#chapter-03">03 · The Offering Economy</a></li>
+                    <li><a href="#chapter-04">04 · The New Saints</a></li>
+                    <li><a href="#about">Sources &amp; About</a></li>
                 </ul>
             </nav>
 
-            <!-- Technology credits (required — library attribution) -->
+            <!-- TECHNOLOGY — library + version + license, JetBrains Mono -->
             <section class="footer__col footer__credits" aria-labelledby="footer-credits-heading">
                 <h3 id="footer-credits-heading" class="footer__heading">Technology</h3>
                 <ul class="footer__credits-list">
-                    <li><a href="https://threejs.org" rel="noopener">Three.js v0.160</a> · MIT License</li>
-                    <li><a href="https://gsap.com" rel="noopener">GSAP v3.12</a> · Standard License</li>
-                    <li><a href="https://lenis.darkroom.engineering" rel="noopener">Lenis v1</a> · MIT License</li>
-                    <li><a href="https://howlerjs.com" rel="noopener">Howler.js v2.2</a> · MIT License</li>
-                    <li><a href="https://splitting.js.org" rel="noopener">Splitting.js v1</a> · MIT License</li>
-                </ul>
-                <h3 class="footer__heading footer__heading--spaced">Typography</h3>
-                <ul class="footer__credits-list">
-                    <li>Cormorant Garamond · Open Font License</li>
-                    <li>IBM Plex Thai · Open Font License</li>
-                    <li>Inter · Open Font License</li>
+                    <li><a href="https://threejs.org" rel="noopener">Three.js v0.160 · MIT</a></li>
+                    <li><a href="https://gsap.com" rel="noopener">GSAP v3.12 · Standard</a></li>
+                    <li><a href="https://lenis.darkroom.engineering" rel="noopener">Lenis v1.0 · MIT</a></li>
+                    <li><a href="https://howlerjs.com" rel="noopener">Howler.js v2.2 · MIT</a></li>
+                    <li><a href="https://splitting.js.org" rel="noopener">Splitting.js v1.0 · MIT</a></li>
+                    <li>Cormorant Garamond · OFL</li>
+                    <li>IBM Plex Sans Thai · OFL</li>
+                    <li>Inter · OFL</li>
                 </ul>
             </section>
 
-            <!-- Contact -->
+            <!-- CONTACT — icon + text inline -->
             <section class="footer__col footer__contact" aria-labelledby="footer-contact-heading">
                 <h3 id="footer-contact-heading" class="footer__heading">Contact</h3>
-                <ul>
-                    <li><a href="https://github.com/gunburh/faith-engineered" rel="noopener">GitHub Repository</a></li>
+                <ul class="footer__contact-list">
+                    <li>
+                        <img src="assets/icons/envelope_icon.png" alt="" width="20" height="20" aria-hidden="true">
+                        <a href="mailto:bhanupong.cho@g.swu.ac.th">bhanupong.cho@g.swu.ac.th</a>
+                    </li>
+                    <li>
+                        <img src="assets/icons/phone_icon.png" alt="" width="20" height="20" aria-hidden="true">
+                        <a href="tel:0959040722">0959040722</a>
+                    </li>
                 </ul>
             </section>
 
         </div><!-- /.footer__inner -->
 
-        <!-- Copyright bar -->
+        <!-- Bottom row — copyright LEFT, lang toggle RIGHT -->
         <div class="footer__meta">
-            <p>
-                <small>© 2026 Bhanupong. SWU COSCI Final Project. Content may not be redistributed without
-                    permission.</small>
-            </p>
-            <p>
-                <small>AI-generated imagery via Midjourney v7 + Higgsfield — fully disclosed.</small>
-            </p>
+            <p class="footer__copyright">Copyright © 2026 Bhanupong · SWU COSCI · Faith Engineered</p>
+            <div class="lang-toggle" role="group" aria-label="Language selection (footer)">
+                <button class="lang-toggle__btn" data-lang="en" aria-pressed="true"
+                    aria-label="Switch to English">EN</button>
+                <button class="lang-toggle__btn lang-toggle__btn--right" data-lang="th" aria-pressed="false"
+                    aria-label="เปลี่ยนเป็นภาษาไทย">TH</button>
+            </div>
         </div>
 
     </footer>

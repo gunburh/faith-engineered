@@ -6,82 +6,162 @@
    ============================================================ */
 
 /* ──────────────────────────────────────────
-   SITE NAV — glassmorphism floating bar
+   SITE HEADER wrapper
 ────────────────────────────────────────── */
 .site-header {
     position: fixed;
-    top: var(--space-4);
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: var(--z-nav);
+    pointer-events: none; /* nav itself controls pointer-events */
+}
+
+/* ─── Nav visibility transition ─── */
+/* The <nav> is a transparent flex wrapper — each child is its own floating pill */
+[data-nav] {
+    position: fixed;
+    top: 1.25rem;
     left: 50%;
     transform: translateX(-50%);
     z-index: var(--z-nav);
+
+    /* Layout — transparent flex container, NO background pill on the wrapper */
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);  /* 16px gap between pills */
     width: calc(100% - var(--space-7));
-    max-width: 1100px;
+    max-width: 1280px;
+
+    /* Force Inter regular across the entire nav — overrides body's serif */
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-style: normal;
+
+    /* Hidden by default — JS sets data-visible="true" */
+    opacity: 0;
+    pointer-events: none;
+    translate: 0 -8px;
+    transition:
+        opacity var(--motion-base) var(--ease-brand),
+        translate var(--motion-base) var(--ease-brand);
 }
 
-.site-nav {
-    display: flex;
-    align-items: center;
-    gap: var(--space-4);
-    padding: var(--space-2) var(--space-4);
-    border-radius: 100px;
-    /* Glassmorphism */
-    background: rgba(10, 10, 10, 0.4);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border: 1px solid rgba(245, 241, 234, 0.08);
+[data-nav][data-visible="true"] {
+    opacity: 1;
+    pointer-events: auto;
+    translate: 0 0;
 }
 
-.site-brand {
-    font-family: var(--font-ui);
-    font-size: var(--text-caption);
-    font-weight: 700;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--color-cream);
-    white-space: nowrap;
+/* Defensive: every descendant inherits Inter regular */
+[data-nav] * {
+    font-family: inherit;
+    font-style: inherit;
+}
+
+/* Logo */
+.nav__logo {
     flex-shrink: 0;
-    padding: var(--space-2) 0;
-}
-
-.site-brand:hover {
-    color: var(--color-gold);
-}
-
-/* Chapter links */
-.nav-chapters {
     display: flex;
     align-items: center;
-    gap: var(--space-1);
-    flex: 1;
-    justify-content: center;
-    list-style: none;
 }
 
-.nav-chapters__link {
+.nav__logo img {
+    height: 96px;   /* 2x — bold brand presence per user direction */
+    width: auto;
+    display: block;
+}
+
+/* Chapter links — Apple-style liquid glass pill, min-width 513px, grows with content */
+.nav__links {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    width: fit-content;
+    min-width: 513px;
+    height: 45px;
+    padding: 5px;
+    margin-left: auto;
+    flex-shrink: 0;
+
+    isolation: isolate;
+
+    /* Apple liquid glass — clean (no grain), lower blur for clearer backdrop */
+    background: linear-gradient(180deg,
+            rgba(255, 255, 255, 0.16) 0%,
+            rgba(255, 255, 255, 0.04) 50%,
+            rgba(255, 255, 255, 0.10) 100%);
+    backdrop-filter: blur(8px) saturate(180%) brightness(1.06);
+    -webkit-backdrop-filter: blur(8px) saturate(180%) brightness(1.06);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    border-radius: 100px;
+
+    /* Multi-layer shadow — bright top rim, deeper bottom, dual outer drop */
+    box-shadow:
+        inset 0 1.5px 0.5px 0 rgba(255, 255, 255, 0.55),
+        inset 0 -1px 1px 0 rgba(0, 0, 0, 0.18),
+        inset 1px 0 1px 0 rgba(255, 255, 255, 0.22),
+        inset -1px 0 1px 0 rgba(255, 255, 255, 0.22),
+        inset 0 0 30px 0 rgba(255, 255, 255, 0.08),
+        0 12px 40px 0 rgba(0, 0, 0, 0.34),
+        0 2px 6px 0 rgba(0, 0, 0, 0.18);
+}
+
+/* Specular highlights — bright top-left, soft bottom-right (3D glass corners) */
+.nav__links::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    background:
+        radial-gradient(ellipse 80% 100% at 15% 0%, rgba(255, 255, 255, 0.45) 0%, rgba(255, 255, 255, 0) 60%),
+        radial-gradient(ellipse 60% 100% at 100% 100%, rgba(255, 255, 255, 0.18) 0%, rgba(255, 255, 255, 0) 55%);
+    z-index: 0;
+}
+
+/* Individual nav links — sit above the glass overlay */
+[data-nav-link] {
+    position: relative;
+    z-index: 1;
+    display: inline-flex;
+    align-items: center;
+    height: 100%;
+    padding: 0 12px;
     font-family: var(--font-ui);
-    font-size: var(--text-caption);
+    font-size: 12px;
     font-weight: 400;
     letter-spacing: 0.04em;
     color: var(--color-cream);
     opacity: 0.65;
-    padding: var(--space-2) var(--space-3);
     border-radius: 100px;
-    transition: opacity var(--motion-fast) var(--ease-out),
+    white-space: nowrap;
+    transition:
+        opacity var(--motion-fast) var(--ease-out),
         color var(--motion-fast) var(--ease-out),
         background var(--motion-fast) var(--ease-out);
-    white-space: nowrap;
 }
 
-.nav-chapters__link:hover,
-.nav-chapters__link[data-active="true"] {
+[data-nav-link]:hover {
     opacity: 1;
     color: var(--color-gold);
     background: rgba(201, 169, 97, 0.08);
 }
 
-.nav-chapters__link:focus-visible {
+[data-nav-link]:focus-visible {
     outline: 2px solid var(--color-gold);
     outline-offset: 2px;
+    opacity: 1;
+}
+
+/* ─── Active pill — flat gold gradient, no rim/light reflection ─── */
+[data-nav-link][data-active="true"] {
+    background: linear-gradient(135deg, rgba(99, 83, 48, 0.5) 0%, rgba(218, 191, 129, 0.5) 100%);
+    color: var(--color-cream);
+    border-radius: 100px;
+    padding: 0 12px;
     opacity: 1;
 }
 
@@ -93,41 +173,104 @@
     flex-shrink: 0;
 }
 
+/* ─── prefers-reduced-motion ─── */
+@media (prefers-reduced-motion: reduce) {
+    [data-nav] {
+        transition: none;
+        opacity: 1;
+        pointer-events: auto;
+        translate: 0 0;
+    }
+}
+
 /* ──────────────────────────────────────────
    LANGUAGE TOGGLE
 ────────────────────────────────────────── */
 .lang-toggle {
+    position: relative;
     display: flex;
     align-items: center;
     gap: 0;
-    background: rgba(10, 10, 10, 0.5);
-    border: 1px solid rgba(245, 241, 234, 0.15);
-    border-radius: 100px;
+    width: 94px;
+    height: 45px;
+    padding: 3px;
+    flex-shrink: 0;
     overflow: hidden;
-    padding: 2px;
+
+    isolation: isolate;
+
+    /* Apple liquid glass — clean (no grain), same recipe as chapter pill */
+    background: linear-gradient(180deg,
+            rgba(255, 255, 255, 0.16) 0%,
+            rgba(255, 255, 255, 0.04) 50%,
+            rgba(255, 255, 255, 0.10) 100%);
+    backdrop-filter: blur(8px) saturate(180%) brightness(1.06);
+    -webkit-backdrop-filter: blur(8px) saturate(180%) brightness(1.06);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    border-radius: 100px;
+    box-shadow:
+        inset 0 1.5px 0.5px 0 rgba(255, 255, 255, 0.55),
+        inset 0 -1px 1px 0 rgba(0, 0, 0, 0.16),
+        inset 1px 0 1px 0 rgba(255, 255, 255, 0.22),
+        inset -1px 0 1px 0 rgba(255, 255, 255, 0.22),
+        0 10px 28px 0 rgba(0, 0, 0, 0.28),
+        0 2px 5px 0 rgba(0, 0, 0, 0.16);
+}
+
+/* Vertical divider line between EN and TH — replaces corner specular highlights */
+.lang-toggle::before {
+    content: "";
+    position: absolute;
+    top: 22%;
+    bottom: 22%;
+    left: 50%;
+    width: 1px;
+    transform: translateX(-0.5px);
+    background: rgba(255, 255, 255, 0.4);
+    pointer-events: none;
+    z-index: 0;
 }
 
 .lang-toggle__btn {
+    position: relative;
+    z-index: 1;
     font-family: var(--font-ui);
-    font-size: var(--text-caption);
-    font-weight: 500;
+    font-size: 12px;
+    font-weight: 400;
     letter-spacing: 0.08em;
     color: var(--color-cream);
-    opacity: 0.5;
-    padding: 6px 12px;
+    opacity: 0.55;
+    flex: 1;
+    height: 100%;
     border-radius: 100px;
-    min-width: 44px;
-    /* touch target */
-    min-height: 32px;
     transition: opacity var(--motion-fast) var(--ease-out),
         background var(--motion-fast) var(--ease-out),
         color var(--motion-fast) var(--ease-out);
 }
 
+/* Divider now drawn by .lang-toggle::before — no border on right button */
+.lang-toggle__btn--right {
+    border-left: none;
+}
+
 .lang-toggle__btn[aria-pressed="true"] {
-    background: rgba(201, 169, 97, 0.2);
-    color: var(--color-gold);
+    background: transparent;
+    color: var(--color-cream);
     opacity: 1;
+}
+
+/* Inner gold ball — flat, no rim/light reflection */
+.lang-toggle__btn[aria-pressed="true"]::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, rgba(99, 83, 48, 0.5) 0%, rgba(218, 191, 129, 0.5) 100%);
+    z-index: -1;
 }
 
 .lang-toggle__btn:hover {
@@ -139,43 +282,71 @@
     outline-offset: 1px;
 }
 
-.lang-toggle__divider {
-    color: var(--color-cream);
-    opacity: 0.2;
-    font-size: 10px;
-    user-select: none;
-}
-
 /* ──────────────────────────────────────────
    AUDIO TOGGLE
 ────────────────────────────────────────── */
 .audio-toggle {
+    position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    background: rgba(10, 10, 10, 0.5);
-    border: 1px solid rgba(245, 241, 234, 0.15);
-    color: var(--color-cream);
-    opacity: 0.7;
-    transition: opacity var(--motion-fast) var(--ease-out),
-        border-color var(--motion-fast) var(--ease-out);
+    width: 45px;
+    height: 45px;
     min-width: 44px;
-    /* touch target */
     min-height: 44px;
+    border-radius: 50%;
+    isolation: isolate;
+
+    /* OUTER glass — same liquid recipe as lang toggle */
+    background: linear-gradient(180deg,
+            rgba(255, 255, 255, 0.16) 0%,
+            rgba(255, 255, 255, 0.04) 50%,
+            rgba(255, 255, 255, 0.10) 100%);
+    backdrop-filter: blur(8px) saturate(180%) brightness(1.06);
+    -webkit-backdrop-filter: blur(8px) saturate(180%) brightness(1.06);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    color: var(--color-cream);
+    opacity: 1;
+
+    /* Multi-layer rim + outer drop (matches other pills) */
+    box-shadow:
+        inset 0 1.5px 0.5px 0 rgba(255, 255, 255, 0.55),
+        inset 0 -1px 1px 0 rgba(0, 0, 0, 0.16),
+        inset 1px 0 1px 0 rgba(255, 255, 255, 0.22),
+        inset -1px 0 1px 0 rgba(255, 255, 255, 0.22),
+        0 10px 28px 0 rgba(0, 0, 0, 0.28),
+        0 2px 5px 0 rgba(0, 0, 0, 0.16);
+
+    transition: opacity var(--motion-fast) var(--ease-out),
+        transform var(--motion-fast) var(--ease-out);
+}
+
+/* INNER gold ball — flat, no rim/light reflection */
+.audio-toggle::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, rgba(99, 83, 48, 0.5) 0%, rgba(218, 191, 129, 0.5) 100%);
+    z-index: -1;
+    pointer-events: none;
+}
+
+.audio-toggle__icon {
+    position: relative;
+    z-index: 1;
 }
 
 .audio-toggle:hover {
-    opacity: 1;
-    border-color: rgba(201, 169, 97, 0.4);
+    transform: translateY(-1px);
 }
 
-.audio-toggle[aria-pressed="true"] {
-    opacity: 1;
-    border-color: var(--color-gold);
-    color: var(--color-gold);
+.audio-toggle[aria-pressed="true"] .audio-toggle__icon {
+    color: var(--color-gold-leaf);
 }
 
 .audio-toggle:focus-visible {
@@ -387,19 +558,121 @@
 }
 
 /* ──────────────────────────────────────────
-   FOOTER COMPONENTS
+   FOOTER COMPONENTS — charcoal bg, 4-col grid
 ────────────────────────────────────────── */
+
+/* Force Inter regular across the entire footer (matches header treatment) */
+.site-footer {
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
+.site-footer * {
+    font-family: inherit;
+    font-style: inherit;
+}
+
+/* Column heading — gold label ON TOP, hairline BELOW spanning full column width */
 .footer__heading {
-    font-family: var(--font-ui);
-    font-size: var(--text-caption);
+    display: block;
+    font-family: 'Inter', sans-serif;
+    font-size: 10px;
     font-weight: 600;
-    letter-spacing: 0.1em;
+    letter-spacing: 0.18em;
     text-transform: uppercase;
     color: var(--color-gold);
-    opacity: 0.7;
+    opacity: 0.95;
+    padding-bottom: var(--space-2);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+    margin-bottom: var(--space-3);
+    white-space: nowrap;
+}
+
+/* ─── THE PROJECT column — tight spacing, logo nearly touches divider ─── */
+.footer__about {
+    display: block;
+}
+
+.footer__about .footer__heading {
+    margin-bottom: var(--space-1);  /* 4px — logo nearly touches the line */
+}
+
+.footer__logo {
+    display: block;
+    margin: 0 0 var(--space-3) 0;
+}
+
+.footer__logo img {
+    height: 56px;
+    width: auto;
+    display: block;
+}
+
+.footer__about-desc,
+.footer__about-meta {
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 1.5;
+    color: var(--color-cream);
+    margin: 0;
+}
+
+.footer__about-desc {
+    opacity: 1;
     margin-bottom: var(--space-3);
 }
 
+/* WHITE per spec — was muted gray */
+.footer__about-meta {
+    opacity: 1;
+    margin-bottom: var(--space-3);
+}
+
+/* Instagram icon — same 18px size as contact icons */
+.footer__social {
+    display: inline-flex;
+    align-items: center;
+    width: 18px;
+    height: 18px;
+    opacity: 0.85;
+    transition: opacity var(--motion-fast) var(--ease-out);
+}
+
+.footer__social:hover {
+    opacity: 1;
+}
+
+.footer__social img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: contain;
+}
+
+/* ─── CHAPTERS column — Inter regular 12px white ─── */
+.footer__chapters ul {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    list-style: none;
+}
+
+.footer__chapters a {
+    font-size: 12px;
+    font-weight: 400;
+    color: var(--color-cream);
+    opacity: 1;
+    transition: opacity var(--motion-fast) var(--ease-out),
+        color var(--motion-fast) var(--ease-out);
+}
+
+.footer__chapters a:hover {
+    opacity: 0.75;
+    color: var(--color-gold);
+}
+
+/* ─── TECHNOLOGY column — JetBrains Mono regular 10px, muted gray ─── */
 .footer__credits-list {
     display: flex;
     flex-direction: column;
@@ -409,50 +682,83 @@
 
 .footer__credits-list li,
 .footer__credits-list a {
-    font-size: var(--text-small);
-    opacity: 0.55;
-    transition: opacity var(--motion-fast) var(--ease-out);
-}
-
-.footer__credits-list a:hover {
-    opacity: 0.9;
-    color: var(--color-gold);
-}
-
-.footer__chapters ul {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-2);
-}
-
-.footer__chapters a {
-    font-size: var(--text-small);
-    opacity: 0.55;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: 400;
+    letter-spacing: 0.02em;
+    color: rgba(255, 255, 255, 0.45);
     transition: opacity var(--motion-fast) var(--ease-out),
         color var(--motion-fast) var(--ease-out);
 }
 
-.footer__chapters a:hover {
-    opacity: 0.9;
+.footer__credits-list a:hover {
     color: var(--color-gold);
 }
 
+/* ─── CONTACT column — icon + text inline, white ─── */
+.footer__contact-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    list-style: none;
+}
+
+.footer__contact-list li {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+}
+
+.footer__contact-list img {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+    opacity: 0.9;
+    object-fit: contain;
+}
+
+.footer__contact-list a {
+    font-size: 12px;
+    font-weight: 400;
+    color: var(--color-cream);
+    opacity: 1;
+    transition: opacity var(--motion-fast) var(--ease-out),
+        color var(--motion-fast) var(--ease-out);
+}
+
+.footer__contact-list a:hover {
+    opacity: 0.75;
+    color: var(--color-gold);
+}
+
+/* ─── Bottom row ─── */
+.footer__copyright {
+    font-size: 12px;
+    font-weight: 400;
+    color: var(--color-cream);
+    opacity: 0.55;
+    margin: 0;
+}
+
+/* Footer lang toggle inherits the same .lang-toggle styling from header,
+   no override needed — JS already supports multiple instances via delegation */
+
 /* ──────────────────────────────────────────
-   MOBILE NAV (hidden items on small screens)
+   MOBILE NAV (hidden chapter pill on small screens)
 ────────────────────────────────────────── */
 @media (max-width: 767px) {
-    .nav-chapters {
+    .nav__links {
         display: none;
         /* hidden on mobile — hamburger pattern or anchor list below */
     }
 
-    .site-nav {
+    [data-nav] {
         justify-content: space-between;
-        padding: var(--space-2) var(--space-3);
-    }
-
-    .site-header {
         width: calc(100% - var(--space-5));
         top: var(--space-3);
+    }
+
+    .nav-controls {
+        margin-left: auto;
     }
 }

@@ -15,7 +15,7 @@
 import { initLanguageToggle } from './core/lang-toggle.js';
 import { initSmoothScroll } from './core/scroll.js';
 // Uncomment as each module is built:
-// import { initNav }            from './core/nav.js';
+import { initNav }            from './core/nav.js';
 // import { initMotion }         from './core/motion.js';
 // import { initHeroSmoke }      from './chapters/hero-smoke.js';
 // import { initStackDiagram }   from './chapters/stack-diagram.js';
@@ -35,8 +35,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     // 2. Smooth scroll (Lenis)
     initSmoothScroll();
 
-    // 3. Nav (sticky + scroll-spy) — uncomment when nav.js is built
-    // initNav();
+    // 3. Nav (sticky + scroll-spy)
+    initNav();
 
     // 4. GSAP scroll animations — uncomment when motion.js is built
     // initMotion();
