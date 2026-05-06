@@ -16,6 +16,8 @@ import { initLanguageToggle } from './core/lang-toggle.js';
 import { initSmoothScroll } from './core/scroll.js';
 // Uncomment as each module is built:
 import { initNav }            from './core/nav.js';
+import { initHeroVideo }      from './chapters/hero-video.js';
+import { initHeroSmoke }      from './chapters/hero-smoke.js';
 // import { initMotion }         from './core/motion.js';
 // import { initHeroSmoke }      from './chapters/hero-smoke.js';
 // import { initStackDiagram }   from './chapters/stack-diagram.js';
@@ -42,7 +44,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     // initMotion();
 
     // 5. Chapter interactions — uncomment as each is built
-    // initHeroSmoke();
+    initHeroVideo();
+    initHeroSmoke();
     // initStackDiagram();
     // initShrineMap();
     // initCounters();

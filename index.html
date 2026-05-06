@@ -113,14 +113,15 @@
     ══════════════════════════════════════ -->
         <section id="hero" class="hero" aria-labelledby="hero-title">
 
-            <!-- Smoke video background (muted, loop, no autoplay of audio) -->
+            <!-- Dual video background — bg02 plays on load, bg05 fades in on scroll -->
             <div class="hero__bg" aria-hidden="true">
-                <video class="hero__video" autoplay muted loop playsinline aria-hidden="true">
-                    <source src="assets/video/hero-smoke.webm" type="video/webm">
-                    <source src="assets/video/hero-smoke.mp4" type="video/mp4">
-                    <!-- No text fallback needed — purely decorative -->
-                </video>
-                <!-- WebGL particle canvas overlays the video -->
+                <video id="hero-video-bg02" class="hero__video hero__video--bg02"
+                       src="assets/video/hero_bg02.mov"
+                       autoplay muted loop playsinline preload="auto" aria-hidden="true"></video>
+                <video id="hero-video-bg05" class="hero__video hero__video--bg05"
+                       src="assets/video/hero_bg05.mov"
+                       muted playsinline preload="auto" aria-hidden="true"></video>
+                <!-- WebGL particle canvas overlays the videos -->
                 <canvas id="smoke-canvas" class="hero__canvas" aria-hidden="true"></canvas>
                 <!-- Gradient overlay for text legibility -->
                 <div class="hero__overlay" aria-hidden="true"></div>
@@ -128,25 +129,21 @@
 
             <!-- Hero typography content -->
             <div class="hero__content">
-                <p class="eyebrow" data-i18n="hero.eyebrow">A Visual Essay</p>
-
                 <h1 id="hero-title" class="hero__title">
-                    <span data-i18n="hero.title">Faith Engineered</span>
+                    <img src="assets/images/hero/hero_logo.png" alt="Faith Engineered" class="hero__logo" width="945" height="109">
+                    <span class="visually-hidden" data-i18n="hero.title">Faith Engineered</span>
                 </h1>
 
                 <p class="hero__subtitle" data-i18n="hero.subtitle">
-                    How Thailand designed a religion for the modern world.
+                    Bangkok's spiritual infrastructure is not an accident of faith. It is a design system.
                 </p>
 
-                <blockquote class="hero__quote">
-                    <p data-i18n="hero.quote">
-                        "In Thailand, the sacred has a business model. And it's working."
-                    </p>
-                </blockquote>
-
-                <!-- CTA button -->
-                <a href="#chapter-01" class="btn btn--primary" data-i18n="hero.cta">
-                    BEGIN READING →
+                <!-- CTA button — liquid glass pill (matches nav recipe) -->
+                <a href="#chapter-01" class="btn-cta">
+                    <span class="btn-cta__glow" aria-hidden="true"></span>
+                    <span class="btn-cta__shimmer" aria-hidden="true"></span>
+                    <span class="btn-cta__label" data-i18n="hero.cta">BEGIN READING</span>
+                    <span class="btn-cta__arrow" aria-hidden="true">→</span>
                 </a>
 
                 <!-- Scroll cue (decorative, hidden from screen readers) -->

@@ -1,16 +1,20 @@
 {
     "hero": {
         "eyebrow": {
-            "en": "A visual essay",
-            "th": "บทความภาพ"
+            "en": "THAI MUTELU CULTURE",
+            "th": "วัฒนธรรมมูเตลูไทย"
         },
         "title": {
             "en": "Faith Engineered",
             "th": "วิศวกรรมศรัทธา"
         },
         "subtitle": {
-            "en": "How Thailand designed a spiritual operating system for the modern world.",
-            "th": "วิธีที่ประเทศไทยออกแบบระบบปฏิบัติการทางจิตวิญญาณสำหรับโลกสมัยใหม่"
+            "en": "Bangkok's spiritual infrastructure is not an accident of faith. It is a design system.",
+            "th": "โครงสร้างพื้นฐานทางจิตวิญญาณของกรุงเทพฯ ไม่ใช่อุบัติเหตุแห่งศรัทธา แต่คือระบบที่ถูกออกแบบ"
+        },
+        "cta": {
+            "en": "BEGIN READING",
+            "th": "เริ่มอ่าน"
         }
     },
     "ch01": {

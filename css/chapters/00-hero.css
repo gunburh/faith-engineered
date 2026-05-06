@@ -4,52 +4,281 @@
    Layout handled in layout.css. This file = visual details.
    ============================================================ */
 
-/* Hero title — very large, Cormorant Garamond */
+/* Visually-hidden utility (a11y title text behind the logo image) */
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+/* Hero eyebrow — gold caps, sits above the logo */
+.hero__eyebrow {
+    font-family: var(--font-ui);
+    font-size: clamp(0.75rem, 1.1vw, 0.95rem);
+    font-weight: 500;
+    letter-spacing: 0.45em;
+    text-transform: uppercase;
+    color: var(--color-gold);
+    opacity: 0.9;
+    margin: 0 0 var(--space-2) 0;
+    padding-left: clamp(8px, 1.5vw, 18px);
+}
+
+/* Hero title is now an image lockup (hero_logo.png · 945×109) */
 .hero__title {
-    font-family: var(--font-display-en);
-    font-size: clamp(3.5rem, 10vw, 9rem);
-    font-weight: 300;
-    line-height: 0.95;
-    letter-spacing: -0.02em;
-    color: var(--color-cream);
-    /* Splitting.js will wrap each char in <span> for animation */
+    margin: 0;
+    line-height: 0;
 }
 
-[data-lang="th"] .hero__title {
-    font-family: var(--font-display-th);
-    font-size: clamp(3rem, 8vw, 7rem);
-    letter-spacing: 0;
-    line-height: 1.1;
+.hero__logo {
+    display: block;
+    width: clamp(320px, 70vw, 945px);
+    height: auto;
+    max-width: 100%;
 }
 
+/* Subhead — Cormorant regular, two lines, cream */
 .hero__subtitle {
     font-family: var(--font-display-en);
-    font-size: clamp(1.1rem, 2.5vw, 1.75rem);
-    font-weight: 300;
-    font-style: italic;
-    line-height: 1.4;
+    font-size: clamp(1.5rem, 3.6vw, 3rem);
+    font-weight: 400;
+    font-style: normal;
+    line-height: 1.18;
     color: var(--color-cream);
-    opacity: 0.85;
-    max-width: 22ch;
+    opacity: 0.92;
+    max-width: 28ch;
+    margin: var(--space-3) 0 var(--space-5);
 }
 
 [data-lang="th"] .hero__subtitle {
     font-family: var(--font-display-th);
-    font-style: normal;
-    max-width: 28ch;
+    font-size: clamp(1.25rem, 2.6vw, 2.1rem);
+    line-height: 1.4;
+    max-width: 32ch;
 }
 
-.hero__quote {
-    border-left: none;
-    padding-left: 0;
-    font-size: clamp(0.9rem, 1.5vw, 1.1rem);
-    opacity: 0.55;
-    max-width: 36ch;
-    font-style: italic;
+/* ──────────────────────────────────────────
+   BEGIN READING — liquid glass pill (matches nav recipe)
+────────────────────────────────────────── */
+.btn-cta {
+    position: relative;
+    isolation: isolate;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-2);
+    width: 162px;
+    height: 47px;
+    padding: 5px 20px;
+    border-radius: 100px;
+    flex-shrink: 0;
+    align-self: flex-start;
+
+    font-family: var(--font-ui);
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-cream);
+    white-space: nowrap;
+
+    background: linear-gradient(180deg,
+            rgba(245, 241, 234, 0.20) 0%,
+            rgba(245, 241, 234, 0.06) 50%,
+            rgba(245, 241, 234, 0.14) 100%);
+    backdrop-filter: blur(8px) saturate(180%) brightness(1.06);
+    -webkit-backdrop-filter: blur(8px) saturate(180%) brightness(1.06);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+
+    /* Breathing gold halo via animated box-shadow (escapes the button box) */
+    animation: cta-breathe 3.4s ease-in-out infinite;
+
+    transition:
+        background var(--motion-base) var(--ease-brand),
+        color var(--motion-fast) var(--ease-out),
+        transform var(--motion-fast) var(--ease-out),
+        box-shadow var(--motion-base) var(--ease-brand);
 }
 
-/* Eyebrow in hero context — slightly dimmer */
-.hero .eyebrow {
-    opacity: 0.6;
-    color: var(--color-gold);
+/* Outer "fog" of glow — sits behind the button, blurred radial gradient.
+   Pulses scale + opacity in lockstep with the box-shadow breathe. */
+.btn-cta__glow {
+    position: absolute;
+    inset: -28px;
+    border-radius: inherit;
+    z-index: -1;
+    pointer-events: none;
+    background:
+        radial-gradient(ellipse 60% 60% at 50% 50%,
+            rgba(230, 200, 120, 0.55) 0%,
+            rgba(218, 191, 129, 0.22) 38%,
+            rgba(201, 169, 97, 0)      72%);
+    filter: blur(14px);
+    opacity: 0.85;
+    animation: cta-glow-pulse 3.4s ease-in-out infinite;
+    will-change: transform, opacity;
+}
+
+/* Sweeping shimmer — runs across the button face periodically.
+   Lives above the glass background but below text via its own z-index. */
+.btn-cta__shimmer {
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 0;
+    mix-blend-mode: screen;
+}
+.btn-cta__shimmer::before {
+    content: "";
+    position: absolute;
+    top: -50%;
+    left: -60%;
+    width: 60%;
+    height: 200%;
+    background: linear-gradient(115deg,
+        transparent 0%,
+        rgba(255, 240, 200, 0.0) 35%,
+        rgba(255, 240, 200, 0.55) 50%,
+        rgba(255, 240, 200, 0.0) 65%,
+        transparent 100%);
+    transform: translateX(0);
+    animation: cta-shimmer 3.8s var(--ease-brand) infinite;
+}
+
+@keyframes cta-breathe {
+    0%, 100% {
+        box-shadow:
+            inset 0 1.5px 0.5px 0 rgba(255, 255, 255, 0.55),
+            inset 0 -1px 1px 0 rgba(0, 0, 0, 0.18),
+            inset 1px 0 1px 0 rgba(255, 255, 255, 0.22),
+            inset -1px 0 1px 0 rgba(255, 255, 255, 0.22),
+            inset 0 0 30px 0 rgba(255, 255, 255, 0.08),
+            0 12px 40px 0 rgba(0, 0, 0, 0.34),
+            0 2px 6px 0 rgba(0, 0, 0, 0.18),
+            0 0 18px 0 rgba(218, 191, 129, 0.28),
+            0 0 48px 4px rgba(201, 169, 97, 0.18);
+    }
+    50% {
+        box-shadow:
+            inset 0 1.5px 0.5px 0 rgba(255, 255, 255, 0.65),
+            inset 0 -1px 1px 0 rgba(0, 0, 0, 0.18),
+            inset 1px 0 1px 0 rgba(255, 255, 255, 0.22),
+            inset -1px 0 1px 0 rgba(255, 255, 255, 0.22),
+            inset 0 0 36px 0 rgba(230, 200, 120, 0.18),
+            0 12px 40px 0 rgba(0, 0, 0, 0.34),
+            0 2px 6px 0 rgba(0, 0, 0, 0.18),
+            0 0 32px 2px rgba(218, 191, 129, 0.55),
+            0 0 88px 12px rgba(201, 169, 97, 0.38);
+    }
+}
+
+@keyframes cta-glow-pulse {
+    0%, 100% { opacity: 0.55; transform: scale(0.92); }
+    50%      { opacity: 1.00; transform: scale(1.12); }
+}
+
+@keyframes cta-shimmer {
+    0%        { transform: translateX(0); }
+    65%, 100% { transform: translateX(420%); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .btn-cta,
+    .btn-cta__glow,
+    .btn-cta__shimmer::before {
+        animation: none;
+    }
+}
+
+/* Apple-style 45° specular highlight */
+.btn-cta::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    background:
+        linear-gradient(135deg,
+            rgba(255, 255, 255, 0.45) 0%,
+            rgba(255, 255, 255, 0) 40%),
+        radial-gradient(ellipse 70% 100% at 18% 0%, rgba(255, 255, 255, 0.35) 0%, rgba(255, 255, 255, 0) 60%);
+    z-index: 0;
+}
+
+.btn-cta__label,
+.btn-cta__arrow {
+    position: relative;
+    z-index: 1;
+}
+
+.btn-cta__arrow {
+    transition: transform var(--motion-fast) var(--ease-out);
+}
+
+/* Hover — gold gradient + amplified glow (overrides breathing animation) */
+.btn-cta:hover {
+    background: linear-gradient(135deg,
+            rgba(218, 191, 129, 0.40) 0%,
+            rgba(99, 83, 48, 0.40) 100%);
+    color: var(--color-cream);
+    animation-play-state: paused;
+    box-shadow:
+        inset 0 1.5px 0.5px 0 rgba(255, 255, 255, 0.65),
+        inset 0 -1px 1px 0 rgba(0, 0, 0, 0.18),
+        inset 1px 0 1px 0 rgba(255, 255, 255, 0.30),
+        inset -1px 0 1px 0 rgba(255, 255, 255, 0.30),
+        inset 0 0 40px 0 rgba(230, 200, 120, 0.30),
+        0 12px 40px 0 rgba(0, 0, 0, 0.34),
+        0 2px 6px 0 rgba(0, 0, 0, 0.18),
+        0 0 44px 4px rgba(230, 200, 120, 0.70),
+        0 0 110px 18px rgba(201, 169, 97, 0.50);
+}
+
+.btn-cta:hover .btn-cta__glow {
+    animation-play-state: paused;
+    opacity: 1;
+    transform: scale(1.22);
+    background:
+        radial-gradient(ellipse 65% 65% at 50% 50%,
+            rgba(245, 220, 150, 0.85) 0%,
+            rgba(218, 191, 129, 0.32) 42%,
+            rgba(201, 169, 97, 0)      78%);
+    filter: blur(18px);
+}
+
+.btn-cta:hover .btn-cta__arrow {
+    transform: translateX(3px);
+}
+
+/* Active / clicked — solid cream fill, oxblood text */
+.btn-cta:active {
+    background: var(--color-cream);
+    color: #6B1F23;
+}
+
+.btn-cta:active::before {
+    opacity: 0.4;
+}
+
+.btn-cta:active .btn-cta__glow {
+    opacity: 1;
+    transform: scale(1.3);
+    background:
+        radial-gradient(ellipse 70% 70% at 50% 50%,
+            rgba(255, 240, 210, 0.95) 0%,
+            rgba(245, 220, 150, 0.4)  35%,
+            rgba(201, 169, 97, 0)     75%);
+}
+
+.btn-cta:focus-visible {
+    outline: 2px solid var(--color-gold);
+    outline-offset: 3px;
 }

@@ -401,9 +401,12 @@
    HERO BACKGROUND LAYERS
 ────────────────────────────────────────── */
 .hero__bg {
-    position: absolute;
-    inset: 0;
+    position: sticky;
+    top: 0;
+    width: 100%;
+    height: 100svh;
     z-index: 0;
+    overflow: hidden;
 }
 
 .hero__video {
@@ -413,6 +416,18 @@
     height: 100%;
     object-fit: cover;
     object-position: center;
+    mix-blend-mode: normal;
+    will-change: opacity;
+}
+
+.hero__video--bg02 {
+    z-index: 1;
+    opacity: 1;
+}
+
+.hero__video--bg05 {
+    z-index: 2;
+    opacity: 0;
 }
 
 .hero__canvas {
@@ -420,8 +435,10 @@
     inset: 0;
     width: 100%;
     height: 100%;
-    z-index: 1;
-    /* above video, below overlay */
+    z-index: 3;
+    /* above bg02 (1) + bg05 (2); .hero__content (z-index 2 on .hero) lives in
+       a higher stacking context so text always reads cleanly above the haze */
+    pointer-events: none;
 }
 
 /* Gradient overlay — improves text legibility */
@@ -439,44 +456,67 @@
    SCROLL CUE
 ────────────────────────────────────────── */
 .scroll-cue {
-    display: flex;
+    display: inline-flex;
     flex-direction: column;
-    align-items: flex-start;
-    gap: var(--space-2);
+    align-items: center;
+    gap: var(--space-3);
     margin-top: var(--space-7);
+    align-self: flex-start;
 }
 
 .scroll-cue__label {
     font-family: var(--font-ui);
-    font-size: var(--text-caption);
-    font-weight: 400;
+    font-size: 11px;
+    font-weight: 500;
     letter-spacing: 0.2em;
     text-transform: uppercase;
-    color: var(--color-cream);
-    opacity: 0.4;
+    color: #FFF1CC;
+    opacity: 0.7;
 }
 
+/* Vertical line with progressive blur fade (no arrow) */
 .scroll-cue__line {
+    position: relative;
     width: 1px;
-    height: 60px;
+    height: 220px;
     background: linear-gradient(to bottom,
-            rgba(245, 241, 234, 0.4),
-            rgba(245, 241, 234, 0));
-    animation: scroll-cue-pulse 2s ease-in-out infinite;
+            rgba(255, 241, 204, 0.85) 0%,
+            rgba(255, 241, 204, 0.55) 25%,
+            rgba(255, 241, 204, 0.25) 60%,
+            rgba(255, 241, 204, 0) 100%);
     transform-origin: top;
+    animation: scroll-cue-draw 2.6s var(--ease-brand) infinite;
 }
 
-@keyframes scroll-cue-pulse {
+/* Soft glow + progressive blur fade overlaid on the line */
+.scroll-cue__line::after {
+    content: "";
+    position: absolute;
+    left: -3px;
+    top: 0;
+    width: 7px;
+    height: 100%;
+    background: linear-gradient(to bottom,
+            rgba(255, 241, 204, 0.20),
+            rgba(255, 241, 204, 0));
+    filter: blur(3px);
+    pointer-events: none;
+}
 
-    0%,
-    100% {
-        opacity: 0.4;
-        transform: scaleY(1);
+@keyframes scroll-cue-draw {
+
+    0% {
+        transform: scaleY(0);
+        opacity: 0;
     }
 
-    50% {
-        opacity: 0.8;
-        transform: scaleY(1.15);
+    25% {
+        opacity: 1;
+    }
+
+    100% {
+        transform: scaleY(1);
+        opacity: 0;
     }
 }
 
