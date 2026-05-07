@@ -143,6 +143,5 @@ vite.config.ts.timestamp-*
 .vite/
 .DS_Store
 
-echo "" >> .gitignore
-echo "# Claude Code worktrees and metadata" >> .gitignore
-echo ".claude/" >> .gitignore
+# Claude Code worktrees and metadata
+.claude/
