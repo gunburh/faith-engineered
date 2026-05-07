@@ -260,6 +260,7 @@ function initChainScroll() {
 export function initEconomyInteractions() {
     initBigNumberCountUp();
     initSpendSlider();
-    renderSeasonalChart();
+    // Seasonal Peaks is owned by chapters/seasonal-peaks.js (desktop = Three.js,
+    // mobile = flat bar chart). Initialized separately in main.js.
     initChainScroll();
 }
