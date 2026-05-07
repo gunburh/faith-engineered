@@ -4,9 +4,10 @@
  * Renders the "Seasonal Peaks" visualization. Two modes:
  *   • Mobile (< 768px): the original 12-column flat bar chart (CSS-driven).
  *   • Desktop (>= 768px): a Three.js scene — rolling terrain mesh with 12
- *     hairline light beams (gold / oxblood / gray), volumetric sprite-glow
- *     halos, three layers of drifting particles, exponential fog, mouse
- *     parallax, and a one-shot scroll-in entrance via GSAP.
+ *     hairline light beams (gold / oxblood / gray), helix particle streams
+ *     wrapping the 5 peak-month beams (JAN/APR/JUN/OCT/DEC), three layers
+ *     of drifting particles + a white stardust layer, exponential fog,
+ *     mouse parallax, and a one-shot scroll-in entrance via GSAP.
  *
  * Three.js is loaded globally as window.THREE (vendor/three.min.js).
  * GSAP is loaded globally as window.gsap (vendor/gsap.min.js).
@@ -34,10 +35,12 @@ const SEASONS = [
 ];
 
 const COLOR = {
-    gold:    0xC9A961,
-    oxblood: 0x6B1F2E,
-    gray:    0x4a4a4a,
-    bg:      0x000000,
+    gold:           0xC9A961,
+    oxblood:        0x6B1F2E,
+    oxblood_helix:  0xB8334A, // brighter — additive needs more red to read as red
+    gray:           0x4a4a4a,
+    bg:             0x000000,
+    cream:          0xF5F1EA,
 };
 
 // ─────────────────────────────────────────────────────────
@@ -94,6 +97,8 @@ function renderFlat(container) {
 // Three.js (desktop) renderer
 // ─────────────────────────────────────────────────────────
 
+// Soft radial-gradient texture used by the ambient particle layers AND the
+// helix streams. Particles render as soft glowing dots instead of squares.
 function makeGlowTexture(THREE) {
     const canvas = document.createElement('canvas');
     canvas.width = 256;
@@ -114,7 +119,6 @@ function makeGlowTexture(THREE) {
 function renderThree(container) {
     const THREE = window.THREE;
     if (!THREE) {
-        // No Three.js available — fall back gracefully.
         return renderFlat(container);
     }
 
@@ -220,7 +224,7 @@ function renderThree(container) {
     wireMesh.position.y = 0.001;
     scene.add(wireMesh);
 
-    // Sample terrain Y at world (x, 0)
+    // Sample terrain Y at world (x, z=0). Mirrors the displacement loop above.
     const sampleTerrainY = (worldX) => {
         let y = Math.sin(worldX * 0.6) * 0.15 + Math.cos(0) * 0.12;
         for (let m = 0; m < SEASONS.length; m++) {
@@ -232,22 +236,24 @@ function renderThree(container) {
         return y;
     };
 
+    // Tiny offset so beam bases sit clearly above the wireframe overlay
+    // (which is at terrainY + 0.001) and never visually clip into it.
+    const BEAM_BASE_LIFT = 0.02;
+
     // ── Beams ────────────────────────────────────────────
     const beamGroup = new THREE.Group();
     scene.add(beamGroup);
 
-    // Shared glow texture — built once, disposed once.
+    // Shared glow texture — built once, used by ambient particles + helices.
     const glowTexture = makeGlowTexture(THREE);
 
-    const beams = [];          // { mesh, kind, height, baseOpacity, terrainY, x, phase }
-    const beamGlowSprites = []; // [{ inner, outer, baseY, beamIdx }, …] — one entry per stacked sprite pair
+    const beams = []; // { mesh, kind, height, baseOpacity, terrainY, beamBaseY, x, phase }
     const pointLights = [];
-
-    const HALO_COUNT = 6;
 
     SEASONS.forEach((s, i) => {
         const x = beamX[i];
         const terrainY = sampleTerrainY(x);
+        const beamBaseY = terrainY + BEAM_BASE_LIFT;
         const height = s.height * 0.35;
         const colorHex = COLOR[s.kind];
 
@@ -266,71 +272,131 @@ function renderThree(container) {
             fog: true,
         });
         const core = new THREE.Mesh(coreGeo, coreMat);
-        core.position.set(x, terrainY, 0);
+        core.position.set(x, beamBaseY, 0);
         beamGroup.add(core);
 
-        const beam = {
+        beams.push({
             mesh: core,
             kind: s.kind,
             height,
             baseOpacity,
             terrainY,
+            beamBaseY,
             x,
             phase: i * 0.7,
-        };
-        beams.push(beam);
+        });
 
-        // Sprite halos (gold + oxblood only)
+        // Subtle terrain illumination on peak beams
         if (s.kind !== 'gray') {
-            for (let h = 0; h < HALO_COUNT; h++) {
-                const t = h / (HALO_COUNT - 1); // 0 → 1 from base to tip
-                const yOffset = terrainY + t * height;
-
-                const innerMat = new THREE.SpriteMaterial({
-                    map: glowTexture,
-                    color: colorHex,
-                    transparent: true,
-                    opacity: 0.35,
-                    blending: THREE.AdditiveBlending,
-                    depthWrite: false,
-                    fog: true,
-                });
-                const innerHalo = new THREE.Sprite(innerMat);
-                innerHalo.position.set(x, yOffset, 0);
-                innerHalo.scale.set(0.4, 0.4, 1);
-                scene.add(innerHalo);
-
-                const outerMat = new THREE.SpriteMaterial({
-                    map: glowTexture,
-                    color: colorHex,
-                    transparent: true,
-                    opacity: 0.12,
-                    blending: THREE.AdditiveBlending,
-                    depthWrite: false,
-                    fog: true,
-                });
-                const outerHalo = new THREE.Sprite(outerMat);
-                outerHalo.position.set(x, yOffset, 0);
-                outerHalo.scale.set(1.2, 1.2, 1);
-                scene.add(outerHalo);
-
-                beamGlowSprites.push({
-                    inner: innerHalo,
-                    outer: outerHalo,
-                    baseY: yOffset,
-                    beamIdx: i,
-                });
-            }
-
-            // Point light at beam tip — illuminates terrain subtly
             const pl = new THREE.PointLight(colorHex, 0.6, 3);
-            pl.position.set(x, terrainY + height, 0);
+            pl.position.set(x, beamBaseY + height, 0);
             scene.add(pl);
             pointLights.push(pl);
         }
     });
 
-    // ── Particles — three parallax layers ────────────────
+    // ── Helix particle streams (peak months only) ────────
+    const HELIX_COUNT_PER_BEAM = 800;
+    const HELIX_RADIUS         = 0.18;
+    const HELIX_TURNS          = 3;
+    const HELIX_FLOW_SPEED     = 0.15;
+    const HELIX_OPACITY        = 0.85;
+
+    const helices = []; // { points, geometry, material, beamX, beamBaseY, beamHeight, count, dirSign }
+
+    function createHelix({ beamX: bx, beamBaseY: by, beamHeight: bh, color, direction }) {
+        const count = HELIX_COUNT_PER_BEAM;
+        const geometry = new THREE.BufferGeometry();
+        const pos = new Float32Array(count * 3);
+        const offsets = new Float32Array(count);
+        const speeds  = new Float32Array(count);
+
+        for (let i = 0; i < count; i++) {
+            offsets[i] = Math.random();              // 0..1 — phase along helix
+            speeds[i]  = 0.85 + Math.random() * 0.3; // 0.85..1.15 vertical-speed variance
+            // Initial dummy positions — overwritten on first frame.
+            pos[i * 3 + 0] = bx;
+            pos[i * 3 + 1] = by;
+            pos[i * 3 + 2] = 0;
+        }
+
+        geometry.setAttribute('position', new THREE.BufferAttribute(pos, 3));
+        geometry.setAttribute('aOffset',  new THREE.BufferAttribute(offsets, 1));
+        geometry.setAttribute('aSpeed',   new THREE.BufferAttribute(speeds, 1));
+
+        const material = new THREE.PointsMaterial({
+            color,
+            map: glowTexture,
+            size: 0.045,
+            transparent: true,
+            opacity: HELIX_OPACITY,
+            blending: THREE.AdditiveBlending,
+            depthWrite: false,
+            sizeAttenuation: true,
+            fog: true,
+        });
+
+        const points = new THREE.Points(geometry, material);
+        scene.add(points);
+
+        helices.push({
+            points,
+            geometry,
+            material,
+            beamX: bx,
+            beamBaseY: by,
+            beamHeight: bh,
+            count,
+            dirSign: direction === 'CCW' ? 1 : -1,
+        });
+    }
+
+    // Direction alternates per peak in calendar order:
+    // JAN=CCW, APR=CW, JUN=CCW, OCT=CW, DEC=CCW
+    let peakIdx = 0;
+    SEASONS.forEach((s, i) => {
+        if (!s.peak) return;
+        const direction = peakIdx % 2 === 0 ? 'CCW' : 'CW';
+        const helixColor = s.kind === 'oxblood' ? COLOR.oxblood_helix : COLOR.gold;
+        const beam = beams[i];
+        createHelix({
+            beamX:      beam.x,
+            beamBaseY:  beam.beamBaseY,
+            beamHeight: beam.height,
+            color:      helixColor,
+            direction,
+        });
+        peakIdx++;
+    });
+
+    // CPU-update one helix's particle positions in place.
+    const updateHelix = (helix, time) => {
+        const { count, beamX: bx, beamBaseY: by, beamHeight: bh, dirSign } = helix;
+        const pos     = helix.geometry.attributes.position.array;
+        const offsets = helix.geometry.attributes.aOffset.array;
+        const speeds  = helix.geometry.attributes.aSpeed.array;
+
+        for (let i = 0; i < count; i++) {
+            // t = vertical position 0→1, animated upward, wraps at 1.
+            let t = (offsets[i] + time * HELIX_FLOW_SPEED * speeds[i]) % 1;
+            if (t < 0) t += 1; // safety for negative time edge cases
+
+            const y = by + t * bh;
+            const angle = dirSign * (t * HELIX_TURNS * Math.PI * 2);
+
+            // Pinch radius at top and bottom for an organic spindle shape.
+            const radiusFalloff = Math.sin(t * Math.PI); // 0 at ends, 1 in middle
+            const r = HELIX_RADIUS * (0.6 + 0.4 * radiusFalloff);
+
+            pos[i * 3 + 0] = bx + Math.cos(angle) * r;
+            pos[i * 3 + 1] = y;
+            pos[i * 3 + 2] = Math.sin(angle) * r;
+        }
+
+        helix.geometry.attributes.position.needsUpdate = true;
+    };
+
+    // ── Particles — three parallax layers + cream stardust ─
     const particleLayers = [];
 
     function makeParticleLayer({ count, sizeAvg, baseOpacity, yRange, drift, color }) {
@@ -381,23 +447,24 @@ function renderThree(container) {
         yRange: [2, 6],
         drift: { y: 0.0002, x: 0.0001 },
     });
-    // White stardust layer — bright, twinkling, mid-depth
+    // White stardust layer
     makeParticleLayer({
         count: 350,
         sizeAvg: 0.06,
         baseOpacity: 0.85,
         yRange: [0.5, 5],
         drift: { y: 0.0004, x: 0.0002 },
-        color: 0xF5F1EA,
+        color: COLOR.cream,
     });
 
     // ── Labels (HTML overlay) ────────────────────────────
-    const labels = []; // { el, world: Vector3, kind: 'month' | 'peak', screenYOffset }
+    const labels = []; // { el, world: Vector3, kind, screenYOffset }
 
     SEASONS.forEach((s, i) => {
         const x = beamX[i];
-        const terrainY = sampleTerrainY(x);
-        const height = s.height * 0.35;
+        const beam = beams[i];
+        const height = beam.height;
+        const beamBaseY = beam.beamBaseY;
 
         const monthEl = document.createElement('div');
         monthEl.className = 'ch03-seasonal__label ch03-seasonal__label--month';
@@ -405,7 +472,7 @@ function renderThree(container) {
         labelsRoot.appendChild(monthEl);
         labels.push({
             el: monthEl,
-            world: new THREE.Vector3(x, terrainY + 0.05, 0),
+            world: new THREE.Vector3(x, beamBaseY + 0.05, 0),
             kind: 'month',
             screenYOffset: 20,
         });
@@ -417,7 +484,7 @@ function renderThree(container) {
             labelsRoot.appendChild(peakEl);
             labels.push({
                 el: peakEl,
-                world: new THREE.Vector3(x, terrainY + height + 0.3, 0),
+                world: new THREE.Vector3(x, beamBaseY + height + 0.3, 0),
                 kind: 'peak',
                 screenYOffset: 0,
             });
@@ -443,7 +510,6 @@ function renderThree(container) {
             const label = labels[i];
             projVec.copy(label.world).project(camera);
 
-            // Hide labels that fall behind the camera (z>1 in NDC after project)
             if (projVec.z > 1) {
                 if (label.el.style.display !== 'none') label.el.style.display = 'none';
                 continue;
@@ -454,7 +520,6 @@ function renderThree(container) {
             let sx = (projVec.x * 0.5 + 0.5) * w;
             let sy = (-projVec.y * 0.5 + 0.5) * h + label.screenYOffset;
 
-            // Clamp inside canvas so peak labels never bleed outside
             sx = Math.max(40, Math.min(w - 40, sx));
             sy = Math.max(20, Math.min(h - 20, sy));
 
@@ -467,7 +532,7 @@ function renderThree(container) {
     const render = () => {
         const t = (performance.now() - startTime) / 1000;
 
-        // Particles drift — 3 layers at different speeds
+        // Ambient particle drift — 4 layers at different speeds
         for (let li = 0; li < particleLayers.length; li++) {
             const layer = particleLayers[li];
             const arr = layer.geometry.attributes.position.array;
@@ -483,6 +548,11 @@ function renderThree(container) {
                 if (arr[ix + 0] > 8) arr[ix + 0] = -8;
             }
             layer.geometry.attributes.position.needsUpdate = true;
+        }
+
+        // Helix streams — wrap upward around peak beams
+        for (let hi = 0; hi < helices.length; hi++) {
+            updateHelix(helices[hi], t);
         }
 
         if (!REDUCED_MOTION) {
@@ -503,12 +573,6 @@ function renderThree(container) {
                 const pulse = Math.sin(t * 1.2 + b.phase) * 0.05;
                 b.mesh.material.opacity = b.baseOpacity + pulse;
             }
-
-            // Sprite halo subtle drift — inner only
-            for (let i = 0; i < beamGlowSprites.length; i++) {
-                const g = beamGlowSprites[i];
-                g.inner.position.y = g.baseY + Math.sin(t * 0.4 + i * 0.7) * 0.04;
-            }
         }
 
         renderer.render(scene, camera);
@@ -519,18 +583,12 @@ function renderThree(container) {
     // ── Entrance animation ───────────────────────────────
     const setBeamFinalState = () => {
         beams.forEach((b) => { b.mesh.scale.y = 1; });
-        beamGlowSprites.forEach((g) => {
-            g.inner.material.opacity = 0.35;
-            g.outer.material.opacity = 0.12;
-        });
+        helices.forEach((h) => { h.material.opacity = HELIX_OPACITY; });
     };
 
     const setBeamStartState = () => {
         beams.forEach((b) => { b.mesh.scale.y = 0; });
-        beamGlowSprites.forEach((g) => {
-            g.inner.material.opacity = 0;
-            g.outer.material.opacity = 0;
-        });
+        helices.forEach((h) => { h.material.opacity = 0; });
     };
 
     const playEntrance = () => {
@@ -554,21 +612,17 @@ function renderThree(container) {
             });
         });
 
-        // Sprite halos fade in alongside their beam (same stagger)
-        beamGlowSprites.forEach((g) => {
-            const delay = g.beamIdx * 0.08;
-            gsap.to(g.inner.material, {
-                opacity: 0.35,
-                duration: 1.5,
-                delay,
-                ease: 'expo.out',
-            });
-            gsap.to(g.outer.material, {
-                opacity: 0.12,
-                duration: 1.5,
-                delay,
-                ease: 'expo.out',
-            });
+        // Helices fade in after beams complete (1.5s delay)
+        helices.forEach((h) => {
+            gsap.fromTo(h.material,
+                { opacity: 0 },
+                {
+                    opacity: HELIX_OPACITY,
+                    duration: 1.5,
+                    delay: 1.5,
+                    ease: 'power2.out',
+                }
+            );
         });
 
         // Camera entrance — flag entered=true only at end
@@ -584,12 +638,10 @@ function renderThree(container) {
         });
     };
 
-    // For reduced motion: skip entrance, set everything to final state
     if (REDUCED_MOTION) {
         setBeamFinalState();
         entered = true;
     } else {
-        // Pre-shrink so no flash before IO fires
         setBeamStartState();
     }
 
@@ -621,7 +673,7 @@ function renderThree(container) {
     };
     container.addEventListener('mousemove', onMouseMove);
 
-    // ── Resize handling (in-mode only — breakpoint switch handled outside) ─
+    // ── Resize handling (in-mode only) ───────────────────
     const onInternalResize = () => {
         const w = container.clientWidth;
         const h = container.clientHeight;
@@ -634,7 +686,7 @@ function renderThree(container) {
         }
     };
 
-    // First static render for reduced motion or before IO fires
+    // First static render before IO fires
     renderer.render(scene, camera);
     updateLabels();
 
@@ -649,12 +701,17 @@ function renderThree(container) {
 
         if (window.gsap) {
             beams.forEach((b) => window.gsap.killTweensOf(b.mesh.scale));
-            beamGlowSprites.forEach((g) => {
-                window.gsap.killTweensOf(g.inner.material);
-                window.gsap.killTweensOf(g.outer.material);
-            });
+            helices.forEach((h) => window.gsap.killTweensOf(h.material));
             window.gsap.killTweensOf(camera.position);
         }
+
+        // Explicit helix disposal (also covered by scene.traverse below).
+        helices.forEach((h) => {
+            scene.remove(h.points);
+            h.geometry.dispose();
+            h.material.dispose();
+        });
+        helices.length = 0;
 
         // Dispose all geometries + materials in the scene tree.
         scene.traverse((obj) => {
@@ -668,7 +725,7 @@ function renderThree(container) {
             }
         });
 
-        // Dispose the shared glow texture (referenced by every sprite material).
+        // Shared glow texture (referenced by particle layers + helices).
         glowTexture.dispose();
 
         renderer.dispose();
