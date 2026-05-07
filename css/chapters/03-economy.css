@@ -1084,3 +1084,58 @@
         padding: var(--space-3) 4px 0;
     }
 }
+
+/* ──────────────────────────────────────────
+   BLOCK 10b — Seasonal peaks (Three.js terrain, desktop)
+────────────────────────────────────────── */
+.ch03-seasonal__chart[data-seasonal-mode="three"] {
+    position: relative;
+    display: block;
+    height: 500px;
+    padding: 0;
+    overflow: hidden;
+    background: var(--color-ink);
+}
+
+.ch03-seasonal__canvas {
+    position: absolute;
+    inset: 0;
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+.ch03-seasonal__labels {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 2;
+}
+
+.ch03-seasonal__label {
+    position: absolute;
+    top: 0;
+    left: 0;
+    white-space: nowrap;
+    user-select: none;
+    will-change: transform;
+}
+
+.ch03-seasonal__label--month {
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    color: var(--color-slate);
+    text-transform: uppercase;
+    text-shadow: 0 0 12px rgba(0, 0, 0, 0.8);
+}
+
+.ch03-seasonal__label--peak {
+    font-family: var(--font-ui, 'Inter', sans-serif);
+    font-weight: 400;
+    font-size: 11px;
+    color: var(--color-cream);
+    letter-spacing: 0.02em;
+    text-shadow: 0 0 12px rgba(0, 0, 0, 0.8);
+}
+
