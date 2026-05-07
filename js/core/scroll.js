@@ -83,14 +83,14 @@ export function initSmoothScroll() {
         return null;
     }
 
-    // Initialize Lenis
+    // Initialize Lenis — low-latency lerp, native-ish feel,
+    // but gentle enough not to skip the hero scrub fade.
     lenis = new Lenis({
-        duration: 0.8,                           // scroll duration (seconds)
-        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), // expo ease out
+        lerp: 0.10,                              // slightly less aggressive catch-up
         orientation: 'vertical',
         gestureOrientation: 'vertical',
         smoothWheel: true,
-        wheelMultiplier: 1,
+        wheelMultiplier: 1,                      // back to 1 — keeps hero fade legible
         touchMultiplier: 2,
         infinite: false,
     });

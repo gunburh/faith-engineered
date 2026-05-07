@@ -1,0 +1,541 @@
+/* ============================================================
+   05-about.css — Faith Engineered · Sources & About
+   Editorial meta section. 60/40 grid. Accordion sources list.
+   ============================================================ */
+
+.sources-section > article {
+    width: 100%;
+    max-width: 1280px;
+    margin-inline: auto;
+    padding-inline: var(--space-7);
+}
+
+/* ──────────────────────────────────────────
+   Header — eyebrow + divider + logo lockup
+────────────────────────────────────────── */
+.ch05-header {
+    margin-bottom: var(--space-9);
+}
+
+.ch05-header__eyebrow {
+    font-family: var(--font-ui);
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--color-gold);
+    margin: 0;
+}
+
+.ch05-header__divider {
+    width: 100%;
+    height: 1px;
+    border: 0;
+    background: var(--color-line);
+    margin: var(--space-2) 0 var(--space-6);
+}
+
+.ch05-header__logo {
+    display: block;
+    margin-top: var(--space-4);
+}
+
+.ch05-header__logo-img {
+    width: 400px;
+    max-width: 100%;
+    height: auto;
+    display: block;
+    filter: drop-shadow(0 0 24px rgba(255, 255, 255, 0.18));
+}
+
+/* ──────────────────────────────────────────
+   Two-column grid · 60/40 with 48px gap
+────────────────────────────────────────── */
+.ch05-grid {
+    display: grid;
+    grid-template-columns: 60fr 40fr;
+    gap: 48px;
+    align-items: start;
+}
+
+.ch05-left,
+.ch05-right {
+    min-width: 0;
+}
+
+.ch05-left {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-9);
+}
+
+.ch05-right {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-5);
+}
+
+/* ──────────────────────────────────────────
+   Block primitives
+────────────────────────────────────────── */
+.ch05-block {
+    display: block;
+}
+
+/* Standard chapter-style eyebrow */
+.ch05-block__eyebrow {
+    font-family: var(--font-ui);
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--color-gold);
+    margin: 0 0 var(--space-4);
+    max-width: none;
+    width: 100%;
+    display: block;
+    padding-bottom: var(--space-3);
+    border-bottom: 1px solid var(--color-line);
+    opacity: 1;
+}
+
+/* Thai-bold "| THE PROJECT" eyebrow variant */
+.ch05-block__th-eyebrow {
+    font-family: var(--font-display-th);
+    font-weight: 700;
+    font-size: 24px;
+    color: var(--color-gold);
+    margin: 0 0 var(--space-4);
+    letter-spacing: 0.02em;
+    max-width: none;
+    opacity: 1;
+}
+
+.ch05-block__rule {
+    width: 100%;
+    height: 1px;
+    border: 0;
+    background: var(--color-line);
+    margin: 0 0 var(--space-4);
+}
+
+.ch05-block__lead {
+    font-family: var(--font-display-en);
+    font-style: italic;
+    font-weight: 400;
+    font-size: 22px;
+    line-height: 1.55;
+    color: var(--color-cream);
+    margin: 0;
+    max-width: none;
+    opacity: 0.95;
+}
+
+.ch05-block__name {
+    font-family: var(--font-display-en);
+    font-weight: 600;
+    font-size: 40px;
+    line-height: 1.05;
+    color: var(--color-cream);
+    margin: 0 0 var(--space-2);
+    text-transform: uppercase;
+    letter-spacing: 0.19em;
+    text-shadow: 0 0 18px rgba(255, 255, 255, 0.18);
+}
+
+.ch05-block__sub {
+    font-family: var(--font-ui);
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 1.55;
+    color: var(--color-slate);
+    margin: 0;
+    max-width: none;
+    opacity: 1;
+}
+
+/* ──────────────────────────────────────────
+   Accordion (Block 3 — Research Sources)
+────────────────────────────────────────── */
+.ch05-accordion {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+}
+
+.ch05-accordion-row {
+    background: var(--color-charcoal);
+    border-radius: 12px;
+    border: 1px solid rgba(245, 241, 234, 0.08);
+    border-left: 2px solid transparent;
+    transition: border-color var(--motion-base) var(--ease-brand),
+                box-shadow var(--motion-base) var(--ease-brand);
+    overflow: hidden;
+}
+
+.ch05-accordion-row[data-expanded="true"] {
+    border-left-color: var(--color-gold);
+    box-shadow: 0 0 13px rgba(201, 169, 97, 0.3);
+}
+
+/* Row head — clickable button */
+.ch05-accordion-row__head {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr auto auto;
+    gap: var(--space-4);
+    align-items: center;
+    padding: var(--space-4) var(--space-5);
+    background: transparent;
+    border: 0;
+    cursor: pointer;
+    text-align: left;
+    color: inherit;
+    font-family: inherit;
+}
+
+.ch05-accordion-row__head:focus-visible {
+    outline: 2px solid var(--color-gold);
+    outline-offset: 2px;
+}
+
+.ch05-accordion-row__title {
+    font-family: var(--font-ui);
+    font-weight: 500;
+    font-size: 14px;
+    color: var(--color-cream);
+}
+
+.ch05-accordion-row__count {
+    font-family: var(--font-ui);
+    font-weight: 400;
+    font-size: 12px;
+    color: var(--color-slate);
+}
+
+.ch05-accordion-row__chevron {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    color: var(--color-gold);
+    font-family: var(--font-mono);
+    font-size: 18px;
+    line-height: 1;
+    transform: rotate(0deg);
+    transition: transform var(--motion-base) var(--ease-brand);
+}
+
+.ch05-accordion-row[data-expanded="true"] .ch05-accordion-row__chevron {
+    transform: rotate(90deg);
+}
+
+/* Body — grid-template-rows trick for height: 0 → auto animation */
+.ch05-accordion-row__body {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows var(--motion-slow) var(--ease-brand);
+}
+
+.ch05-accordion-row[data-expanded="true"] .ch05-accordion-row__body {
+    grid-template-rows: 1fr;
+}
+
+.ch05-accordion-row__inner {
+    min-height: 0;
+    overflow: hidden;
+    padding: 0 var(--space-5);
+}
+
+.ch05-accordion-row__urls {
+    list-style: none;
+    margin: 0;
+    padding: 0 0 var(--space-5);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    counter-reset: src;
+    border-top: 1px solid var(--color-line);
+    margin-top: var(--space-2);
+    padding-top: var(--space-4);
+}
+
+.ch05-accordion-row__urls li {
+    counter-increment: src;
+    position: relative;
+    padding-left: 30px;
+    font-family: var(--font-mono);
+    font-weight: 400;
+    font-size: 11px;
+    line-height: 1.8;
+    color: var(--color-slate);
+}
+
+.ch05-accordion-row__urls li::before {
+    content: counter(src, decimal-leading-zero);
+    position: absolute;
+    left: 0;
+    top: 0;
+    color: var(--color-gold);
+    opacity: 0.6;
+}
+
+.ch05-accordion-row__urls a {
+    color: var(--color-slate);
+    text-decoration: none;
+    transition: color var(--motion-fast) var(--ease-out);
+    overflow-wrap: anywhere;
+}
+
+.ch05-accordion-row__urls a:hover {
+    color: var(--color-gold);
+    text-decoration: underline;
+}
+
+/* ──────────────────────────────────────────
+   Block 4 — Visual Designs Credits (bullet list)
+────────────────────────────────────────── */
+.ch05-credits-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+}
+
+.ch05-credits-list li {
+    position: relative;
+    padding-left: var(--space-4);
+    font-family: var(--font-ui);
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 1.55;
+    color: var(--color-cream);
+    max-width: none;
+    opacity: 1;
+}
+
+.ch05-credits-list li::before {
+    content: "·";
+    position: absolute;
+    left: 0;
+    color: var(--color-gold);
+    font-size: 18px;
+    line-height: 1.4;
+}
+
+/* ──────────────────────────────────────────
+   Block 5 — Typography credits (no-border table)
+────────────────────────────────────────── */
+.ch05-typography {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+}
+
+.ch05-typography__row {
+    display: grid;
+    grid-template-columns: minmax(180px, max-content) 1fr;
+    column-gap: var(--space-5);
+    align-items: baseline;
+}
+
+.ch05-typography__row dt {
+    font-family: var(--font-mono);
+    font-weight: 400;
+    font-size: 14px;
+    color: var(--color-cream);
+    margin: 0;
+}
+
+.ch05-typography__row dd {
+    font-family: var(--font-ui);
+    font-weight: 400;
+    font-size: 14px;
+    color: var(--color-slate);
+    margin: 0;
+    padding-left: 0;
+    opacity: 1;
+}
+
+/* ──────────────────────────────────────────
+   Right column · cards
+────────────────────────────────────────── */
+.ch05-card {
+    background: var(--color-charcoal);
+    border: 1px solid rgba(245, 241, 234, 0.08);
+    border-radius: 16px;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+}
+
+.ch05-card__icon {
+    width: 24px;
+    height: 24px;
+    object-fit: contain;
+    filter: drop-shadow(0 0 6px rgba(201, 169, 97, 0.45));
+}
+
+.ch05-card__title {
+    font-family: var(--font-ui);
+    font-weight: 500;
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-cream);
+    margin: 0;
+    padding-bottom: var(--space-3);
+    border-bottom: 1px solid var(--color-line);
+}
+
+.ch05-card__body {
+    font-family: var(--font-ui);
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--color-cream);
+    margin: 0;
+    max-width: none;
+    opacity: 0.8;
+}
+
+.ch05-card__link {
+    align-self: flex-start;
+    margin-top: var(--space-2);
+    font-family: var(--font-mono);
+    font-weight: 400;
+    font-size: 12px;
+    color: var(--color-gold);
+    text-decoration: none;
+    transition: text-decoration var(--motion-fast) var(--ease-out);
+    overflow-wrap: anywhere;
+}
+
+.ch05-card__link:hover {
+    text-decoration: underline;
+    color: var(--color-gold-leaf);
+}
+
+/* Tech stack table inside Card 2 */
+.ch05-tech {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+}
+
+.ch05-tech__row {
+    display: grid;
+    grid-template-columns: minmax(110px, max-content) 1fr;
+    column-gap: var(--space-4);
+    align-items: baseline;
+}
+
+.ch05-tech__row dt {
+    font-family: var(--font-mono);
+    font-weight: 400;
+    font-size: 12px;
+    color: var(--color-cream);
+    margin: 0;
+}
+
+.ch05-tech__row dd {
+    font-family: var(--font-ui);
+    font-weight: 400;
+    font-size: 12px;
+    color: var(--color-slate);
+    margin: 0;
+    padding-left: 0;
+    opacity: 1;
+}
+
+/* Final visual video card */
+.ch05-final {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 387 / 512;
+    border-radius: 16px;
+    overflow: hidden;
+    background: var(--color-ink);
+}
+
+.ch05-final::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: var(--color-ink);
+    z-index: 0;
+}
+
+.ch05-final__video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    mix-blend-mode: lighten;
+    display: block;
+    z-index: 1;
+}
+
+/* ──────────────────────────────────────────
+   PREFERS-REDUCED-MOTION
+────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+
+    .ch05-accordion-row,
+    .ch05-accordion-row__chevron,
+    .ch05-accordion-row__body,
+    .ch05-card__link {
+        transition: none;
+    }
+
+    .ch05-final__video {
+        display: none;
+    }
+}
+
+/* ──────────────────────────────────────────
+   RESPONSIVE
+────────────────────────────────────────── */
+@media (max-width: 1023px) {
+
+    .ch05-grid {
+        grid-template-columns: minmax(0, 1fr);
+        gap: var(--space-7);
+    }
+
+    .ch05-header__logo-img {
+        width: 320px;
+    }
+}
+
+@media (max-width: 767px) {
+
+    .sources-section > article {
+        padding-inline: var(--space-5);
+    }
+
+    .ch05-block__lead {
+        font-size: 18px;
+    }
+
+    .ch05-block__name {
+        font-size: 30px;
+        letter-spacing: 0.1em;
+    }
+
+    .ch05-accordion-row__head {
+        padding: var(--space-3) var(--space-4);
+    }
+
+    .ch05-typography__row {
+        grid-template-columns: minmax(0, 1fr);
+        row-gap: 4px;
+    }
+}

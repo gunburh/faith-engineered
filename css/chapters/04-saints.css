@@ -1,107 +1,670 @@
 /* ============================================================
-   04-saints.css — Faith Engineered · Chapter 4
-   Portrait grid system. 4 saint cards.
+   04-saints.css — Faith Engineered · Chapter 4: The New Saints
+   Hi-fi spec match: 7 blocks
+   1. Header (oxblood "S")  2. Opening video  3. Viral timeline
+   4. THE FOUR (zigzag staggered)  5. THE PATTERN (4-card grid)
+   6. Pull quote  7. Closing
    ============================================================ */
 
-/* Saint card */
-.saint-card {
-    display: flex;
-    flex-direction: column;
-    gap: 0;
-    overflow: hidden;
-    border: 1px solid rgba(245, 241, 234, 0.06);
-    border-radius: 4px;
-    cursor: pointer;
-    transition: border-color var(--motion-base) var(--ease-out);
+.chapter--saints > article {
+    max-width: 1280px;
 }
 
-.saint-card:hover {
-    border-color: rgba(201, 169, 97, 0.25);
-}
-
-/* Image wrapper — aspect ratio container */
-.saint-card__image-wrapper {
-    position: relative;
-    aspect-ratio: 3 / 4;
-    overflow: hidden;
-    background: rgba(245, 241, 234, 0.04);
-    /* placeholder bg */
-}
-
-.saint-card__image {
+/* ──────────────────────────────────────────
+   Reusable section label
+────────────────────────────────────────── */
+.ch04-section-label {
+    font-family: var(--font-ui);
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--color-gold);
+    margin: 0 0 var(--space-7);
+    max-width: none;
     width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: center top;
-    transition: transform var(--motion-slow) var(--ease-brand),
-        filter var(--motion-slow) var(--ease-out);
-    filter: grayscale(0.3) contrast(1.05);
-}
-
-.saint-card:hover .saint-card__image {
-    transform: scale(1.04);
-    filter: grayscale(0) contrast(1.08);
-}
-
-/* Overlay — darkens on hover to reveal caption */
-.saint-card__overlay {
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(to top,
-            rgba(10, 10, 10, 0.8) 0%,
-            rgba(10, 10, 10, 0) 50%);
-    opacity: 0.6;
-    transition: opacity var(--motion-base) var(--ease-out);
-}
-
-.saint-card:hover .saint-card__overlay {
+    display: block;
+    padding-bottom: var(--space-3);
+    border-bottom: 1px solid var(--color-line);
     opacity: 1;
 }
 
-/* Caption */
-.saint-card__caption {
-    padding: var(--space-4);
-    background: rgba(10, 10, 10, 0.95);
-    border-top: 1px solid rgba(245, 241, 234, 0.06);
+/* ──────────────────────────────────────────
+   BLOCK 1 — Chapter header (oxblood "S")
+────────────────────────────────────────── */
+.ch04-header {
     display: flex;
     flex-direction: column;
-    gap: var(--space-1);
+    gap: var(--space-3);
+    margin-bottom: var(--space-9);
 }
 
-.saint-card__name {
-    font-family: var(--font-display-en);
-    font-size: var(--text-h4);
-    font-weight: 400;
-    color: var(--color-cream);
-    line-height: 1.2;
-}
-
-[data-lang="th"] .saint-card__name {
-    font-family: var(--font-display-th);
-}
-
-.saint-card__role {
+.ch04-header__eyebrow {
     font-family: var(--font-ui);
-    font-size: var(--text-caption);
+    font-size: 12px;
     font-weight: 500;
-    letter-spacing: 0.08em;
+    letter-spacing: 0.15em;
     text-transform: uppercase;
     color: var(--color-gold);
-    opacity: 0.7;
-    max-width: none;
+    margin: 0;
 }
 
-.saint-card__desc {
-    font-size: var(--text-small);
-    opacity: 0.6;
+.ch04-header__divider {
+    width: 100%;
+    height: 1px;
+    border: 0;
+    background: var(--color-line);
+    margin: var(--space-2) 0 var(--space-5);
+}
+
+.ch04-headline {
+    font-family: var(--font-display-en);
+    font-weight: 500;
+    font-style: normal;
+    font-size: clamp(3.5rem, 9vw, 96px);
+    line-height: 1;
+    letter-spacing: 0.005em;
+    text-transform: none;       /* "The" stays mixed-case, "NEW SAINTS" already uppercase in markup */
+    color: var(--color-cream);
+    text-shadow: 0 0 25px rgba(255, 255, 255, 0.55);
+    margin: 0;
+}
+
+/* The typographic moment — final "S" recoloured oxblood */
+.ch04-headline__s {
+    color: var(--color-oxblood);
+    text-shadow: 0 0 24px rgba(107, 31, 46, 0.55);
+}
+
+.ch04-header__subhead {
+    font-family: var(--font-display-th);
+    font-weight: 400;
+    font-size: 24px;
+    color: var(--color-slate);
+    margin: 0;
+    max-width: none;
+    opacity: 1;
+}
+
+.ch04-header__lead {
+    font-family: var(--font-display-en);
+    font-style: italic;
+    font-weight: 400;
+    font-size: 22px;
     line-height: 1.5;
+    color: var(--color-cream);
+    margin: var(--space-3) 0 0;
+    max-width: 80ch;
+    opacity: 1;
+}
+
+/* ──────────────────────────────────────────
+   BLOCK 2 — Opening video
+────────────────────────────────────────── */
+.ch04-opening {
+    width: 1200px;
+    max-width: 100%;
+    height: 514px;
+    margin: var(--space-9) auto;
+    border-radius: 0;
+    overflow: hidden;
+    background: var(--color-ink);
+}
+
+.ch04-opening__video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+/* ──────────────────────────────────────────
+   BLOCK 3 — Viral timeline 2015 → 2025
+────────────────────────────────────────── */
+.ch04-timeline {
+    margin-block: var(--space-9);
+}
+
+.ch04-timeline__lead {
+    font-family: var(--font-display-en);
+    font-style: italic;
+    font-weight: 400;
+    font-size: 22px;
+    line-height: 1.5;
+    color: var(--color-cream);
+    margin: 0 0 var(--space-8);
+    max-width: 90ch;
+    opacity: 0.92;
+}
+
+.ch04-timeline__chart {
+    position: relative;
+    padding: 110px 24px 0;       /* room for the dot + name labels above the bar */
+}
+
+.ch04-timeline__track {
+    position: relative;
+    height: 2px;
+    border-radius: 100px;
+    background: linear-gradient(to right,
+            rgba(245, 241, 234, 0.28) 0%,
+            rgba(245, 241, 234, 0.5) 50%,
+            rgba(245, 241, 234, 0.28) 100%);
+}
+
+/* ── Dot markers — positioned absolutely by --pos and tinted by --dot-color ── */
+.ch04-timeline__dot {
+    position: absolute;
+    top: 50%;
+    left: var(--pos, 0%);
+    transform: translate(-50%, -50%);
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: var(--dot-color, var(--color-gold));
+    box-shadow:
+        0 0 12px var(--dot-color, var(--color-gold)),
+        0 0 24px color-mix(in srgb, var(--dot-color, var(--color-gold)) 50%, transparent);
+}
+
+.ch04-timeline__dot--oxblood { --dot-color: #6B1F2E; }
+.ch04-timeline__dot--gold    { --dot-color: #C9A961; }
+.ch04-timeline__dot--violet  { --dot-color: #8A38F5; }
+.ch04-timeline__dot--cream   { --dot-color: #F5F1EA; }
+
+/* Saint name floating above each dot */
+.ch04-timeline__name {
+    position: absolute;
+    bottom: 22px;
+    left: 50%;
+    transform: translateX(-50%);
+    white-space: nowrap;
+    font-family: var(--font-display-en);
+    font-style: italic;
+    font-weight: 400;
+    font-size: 18px;
+    color: var(--color-cream);
+    text-shadow: 0 0 18px rgba(0, 0, 0, 0.6);
+}
+
+/* Year ticks below the bar */
+.ch04-timeline__years {
+    list-style: none;
+    margin: var(--space-4) 0 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(11, minmax(0, 1fr));
+    column-gap: 0;
+}
+
+.ch04-timeline__years li {
+    text-align: center;
+    font-family: var(--font-mono);
+    font-weight: 400;
+    font-size: 10px;
+    letter-spacing: 0.04em;
+    color: var(--color-slate);
+    position: relative;
+}
+
+.ch04-timeline__years li::before {
+    content: "";
+    position: absolute;
+    top: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 1px;
+    height: 6px;
+    background: rgba(245, 241, 234, 0.25);
+}
+
+/* ──────────────────────────────────────────
+   BLOCK 4 — THE FOUR (zigzag staggered gallery)
+────────────────────────────────────────── */
+.ch04-four {
+    margin-block: var(--space-9);
+}
+
+/* ── Saint container · alternates left/right · holds card + sculpture ── */
+.ch04-saint {
+    position: relative;
+    width: 589px;
+    max-width: 100%;
+    margin-block: 200px var(--space-9); /* big top margin so sculpture has room above */
+    overflow: visible;                  /* sculpture must escape upward */
+}
+
+.ch04-saint:first-of-type { margin-top: var(--space-7); }
+
+.ch04-saint--left  { margin-inline: 0 auto;   /* hugs left  edge of article */ }
+.ch04-saint--right { margin-inline: auto 0;   /* hugs right edge of article */ }
+
+/* Per-saint accent colour — used by tag, sub-eyebrows, card stroke, sculpture glow */
+.ch04-saint--oxblood { --saint-color: var(--color-oxblood); }
+.ch04-saint--gold    { --saint-color: var(--color-gold); }
+.ch04-saint--violet  { --saint-color: #8A38F5; }
+
+/* ── Card body ── */
+.ch04-saint__card {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    height: 468px;
+    border-radius: 20px;
+    background: var(--color-charcoal);
+    border: 1px solid var(--saint-color, rgba(245, 241, 234, 0.12));
+    padding: var(--space-6);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    box-shadow:
+        0 0 0 1px color-mix(in srgb, var(--saint-color, transparent) 30%, transparent),
+        0 24px 60px rgba(0, 0, 0, 0.4);
+}
+
+/* ── Sculpture image — breaks ABOVE the card ── */
+.ch04-saint__sculpture {
+    position: absolute;
+    top: -180px;
+    width: 320px;
+    height: auto;
+    object-fit: contain;
+    pointer-events: none;
+    z-index: 2;
+    /* progressive fade-out of the sculpture's bottom edge into the card */
+    -webkit-mask-image: linear-gradient(to top, transparent 0%, #000 28%, #000 100%);
+    mask-image: linear-gradient(to top, transparent 0%, #000 28%, #000 100%);
+    filter: drop-shadow(0 0 20px color-mix(in srgb, var(--saint-color, var(--color-gold)) 45%, transparent));
+}
+
+/* Sculpture sits on the OPPOSITE side from the card alignment so it
+   peeks over the card edge, not over the page margin. */
+.ch04-saint--art-right .ch04-saint__sculpture { right: 24px; }
+.ch04-saint--art-left  .ch04-saint__sculpture { left: 24px; }
+
+/* ── Card content ── */
+.ch04-saint__tag {
+    display: inline-flex;
+    align-items: center;
+    align-self: flex-start;
+    height: 24px;
+    padding: 0 12px;
+    border-radius: 100px;
+    background: var(--saint-color, var(--color-gold));
+    color: var(--color-cream);
+    font-family: var(--font-ui);
+    font-weight: 500;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    line-height: 1;
+    /* gold tag → dark text for contrast */
+}
+
+.ch04-saint--gold .ch04-saint__tag {
+    color: var(--color-ink);
+}
+
+.ch04-saint__name {
+    font-family: var(--font-display-en);
+    font-weight: 400;
+    font-size: 48px;
+    line-height: 1.05;
+    color: var(--color-cream);
+    margin: 0;
+    text-shadow: 0 0 20px rgba(255, 255, 255, 0.18);
+}
+
+.ch04-saint__origin {
+    font-family: var(--font-ui);
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 1.55;
+    color: var(--color-cream);
+    opacity: 0.85;
+    margin: 0;
+    max-width: none;
+    padding-bottom: var(--space-3);
+    border-bottom: 1px solid var(--color-line);
+}
+
+.ch04-saint__sub {
+    font-family: var(--font-ui);
+    font-weight: 500;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--saint-color, var(--color-gold));
+    margin: var(--space-2) 0 var(--space-1);
+}
+
+.ch04-saint__body {
+    font-family: var(--font-ui);
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 1.55;
+    color: var(--color-cream);
+    opacity: 0.85;
+    margin: 0;
     max-width: none;
 }
 
-/* Mobile: 1 column */
+/* ──────────────────────────────────────────
+   BLOCK 5 — THE PATTERN
+────────────────────────────────────────── */
+.ch04-pattern {
+    margin-block: var(--space-9);
+}
+
+.ch04-pattern__lead {
+    font-family: var(--font-display-en);
+    font-style: italic;
+    font-weight: 400;
+    font-size: 22px;
+    line-height: 1.5;
+    color: var(--color-cream);
+    margin: 0 0 var(--space-7);
+    max-width: 90ch;
+    opacity: 0.92;
+}
+
+.ch04-pattern__row {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 284px));
+    gap: var(--space-4);
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.ch04-pattern-card {
+    width: 100%;
+    min-height: 197px;
+    border-radius: 12px;
+    background: var(--color-charcoal);
+    border: 1px solid var(--saint-color, rgba(245, 241, 234, 0.12));
+    padding: var(--space-4);
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.ch04-pattern-card--oxblood { --saint-color: var(--color-oxblood); }
+.ch04-pattern-card--gold    { --saint-color: var(--color-gold); }
+.ch04-pattern-card--violet  { --saint-color: #8A38F5; }
+
+.ch04-pattern-card__name {
+    font-family: var(--font-ui);
+    font-weight: 500;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--saint-color, var(--color-gold));
+}
+
+.ch04-pattern-card__rule {
+    width: 100%;
+    height: 1px;
+    border: 0;
+    background: var(--color-line);
+    margin: var(--space-3) 0;
+}
+
+.ch04-pattern-card__lbl {
+    font-family: var(--font-mono);
+    font-weight: 400;
+    font-size: 10px;
+    letter-spacing: 0.06em;
+    color: var(--color-slate);
+    margin: var(--space-2) 0 4px;
+    max-width: none;
+    opacity: 1;
+}
+
+.ch04-pattern-card__lbl:first-of-type { margin-top: 0; }
+
+.ch04-pattern-card__val {
+    font-family: var(--font-ui);
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 1.4;
+    color: var(--color-cream);
+    margin: 0;
+    max-width: none;
+    opacity: 1;
+}
+
+/* ──────────────────────────────────────────
+   BLOCK 6 — Closing pull quote
+────────────────────────────────────────── */
+.ch04-pullquote {
+    margin: var(--space-10) auto;
+    padding: 0;
+    border: 0;
+    text-align: center;
+    max-width: 90ch;
+}
+
+.ch04-pullquote p {
+    font-family: var(--font-display-en);
+    font-style: italic;
+    font-weight: 600;
+    font-size: clamp(1.75rem, 3.6vw, 40px);
+    line-height: 1.35;
+    color: var(--color-cream);
+    margin: 0;
+    max-width: none;
+    opacity: 1;
+    text-shadow: 0 0 24px rgba(255, 255, 255, 0.18);
+}
+
+/* ──────────────────────────────────────────
+   BLOCK 7 — Closing visual + scroll cue
+────────────────────────────────────────── */
+.ch04-closing {
+    margin-top: var(--space-10);
+}
+
+.ch04-closing__media {
+    position: relative;
+    width: 794px;
+    max-width: 100%;
+    height: 443px;
+    margin: 0 auto;
+}
+
+.ch04-closing__media::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: var(--color-ink);
+    z-index: 0;
+}
+
+.ch04-closing__video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    mix-blend-mode: lighten;
+    display: block;
+    z-index: 1;
+}
+
+.ch04-closing__endlabel {
+    margin: var(--space-7) 0 var(--space-3);
+    font-family: var(--font-ui);
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--color-gold);
+    max-width: none;
+    opacity: 1;
+}
+
+.ch04-closing__line {
+    width: 100%;
+    height: 1px;
+    border: 0;
+    background: var(--color-line);
+    margin: 0 0 var(--space-5);
+}
+
+.ch04-closing__cue {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-2);
+}
+
+.ch04-closing__cue-label {
+    font-family: var(--font-ui);
+    font-weight: 500;
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: #FFF1CC;
+    opacity: 0.7;
+    margin: 0;
+}
+
+.ch04-closing__cue-title {
+    font-family: var(--font-display-en);
+    font-style: italic;
+    font-weight: 400;
+    font-size: 20px;
+    color: var(--color-cream);
+    margin: 0;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    max-width: none;
+    opacity: 1;
+}
+
+.ch04-closing__cue-line {
+    width: 1px;
+    height: 220px;
+    margin-top: var(--space-4);
+    margin-left: 24px;
+    background: linear-gradient(to bottom,
+            rgba(255, 241, 204, 0.85) 0%,
+            rgba(255, 241, 204, 0.55) 25%,
+            rgba(255, 241, 204, 0.25) 60%,
+            rgba(255, 241, 204, 0) 100%);
+    position: relative;
+    transform-origin: top;
+    animation: scroll-cue-draw 2.6s var(--ease-brand) infinite;
+}
+
+.ch04-closing__cue-line::after {
+    content: "";
+    position: absolute;
+    left: -3px;
+    top: 0;
+    width: 7px;
+    height: 100%;
+    background: linear-gradient(to bottom,
+            rgba(255, 241, 204, 0.20),
+            rgba(255, 241, 204, 0));
+    filter: blur(3px);
+    pointer-events: none;
+}
+
+/* ──────────────────────────────────────────
+   PREFERS-REDUCED-MOTION
+────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+
+    .ch04-saint__sculpture,
+    .ch04-closing__cue-line,
+    .ch04-timeline__dot {
+        transition: none;
+        animation: none;
+    }
+
+    .ch04-opening__video,
+    .ch04-closing__video {
+        display: none;
+    }
+}
+
+/* ──────────────────────────────────────────
+   RESPONSIVE
+────────────────────────────────────────── */
+@media (max-width: 1023px) {
+
+    .ch04-saint {
+        width: 100%;
+        margin-inline: auto;
+        margin-top: 220px;
+    }
+
+    .ch04-saint__sculpture {
+        width: 280px;
+        top: -200px;
+    }
+
+    .ch04-pattern__row {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
 @media (max-width: 767px) {
-    .saints-grid {
-        grid-template-columns: repeat(2, 1fr);
-        gap: var(--space-3);
+
+    .ch04-headline {
+        font-size: clamp(3rem, 14vw, 4.5rem);
+    }
+
+    .ch04-header__subhead {
+        font-size: 18px;
+    }
+
+    .ch04-header__lead,
+    .ch04-timeline__lead,
+    .ch04-pattern__lead {
+        font-size: 18px;
+    }
+
+    .ch04-opening,
+    .ch04-closing__media {
+        width: 100%;
+        height: auto;
+        aspect-ratio: 1200 / 514;
+    }
+
+    .ch04-saint__card {
+        height: auto;
+        min-height: 460px;
+        padding: var(--space-5);
+    }
+
+    .ch04-saint__name {
+        font-size: 36px;
+    }
+
+    .ch04-saint__sculpture {
+        width: 220px;
+        top: -160px;
+    }
+
+    .ch04-saint--art-right .ch04-saint__sculpture { right: 8px; }
+    .ch04-saint--art-left  .ch04-saint__sculpture { left: 8px; }
+
+    .ch04-pattern__row {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .ch04-pullquote p {
+        font-size: 22px;
+    }
+
+    .ch04-timeline__chart {
+        padding-top: 90px;
+    }
+
+    .ch04-timeline__name {
+        font-size: 14px;
     }
 }

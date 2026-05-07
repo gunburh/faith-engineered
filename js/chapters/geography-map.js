@@ -1,3 +1,5 @@
+import { bindScrollChevrons } from '../utils.js';
+
 /**
  * geography-map.js — Faith Engineered · Chapter 02 · The Geography of Luck
  *
@@ -287,7 +289,9 @@ export function initGeographyMap() {
     const mapEl = document.getElementById('ch02-map');
     const detailEl = document.querySelector('[data-shrine-detail]');
     const rowEl = document.querySelector('[data-shrine-row]');
-    const chevronEl = document.querySelector('[data-shrine-chevron]');
+    const viewportEl = rowEl?.parentElement || null;
+    const rightChevron = document.querySelector('[data-shrine-chevron][data-direction="right"]');
+    const leftChevron  = document.querySelector('[data-shrine-chevron][data-direction="left"]');
 
     if (!mapEl || !detailEl || !rowEl) return;
 
@@ -325,12 +329,15 @@ export function initGeographyMap() {
         activateShrine(btn.dataset.shrineId, ctx);
     });
 
-    // Chevron → scroll the row
-    if (chevronEl) {
-        chevronEl.addEventListener('click', () => {
-            rowEl.scrollBy({ left: 285 + 12, behavior: 'smooth' });
-        });
-    }
+    // Chevrons — right scrolls forward, left returns to start.
+    // Toggles data-scroll-end on the viewport so CSS can swap their visibility.
+    bindScrollChevrons({
+        viewport: viewportEl,
+        row: rowEl,
+        rightBtn: rightChevron,
+        leftBtn: leftChevron,
+        step: 285 + 12,
+    });
 
     // Default selection (uses behavior: 'smooth' scrollIntoView; harmless on init)
     activateShrine(DEFAULT_SHRINE_ID, ctx);

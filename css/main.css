@@ -25,6 +25,7 @@
 @import 'chapters/02-geography.css';
 @import 'chapters/03-economy.css';
 @import 'chapters/04-saints.css';
+@import 'chapters/05-about.css';
 
 /* 5. Utilities — highest specificity, load last */
 @import 'utilities.css';

@@ -15,7 +15,10 @@
  */
 
 const REDUCED_MOTION = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-const SCRUB_PX_PER_SECOND = 300;
+// Longer scrub distance per video-second → more scroll required to traverse
+// the hero, which gives the cross-dissolve room to read as gradual under
+// snappy wheel input.
+const SCRUB_PX_PER_SECOND = 500;
 // Only scrub through the first N% of bg05 (1.0 = full video, 0.5 = first half)
 const BG05_PLAYBACK_FRACTION = 0.5;
 
@@ -103,13 +106,13 @@ export function initHeroVideo() {
             },
         });
 
-        // Snappier fade: bg02 + hero content over first ~30% of scrub,
-        // bg05 settles in slightly faster (22%) so the new layer is in place
-        // before the old one is fully gone — overlap/cross-dissolve feel.
-        tl.to(bg02, { opacity: 0, duration: 0.25, ease: 'power1.inOut' }, 0);
+        // Snappy crossfade — fades happen early in the scrub so bg05 has
+        // time to "hold" before chapter-01 enters. Scrub area is still wide
+        // (SCRUB_PX_PER_SECOND = 500) so the fade isn't completed instantly.
+        tl.to(bg02, { opacity: 0, duration: 0.28, ease: 'power1.inOut' }, 0);
         tl.to(bg05, { opacity: 1, duration: 0.22, ease: 'power1.inOut' }, 0);
         if (heroContent) {
-            tl.to(heroContent, { opacity: 0, duration: 0.30, ease: 'power1.inOut' }, 0);
+            tl.to(heroContent, { opacity: 0, duration: 0.32, ease: 'power1.inOut' }, 0);
         }
 
         // Full scrub: bg05.currentTime dragged 0 → duration

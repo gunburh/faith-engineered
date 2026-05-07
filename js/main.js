@@ -21,6 +21,8 @@ import { initHeroVideo }      from './chapters/hero-video.js';
 import { initHeroSmoke }      from './chapters/hero-smoke.js';
 import { initStackBuild }     from './chapters/stack-build.js';
 import { initGeographyMap }   from './chapters/geography-map.js';
+import { initEconomyInteractions } from './chapters/economy-interactions.js';
+import { initAboutAccordion }  from './chapters/about-accordion.js';
 // import { initMotion }         from './core/motion.js';
 // import { initHeroSmoke }      from './chapters/hero-smoke.js';
 // import { initStackDiagram }   from './chapters/stack-diagram.js';
@@ -51,6 +53,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     initHeroSmoke();
     initStackBuild();
     initGeographyMap();
+    initEconomyInteractions();
+    initAboutAccordion();
 
     // Pause videos that are off-screen — biggest scroll-jank fix on this page.
     initVideoVisibilityGate();

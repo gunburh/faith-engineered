@@ -17,6 +17,63 @@
     pointer-events: none; /* nav itself controls pointer-events */
 }
 
+/* ── Progressive-blur backdrop strip behind the floating nav ──
+   Only visible when the nav itself is visible (i.e. user has scrolled
+   past the hero — JS sets [data-nav][data-visible="true"]).
+   Hidden over the hero so it never overlaps the smoke canvas. */
+.site-header::before,
+.site-header::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 200px;
+    z-index: -1;
+    pointer-events: none;
+    opacity: 0;            /* hidden by default — shown when nav is visible */
+    transition: opacity var(--motion-base) var(--ease-brand);
+}
+
+.site-header::before {
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+
+    /* Multi-stop mask so the blur strength tapers — no hard bottom edge */
+    -webkit-mask-image: linear-gradient(to bottom,
+            rgba(0, 0, 0, 1)    0%,
+            rgba(0, 0, 0, 1)    20%,
+            rgba(0, 0, 0, 0.85) 40%,
+            rgba(0, 0, 0, 0.6)  55%,
+            rgba(0, 0, 0, 0.35) 70%,
+            rgba(0, 0, 0, 0.15) 85%,
+            rgba(0, 0, 0, 0)    100%);
+    mask-image: linear-gradient(to bottom,
+            rgba(0, 0, 0, 1)    0%,
+            rgba(0, 0, 0, 1)    20%,
+            rgba(0, 0, 0, 0.85) 40%,
+            rgba(0, 0, 0, 0.6)  55%,
+            rgba(0, 0, 0, 0.35) 70%,
+            rgba(0, 0, 0, 0.15) 85%,
+            rgba(0, 0, 0, 0)    100%);
+}
+
+.site-header::after {
+    /* Pure gradient tint that ends at full transparency — no box-shadow */
+    background: linear-gradient(to bottom,
+            rgba(10, 10, 10, 0.78) 0%,
+            rgba(10, 10, 10, 0.62) 30%,
+            rgba(10, 10, 10, 0.40) 55%,
+            rgba(10, 10, 10, 0.18) 78%,
+            rgba(10, 10, 10, 0)    100%);
+}
+
+/* When the nav is visible, fade the strip in along with it */
+.site-header:has([data-nav][data-visible="true"])::before,
+.site-header:has([data-nav][data-visible="true"])::after {
+    opacity: 1;
+}
+
 /* ─── Nav visibility transition ─── */
 /* The <nav> is a transparent flex wrapper — each child is its own floating pill */
 [data-nav] {
