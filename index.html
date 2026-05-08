@@ -11,7 +11,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
-        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300..700;1,300..700&family=IBM+Plex+Thai:wght@300;400;500;600&family=IBM+Plex+Thai+Looped:wght@300;400;500&family=Inter:wght@400;500;600;700&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300..700;1,300..700&family=IBM+Plex+Sans+Thai:wght@300;400;500;600&family=IBM+Plex+Sans+Thai+Looped:wght@300;400;500&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
         rel="stylesheet">
 
     <!-- Leaflet (Chapter 02 — Bangkok shrine map) -->
@@ -150,7 +150,7 @@
 
                 <!-- Scroll cue (decorative, hidden from screen readers) -->
                 <div class="scroll-cue" aria-hidden="true">
-                    <span class="scroll-cue__label">SCROLL</span>
+                    <span class="scroll-cue__label" data-i18n="hero.scrollCue">SCROLL</span>
                     <div class="scroll-cue__line"></div>
                 </div>
             </div>
@@ -167,11 +167,11 @@
 
                 <!-- ─── BLOCK 1 · Chapter header ─── -->
                 <header class="ch01-header">
-                    <p class="ch01-header__eyebrow">CHAPTER 01</p>
+                    <p class="ch01-header__eyebrow" data-i18n="ch01.header.eyebrow">CHAPTER 01</p>
                     <hr class="ch01-header__divider">
-                    <h2 id="ch01-title" class="ch01-headline">The <em>Stack</em></h2>
-                    <p class="ch01-header__subhead">| Six Layers, One System</p>
-                    <p class="ch01-header__lead">
+                    <h2 id="ch01-title" class="ch01-headline" data-i18n-html="ch01.header.headline">The <em>Stack</em></h2>
+                    <p class="ch01-header__subhead" data-i18n="ch01.header.subhead">| Six Layers, One System</p>
+                    <p class="ch01-header__lead" data-i18n-html="ch01.header.lead">
                         One Thai person, one day, six belief systems, zero contradictions.<br>
                         The Thai spiritual stack is not syncretism — it is architecture.
                     </p>
@@ -198,7 +198,7 @@
 
                 <!-- ─── BLOCK 3 · Stack diagram ─── -->
                 <section class="ch01-stack-section" aria-labelledby="ch01-stack-label">
-                    <p id="ch01-stack-label" class="ch01-section-label">Belief System Stack</p>
+                    <p id="ch01-stack-label" class="ch01-section-label" data-i18n="ch01.labels.stack">Belief System Stack</p>
 
                     <div class="ch01-stack-grid">
 
@@ -303,7 +303,7 @@
 
                 <!-- ─── BLOCK 4 · Why this is not syncretism ─── -->
                 <section class="ch01-syncretism" aria-labelledby="ch01-syncretism-label">
-                    <p id="ch01-syncretism-label" class="ch01-section-label">Why This Is Not Syncretism</p>
+                    <p id="ch01-syncretism-label" class="ch01-section-label" data-i18n="ch01.labels.syncretism">Why This Is Not Syncretism</p>
                     <p class="ch01-syncretism__lead">
                         Western observers call Thai spirituality "syncretic" — mixing incompatible systems.<br>
                         This is wrong. The Stack is modular. Each layer has a defined function.
@@ -346,8 +346,8 @@
                     </div>
                     <hr class="ch01-closing__line">
                     <div class="ch01-closing__cue" aria-hidden="true">
-                        <p class="ch01-closing__cue-label">SCROLL ↓ CONTINUE TO CHAPTER 02</p>
-                        <p class="ch01-closing__cue-title"><em>The Geography of Luck</em></p>
+                        <p class="ch01-closing__cue-label" data-i18n="ch01.scrollCue.label">SCROLL ↓ CONTINUE TO CHAPTER 02</p>
+                        <p class="ch01-closing__cue-title" data-i18n-html="ch01.scrollCue.title"><em>The Geography of Luck</em></p>
                         <div class="ch01-closing__cue-line"></div>
                     </div>
                 </div>
@@ -365,11 +365,11 @@
 
                 <!-- ─── BLOCK 1 · Chapter header ─── -->
                 <header class="ch02-header">
-                    <p class="ch02-header__eyebrow">CHAPTER 02</p>
+                    <p class="ch02-header__eyebrow" data-i18n="ch02.header.eyebrow">CHAPTER 02</p>
                     <hr class="ch02-header__divider">
-                    <h2 id="ch02-title" class="ch02-headline">The <em>Geography of Luck</em></h2>
-                    <p class="ch02-header__subhead">| Coordinates of Fortune</p>
-                    <p class="ch02-header__lead">
+                    <h2 id="ch02-title" class="ch02-headline" data-i18n-html="ch02.header.headline">The <em>Geography of Luck</em></h2>
+                    <p class="ch02-header__subhead" data-i18n="ch02.header.subhead">| Coordinates of Fortune</p>
+                    <p class="ch02-header__lead" data-i18n-html="ch02.header.lead">
                         Bangkok is not a city with shrines.<br>
                         Bangkok is a city that is a shrine — with districts in between.
                     </p>
@@ -386,7 +386,7 @@
 
                 <!-- ─── BLOCK 3 · Bangkok Shrine Map (signature interaction) ─── -->
                 <section class="ch02-mapsection" aria-labelledby="ch02-map-label">
-                    <p id="ch02-map-label" class="ch02-section-label">Bangkok Shrine Map</p>
+                    <p id="ch02-map-label" class="ch02-section-label" data-i18n="ch02.labels.shrineMap">Bangkok Shrine Map</p>
 
                     <div class="ch02-mapgrid">
                         <div id="ch02-map" class="ch02-map" role="application"
@@ -404,7 +404,7 @@
 
                 <!-- ─── BLOCK 4 · All 6 Shrines row ─── -->
                 <section class="ch02-shrines" aria-labelledby="ch02-shrines-label">
-                    <p id="ch02-shrines-label" class="ch02-section-label">All 6 Shrines</p>
+                    <p id="ch02-shrines-label" class="ch02-section-label" data-i18n="ch02.labels.allShrines">All 6 Shrines</p>
                     <div class="ch02-shrines__viewport" data-scroll-end="false">
                         <ul class="ch02-shrines__row" data-shrine-row role="list"></ul>
                         <button class="fe-chevron ch02-shrines__chevron" data-shrine-chevron data-direction="right"
@@ -420,7 +420,7 @@
 
                 <!-- ─── BLOCK 5 · The Infrastructure Thesis ─── -->
                 <section class="ch02-thesis" aria-labelledby="ch02-thesis-label">
-                    <p id="ch02-thesis-label" class="ch02-section-label">The Infrastructure Thesis</p>
+                    <p id="ch02-thesis-label" class="ch02-section-label" data-i18n="ch02.labels.thesis">The Infrastructure Thesis</p>
                     <p class="ch02-thesis__lead">
                         Thailand has productized spirituality.<br>
                         Every shrine is a specialized service with a known success rate and a known price.
@@ -463,8 +463,8 @@
                     </div>
                     <hr class="ch02-closing__line">
                     <div class="ch02-closing__cue" aria-hidden="true">
-                        <p class="ch02-closing__cue-label">SCROLL ↓ CONTINUE TO CHAPTER 03</p>
-                        <p class="ch02-closing__cue-title"><em>The Offering Economy</em></p>
+                        <p class="ch02-closing__cue-label" data-i18n="ch02.scrollCue.label">SCROLL ↓ CONTINUE TO CHAPTER 03</p>
+                        <p class="ch02-closing__cue-title" data-i18n-html="ch02.scrollCue.title"><em>The Offering Economy</em></p>
                         <div class="ch02-closing__cue-line"></div>
                     </div>
                 </div>
@@ -482,11 +482,11 @@
 
                 <!-- ─── BLOCK 1 · Chapter header ─── -->
                 <header class="ch03-header">
-                    <p class="ch03-header__eyebrow">CHAPTER 03</p>
+                    <p class="ch03-header__eyebrow" data-i18n="ch03.header.eyebrow">CHAPTER 03</p>
                     <hr class="ch03-header__divider">
-                    <h2 id="ch03-title" class="ch03-headline">The <em>Offering Economy</em></h2>
-                    <p class="ch03-header__subhead">| Sacred Transactions</p>
-                    <p class="ch03-header__lead">
+                    <h2 id="ch03-title" class="ch03-headline" data-i18n-html="ch03.header.headline">The <em>Offering Economy</em></h2>
+                    <p class="ch03-header__subhead" data-i18n="ch03.header.subhead">| Sacred Transactions</p>
+                    <p class="ch03-header__lead" data-i18n-html="ch03.header.lead">
                         A ฿20 marigold garland × millions of transactions per day<br>
                         = billions in annual flow. This is not superstition. This is finance.
                     </p>
@@ -511,7 +511,7 @@
 
                 <!-- ─── BLOCK 4 · Key Metrics ─── -->
                 <section class="ch03-metrics-section" aria-labelledby="ch03-metrics-label">
-                    <p id="ch03-metrics-label" class="ch03-section-label">Key Metrics</p>
+                    <p id="ch03-metrics-label" class="ch03-section-label" data-i18n="ch03.labels.metrics">Key Metrics</p>
                     <ul class="ch03-metrics" role="list">
                         <li class="ch03-metric">
                             <p class="ch03-metric__num">73<span>%</span></p>
@@ -533,7 +533,7 @@
 
                 <!-- ─── BLOCK 5 · The Parallel Economy ─── -->
                 <section class="ch03-parallel" aria-labelledby="ch03-parallel-label">
-                    <p id="ch03-parallel-label" class="ch03-section-label">The Parallel Economy</p>
+                    <p id="ch03-parallel-label" class="ch03-section-label" data-i18n="ch03.labels.parallel">The Parallel Economy</p>
 
                     <div class="ch03-parallel__pair">
                         <figure class="ch03-parallel__item">
@@ -571,7 +571,7 @@
 
                 <!-- ─── BLOCK 7 · Comparative Scale ─── -->
                 <section class="ch03-compare" aria-labelledby="ch03-compare-label">
-                    <p id="ch03-compare-label" class="ch03-section-label">Comparative Scale</p>
+                    <p id="ch03-compare-label" class="ch03-section-label" data-i18n="ch03.labels.compare">Comparative Scale</p>
 
                     <ul class="ch03-compare__list" role="list">
 
@@ -624,7 +624,7 @@
 
                 <!-- ─── BLOCK 8 · The Value Chain ─── -->
                 <section class="ch03-chain" aria-labelledby="ch03-chain-label">
-                    <p id="ch03-chain-label" class="ch03-section-label">The Value Chain</p>
+                    <p id="ch03-chain-label" class="ch03-section-label" data-i18n="ch03.labels.chain">The Value Chain</p>
                     <p class="ch03-chain__lead">
                         <em>Where ฿20 flows — from farm to offering table</em>
                     </p>
@@ -699,7 +699,7 @@
 
                 <!-- ─── BLOCK 9 · Slider — What ฿B Buys ─── -->
                 <section class="ch03-slider" aria-labelledby="ch03-slider-label">
-                    <p id="ch03-slider-label" class="ch03-section-label">What ฿B Buys</p>
+                    <p id="ch03-slider-label" class="ch03-section-label" data-i18n="ch03.labels.slider">What ฿B Buys</p>
                     <p class="ch03-slider__lead">
                         <em>Drag the slider to explore purchasing power in the offering economy</em>
                     </p>
@@ -733,7 +733,7 @@
 
                 <!-- ─── BLOCK 10 · Seasonal Peaks ─── -->
                 <section class="ch03-seasonal" aria-labelledby="ch03-seasonal-label">
-                    <p id="ch03-seasonal-label" class="ch03-section-label">Seasonal Peaks</p>
+                    <p id="ch03-seasonal-label" class="ch03-section-label" data-i18n="ch03.labels.seasonal">Seasonal Peaks</p>
                     <div class="ch03-seasonal__chart" data-seasonal-chart
                         aria-label="Relative monthly demand for offerings"></div>
                 </section>
@@ -754,8 +754,8 @@
 
                     <hr class="ch03-closing__line">
                     <div class="ch03-closing__cue" aria-hidden="true">
-                        <p class="ch03-closing__cue-label">SCROLL ↓ CONTINUE TO CHAPTER 04</p>
-                        <p class="ch03-closing__cue-title"><em>The New Saints</em></p>
+                        <p class="ch03-closing__cue-label" data-i18n="ch03.scrollCue.label">SCROLL ↓ CONTINUE TO CHAPTER 04</p>
+                        <p class="ch03-closing__cue-title" data-i18n-html="ch03.scrollCue.title"><em>The New Saints</em></p>
                         <div class="ch03-closing__cue-line"></div>
                     </div>
                 </div>
@@ -773,12 +773,12 @@
 
                 <!-- ─── BLOCK 1 · Chapter header ─── -->
                 <header class="ch04-header">
-                    <p class="ch04-header__eyebrow">CHAPTER 04</p>
+                    <p class="ch04-header__eyebrow" data-i18n="ch04.header.eyebrow">CHAPTER 04</p>
                     <hr class="ch04-header__divider">
-                    <h2 id="ch04-title" class="ch04-headline">The <span class="ch04-headline__main">NEW SAINT<span
+                    <h2 id="ch04-title" class="ch04-headline" data-i18n-html="ch04.header.headline">The <span class="ch04-headline__main">NEW SAINT<span
                                 class="ch04-headline__s">S</span></span></h2>
-                    <p class="ch04-header__subhead">| The Reinvention of Sanctity</p>
-                    <p class="ch04-header__lead">
+                    <p class="ch04-header__subhead" data-i18n="ch04.header.subhead">| The Reinvention of Sanctity</p>
+                    <p class="ch04-header__lead" data-i18n="ch04.header.lead">
                         Meet the spiritual startups that scaled faster than most Silicon Valley companies.
                     </p>
                 </header>
@@ -791,7 +791,7 @@
 
                 <!-- ─── BLOCK 3 · Viral Timeline ─── -->
                 <section class="ch04-timeline" aria-labelledby="ch04-timeline-label">
-                    <p id="ch04-timeline-label" class="ch04-section-label">Viral Timeline</p>
+                    <p id="ch04-timeline-label" class="ch04-section-label" data-i18n="ch04.labels.timeline">Viral Timeline</p>
                     <p class="ch04-timeline__lead">
                         Thailand iterates its pantheon faster than any religion on earth.<br>
                         Four spirits, four different anxieties, four different eras. All coexisting. All functional.
@@ -808,32 +808,39 @@
 
                 <!-- ─── BLOCK 4 · THE FOUR (zigzag staggered gallery) ─── -->
                 <section class="ch04-four" aria-labelledby="ch04-four-label">
-                    <p id="ch04-four-label" class="ch04-section-label">The Four</p>
+                    <p id="ch04-four-label" class="ch04-section-label" data-i18n="ch04.labels.four">The Four</p>
 
                     <!-- 1. NANG KWAK — left, sculpture top-right -->
                     <article class="ch04-saint ch04-saint--left ch04-saint--oxblood ch04-saint--art-right">
                         <img class="ch04-saint__sculpture" src="assets/images/saints/saint1_ch4.png"
                             alt="Nang Kwak sculpture" aria-hidden="false">
                         <div class="ch04-saint__card">
-                            <span class="ch04-saint__tag">SMALL BUSINESS CULTURE</span>
                             <h3 class="ch04-saint__name">Nang Kwak</h3>
+                            <span class="ch04-saint__tag">SMALL BUSINESS CULTURE</span>
 
-                            <p class="ch04-saint__origin">
-                                Traditional Thai folk spirit — the beckoning woman.
-                                Predates all modern saints.
-                            </p>
+                            <div class="ch04-saint__section">
+                                <h4 class="ch04-saint__eyebrow">Origin</h4>
+                                <p class="ch04-saint__body">
+                                    Traditional Thai folk spirit — the beckoning woman.
+                                    Predates all modern saints.
+                                </p>
+                            </div>
 
-                            <h4 class="ch04-saint__sub">THE VIRAL MOMENT</h4>
-                            <p class="ch04-saint__body">
-                                Not viral — perennial. Found in every Thai shop, restaurant, taxi.
-                                The "stable classic."
-                            </p>
+                            <div class="ch04-saint__section">
+                                <h4 class="ch04-saint__eyebrow">THE VIRAL MOMENT</h4>
+                                <p class="ch04-saint__body">
+                                    Not viral — perennial. Found in every Thai shop, restaurant, taxi.
+                                    The "stable classic."
+                                </p>
+                            </div>
 
-                            <h4 class="ch04-saint__sub">WHAT IT SAYS</h4>
-                            <p class="ch04-saint__body">
-                                Female entrepreneurship + small business culture.
-                                Reliability over spectacle.
-                            </p>
+                            <div class="ch04-saint__section">
+                                <h4 class="ch04-saint__eyebrow">WHAT IT SAYS</h4>
+                                <p class="ch04-saint__body">
+                                    Female entrepreneurship + small business culture.
+                                    Reliability over spectacle.
+                                </p>
+                            </div>
                         </div>
                     </article>
 
@@ -842,25 +849,32 @@
                         <img class="ch04-saint__sculpture" src="assets/images/saints/saint2_ch4.png"
                             alt="Ai Khai sculpture" aria-hidden="false">
                         <div class="ch04-saint__card">
-                            <span class="ch04-saint__tag">FAST MONEY CULTURE</span>
                             <h3 class="ch04-saint__name">Ai Khai</h3>
+                            <span class="ch04-saint__tag">FAST MONEY CULTURE</span>
 
-                            <p class="ch04-saint__origin">
-                                Child spirit of Wat Chedi, Nakhon Si Thammarat.
-                                Known for granting lottery luck.
-                            </p>
+                            <div class="ch04-saint__section">
+                                <h4 class="ch04-saint__eyebrow">Origin</h4>
+                                <p class="ch04-saint__body">
+                                    Child spirit of Wat Chedi, Nakhon Si Thammarat.
+                                    Known for granting lottery luck.
+                                </p>
+                            </div>
 
-                            <h4 class="ch04-saint__sub">THE VIRAL MOMENT</h4>
-                            <p class="ch04-saint__body">
-                                Viral moment: winner credited Ai Khai on national TV, 2019.
-                                Replicas sold out within 48 hours.
-                            </p>
+                            <div class="ch04-saint__section">
+                                <h4 class="ch04-saint__eyebrow">THE VIRAL MOMENT</h4>
+                                <p class="ch04-saint__body">
+                                    Viral moment: winner credited Ai Khai on national TV, 2019.
+                                    Replicas sold out within 48 hours.
+                                </p>
+                            </div>
 
-                            <h4 class="ch04-saint__sub">WHAT IT SAYS</h4>
-                            <p class="ch04-saint__body">
-                                Gambling culture + "fast money" spirituality —
-                                the lottery as economic ladder.
-                            </p>
+                            <div class="ch04-saint__section">
+                                <h4 class="ch04-saint__eyebrow">WHAT IT SAYS</h4>
+                                <p class="ch04-saint__body">
+                                    Gambling culture + "fast money" spirituality —
+                                    the lottery as economic ladder.
+                                </p>
+                            </div>
                         </div>
                     </article>
 
@@ -869,24 +883,31 @@
                         <img class="ch04-saint__sculpture" src="assets/images/saints/saint3_ch4.png"
                             alt="Taowessuwan sculpture" aria-hidden="false">
                         <div class="ch04-saint__card">
-                            <span class="ch04-saint__tag">ECONOMIC ANXIETY</span>
                             <h3 class="ch04-saint__name">Taowessuwan</h3>
+                            <span class="ch04-saint__tag">ECONOMIC ANXIETY</span>
 
-                            <p class="ch04-saint__origin">
-                                Buddhist guardian deity — Vaisravana.
-                                Known since ancient times but spiked in 2022.
-                            </p>
+                            <div class="ch04-saint__section">
+                                <h4 class="ch04-saint__eyebrow">Origin</h4>
+                                <p class="ch04-saint__body">
+                                    Buddhist guardian deity — Vaisravana.
+                                    Known since ancient times but spiked in 2022.
+                                </p>
+                            </div>
 
-                            <h4 class="ch04-saint__sub">THE VIRAL MOMENT</h4>
-                            <p class="ch04-saint__body">
-                                Viral moment: 2022 amulet shortage. Thai amulet market hit
-                                record sales, attributed to economic uncertainty.
-                            </p>
+                            <div class="ch04-saint__section">
+                                <h4 class="ch04-saint__eyebrow">THE VIRAL MOMENT</h4>
+                                <p class="ch04-saint__body">
+                                    Viral moment: 2022 amulet shortage. Thai amulet market hit
+                                    record sales, attributed to economic uncertainty.
+                                </p>
+                            </div>
 
-                            <h4 class="ch04-saint__sub">WHAT IT SAYS</h4>
-                            <p class="ch04-saint__body">
-                                Protection culture — economic anxiety displaced into ritual armor.
-                            </p>
+                            <div class="ch04-saint__section">
+                                <h4 class="ch04-saint__eyebrow">WHAT IT SAYS</h4>
+                                <p class="ch04-saint__body">
+                                    Protection culture — economic anxiety displaced into ritual armor.
+                                </p>
+                            </div>
                         </div>
                     </article>
 
@@ -895,32 +916,39 @@
                         <img class="ch04-saint__sculpture" src="assets/images/saints/saint4_ch4.png"
                             alt="Kru Kai Kaew sculpture" aria-hidden="false">
                         <div class="ch04-saint__card">
-                            <span class="ch04-saint__tag">FAST MONEY CULTURE</span>
                             <h3 class="ch04-saint__name">Kru Kai Kaew</h3>
+                            <span class="ch04-saint__tag">FAST MONEY CULTURE</span>
 
-                            <p class="ch04-saint__origin">
-                                Allegedly an ancient hermit spirit who materialized at a hotel
-                                in Bangkok, 2023.
-                            </p>
+                            <div class="ch04-saint__section">
+                                <h4 class="ch04-saint__eyebrow">Origin</h4>
+                                <p class="ch04-saint__body">
+                                    Allegedly an ancient hermit spirit who materialized at a hotel
+                                    in Bangkok, 2023.
+                                </p>
+                            </div>
 
-                            <h4 class="ch04-saint__sub">THE VIRAL MOMENT</h4>
-                            <p class="ch04-saint__body">
-                                Viral moment: hotel CCTV footage shared 4M times in 72 hours.
-                                LINE groups flooded.
-                            </p>
+                            <div class="ch04-saint__section">
+                                <h4 class="ch04-saint__eyebrow">THE VIRAL MOMENT</h4>
+                                <p class="ch04-saint__body">
+                                    Viral moment: hotel CCTV footage shared 4M times in 72 hours.
+                                    LINE groups flooded.
+                                </p>
+                            </div>
 
-                            <h4 class="ch04-saint__sub">WHAT IT SAYS</h4>
-                            <p class="ch04-saint__body">
-                                Post-pandemic spiritual anxiety — desire for direct,
-                                immediate divine intervention.
-                            </p>
+                            <div class="ch04-saint__section">
+                                <h4 class="ch04-saint__eyebrow">WHAT IT SAYS</h4>
+                                <p class="ch04-saint__body">
+                                    Post-pandemic spiritual anxiety — desire for direct,
+                                    immediate divine intervention.
+                                </p>
+                            </div>
                         </div>
                     </article>
                 </section>
 
                 <!-- ─── BLOCK 5 · THE PATTERN ─── -->
                 <section class="ch04-pattern" aria-labelledby="ch04-pattern-label">
-                    <p id="ch04-pattern-label" class="ch04-section-label">The Pattern</p>
+                    <p id="ch04-pattern-label" class="ch04-section-label" data-i18n="ch04.labels.pattern">The Pattern</p>
                     <p class="ch04-pattern__lead">
                         Each saint maps to an unmet need.<br>
                         Each went viral when that need became acute.
@@ -983,8 +1011,8 @@
                     <p class="ch04-closing__endlabel">End of Chapters</p>
                     <hr class="ch04-closing__line">
                     <div class="ch04-closing__cue" aria-hidden="true">
-                        <p class="ch04-closing__cue-label">SCROLL ↓ CONTINUE TO SOURCES &amp; ABOUT</p>
-                        <p class="ch04-closing__cue-title"><em>Sources &amp; About</em></p>
+                        <p class="ch04-closing__cue-label" data-i18n="ch04.scrollCue.label">SCROLL ↓ CONTINUE TO SOURCES &amp; ABOUT</p>
+                        <p class="ch04-closing__cue-title" data-i18n-html="ch04.scrollCue.title"><em>Sources &amp; About</em></p>
                         <div class="ch04-closing__cue-line"></div>
                     </div>
                 </div>
@@ -1001,7 +1029,7 @@
 
                 <!-- ─── Header ─── -->
                 <header class="ch05-header">
-                    <p class="ch05-header__eyebrow">SOURCES &amp; ABOUT</p>
+                    <p class="ch05-header__eyebrow" data-i18n="ch05.header.eyebrow">SOURCES &amp; ABOUT</p>
                     <hr class="ch05-header__divider">
                     <div class="ch05-header__logo">
                         <img src="assets/images/hero/hero_logo.png" alt="Faith Engineered" class="ch05-header__logo-img"
@@ -1017,7 +1045,7 @@
 
                         <!-- Block 1 · THE PROJECT -->
                         <section class="ch05-block" aria-labelledby="ch05-project-label">
-                            <p id="ch05-project-label" class="ch05-block__th-eyebrow">| THE PROJECT</p>
+                            <p id="ch05-project-label" class="ch05-block__th-eyebrow" data-i18n="ch05.labels.project">| THE PROJECT</p>
                             <p class="ch05-block__lead">
                                 Faith Engineered is a visual essay exploring Thai Mutelu — the layered
                                 spiritual culture that underlies modern Thai life. This project argues
@@ -1028,7 +1056,7 @@
 
                         <!-- Block 2 · THE AUTHOR -->
                         <section class="ch05-block" aria-labelledby="ch05-author-label">
-                            <p id="ch05-author-label" class="ch05-block__eyebrow">The Author</p>
+                            <p id="ch05-author-label" class="ch05-block__eyebrow" data-i18n="ch05.labels.author">The Author</p>
                             <h3 class="ch05-block__name">BHANUPONG CHOMCHIN</h3>
                             <p class="ch05-block__sub">
                                 College of Social Communication Innovation · Sophomore · SWU · Bangkok · 2026
@@ -1037,7 +1065,7 @@
 
                         <!-- Block 3 · RESEARCH SOURCES (accordion) -->
                         <section class="ch05-block" aria-labelledby="ch05-sources-label">
-                            <p id="ch05-sources-label" class="ch05-block__eyebrow">Research Sources</p>
+                            <p id="ch05-sources-label" class="ch05-block__eyebrow" data-i18n="ch05.labels.sources">Research Sources</p>
 
                             <div class="ch05-accordion" data-accordion role="list">
 
@@ -1290,8 +1318,7 @@
 
                         <!-- Block 4 · VISUAL DESIGNS CREDITS -->
                         <section class="ch05-block" aria-labelledby="ch05-visual-label">
-                            <p id="ch05-visual-label" class="ch05-block__eyebrow">Visual Designs Credits</p>
-                            <hr class="ch05-block__rule">
+                            <p id="ch05-visual-label" class="ch05-block__eyebrow" data-i18n="ch05.labels.visualCredits">Visual Designs Credits</p>
                             <ul class="ch05-credits-list" role="list">
                                 <li>AI-generated Visuals: Midjourney v7, GPT Image2</li>
                                 <li>Hero video and Chapter 4 Opening Visual: Higgsfield Cinema Studio Video</li>
@@ -1301,8 +1328,7 @@
 
                         <!-- Block 5 · TYPOGRAPHY CREDITS -->
                         <section class="ch05-block" aria-labelledby="ch05-type-label">
-                            <p id="ch05-type-label" class="ch05-block__eyebrow">Typography Credits</p>
-                            <hr class="ch05-block__rule">
+                            <p id="ch05-type-label" class="ch05-block__eyebrow" data-i18n="ch05.labels.typographyCredits">Typography Credits</p>
                             <dl class="ch05-typography">
                                 <div class="ch05-typography__row">
                                     <dt>Cormorant Garamond</dt>

@@ -388,21 +388,33 @@
     margin-block: var(--space-9);
 }
 
-/* ── Saint container · alternates left/right · holds card + sculpture ── */
+/* ── Saint row · 2-column grid (card + sculpture, side-by-side) ── */
 .ch04-saint {
     position: relative;
-    width: 589px;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    align-items: center;
+    column-gap: var(--space-7);
+    width: 100%;
     max-width: 100%;
-    margin-block: 200px var(--space-9); /* big top margin so sculpture has room above */
-    overflow: visible;                  /* sculpture must escape upward */
+    margin-block: var(--space-5);
+    overflow: visible;
+    /* Skip rendering rows that are off-screen — major scroll-perf win
+       since the drop-shadow filter on sculptures is expensive. */
+    content-visibility: auto;
+    contain-intrinsic-size: 1px 720px;
 }
 
-.ch04-saint:first-of-type { margin-top: var(--space-7); }
+.ch04-saint:first-of-type { margin-top: var(--space-5); }
 
-.ch04-saint--left  { margin-inline: 0 auto;   /* hugs left  edge of article */ }
-.ch04-saint--right { margin-inline: auto 0;   /* hugs right edge of article */ }
+/* Per-row column placement — `--art-left` puts sculpture in column 1
+   (card right), `--art-right` puts sculpture in column 2 (card left). */
+.ch04-saint--art-left  .ch04-saint__sculpture { grid-column: 1; grid-row: 1; }
+.ch04-saint--art-left  .ch04-saint__card      { grid-column: 2; grid-row: 1; }
+.ch04-saint--art-right .ch04-saint__sculpture { grid-column: 2; grid-row: 1; }
+.ch04-saint--art-right .ch04-saint__card      { grid-column: 1; grid-row: 1; }
 
-/* Per-saint accent colour — used by tag, sub-eyebrows, card stroke, sculpture glow */
+/* Per-saint accent colour — used by tag, sub-eyebrows, sculpture glow */
 .ch04-saint--oxblood { --saint-color: var(--color-oxblood); }
 .ch04-saint--gold    { --saint-color: var(--color-gold); }
 .ch04-saint--violet  { --saint-color: #8A38F5; }
@@ -412,38 +424,35 @@
     position: relative;
     z-index: 1;
     width: 100%;
-    height: 468px;
     border-radius: 20px;
     background: var(--color-charcoal);
-    border: 1px solid var(--saint-color, rgba(245, 241, 234, 0.12));
+    border: 1px solid rgba(245, 241, 234, 0.12); /* neutral gray stroke */
+    /* Equal padding all 4 sides — card auto-sizes to content. */
     padding: var(--space-6);
     display: flex;
     flex-direction: column;
     gap: var(--space-3);
-    box-shadow:
-        0 0 0 1px color-mix(in srgb, var(--saint-color, transparent) 30%, transparent),
-        0 24px 60px rgba(0, 0, 0, 0.4);
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.4);
 }
 
-/* ── Sculpture image — breaks ABOVE the card ── */
+/* ── Sculpture image — sits in its own grid column, no overlap ── */
 .ch04-saint__sculpture {
-    position: absolute;
-    top: -180px;
-    width: 320px;
+    position: static;
+    width: 100%;
+    max-width: 480px;
     height: auto;
+    max-height: 720px;
     object-fit: contain;
+    justify-self: center;
     pointer-events: none;
-    z-index: 2;
-    /* progressive fade-out of the sculpture's bottom edge into the card */
-    -webkit-mask-image: linear-gradient(to top, transparent 0%, #000 28%, #000 100%);
-    mask-image: linear-gradient(to top, transparent 0%, #000 28%, #000 100%);
-    filter: drop-shadow(0 0 20px color-mix(in srgb, var(--saint-color, var(--color-gold)) 45%, transparent));
+    /* Soft saint-colored glow rim around the figure */
+    filter: drop-shadow(0 0 24px color-mix(in srgb, var(--saint-color, var(--color-gold)) 30%, transparent));
+    /* Promote to its own GPU compositor layer so the drop-shadow is
+       rasterized ONCE and just composited on scroll — fixes scroll lag. */
+    transform: translateZ(0);
+    will-change: transform;
+    backface-visibility: hidden;
 }
-
-/* Sculpture sits on the OPPOSITE side from the card alignment so it
-   peeks over the card edge, not over the page margin. */
-.ch04-saint--art-right .ch04-saint__sculpture { right: 24px; }
-.ch04-saint--art-left  .ch04-saint__sculpture { left: 24px; }
 
 /* ── Card content ── */
 .ch04-saint__tag {
@@ -452,8 +461,8 @@
     align-self: flex-start;
     height: 24px;
     padding: 0 12px;
-    border-radius: 100px;
-    background: var(--saint-color, var(--color-gold));
+    border-radius: 5px;
+    background: color-mix(in srgb, var(--saint-color, var(--color-gold)) 35%, transparent);
     color: var(--color-cream);
     font-family: var(--font-ui);
     font-weight: 500;
@@ -461,13 +470,9 @@
     letter-spacing: 0.08em;
     text-transform: uppercase;
     line-height: 1;
-    /* gold tag → dark text for contrast */
 }
 
-.ch04-saint--gold .ch04-saint__tag {
-    color: var(--color-ink);
-}
-
+/* Saint name sits ABOVE the tag pill at the top of the card. */
 .ch04-saint__name {
     font-family: var(--font-display-en);
     font-weight: 400;
@@ -478,27 +483,26 @@
     text-shadow: 0 0 20px rgba(255, 255, 255, 0.18);
 }
 
-.ch04-saint__origin {
-    font-family: var(--font-ui);
-    font-weight: 400;
-    font-size: 14px;
-    line-height: 1.55;
-    color: var(--color-cream);
-    opacity: 0.85;
+/* Sub-section wrapper: top border = divider line between sections. */
+.ch04-saint__section {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    padding-top: var(--space-3);
+    border-top: 1px solid var(--color-line);
     margin: 0;
-    max-width: none;
-    padding-bottom: var(--space-3);
-    border-bottom: 1px solid var(--color-line);
 }
 
-.ch04-saint__sub {
+/* Eyebrow heading — Origin / THE VIRAL MOMENT / WHAT IT SAYS */
+.ch04-saint__eyebrow {
     font-family: var(--font-ui);
     font-weight: 500;
-    font-size: 11px;
+    font-size: 12px;
     letter-spacing: 0.1em;
-    text-transform: uppercase;
     color: var(--saint-color, var(--color-gold));
-    margin: var(--space-2) 0 var(--space-1);
+    margin: 0;
+    /* Case is controlled by HTML content — "Origin" is title case,
+       "THE VIRAL MOMENT" / "WHAT IT SAYS" stay uppercase as written. */
 }
 
 .ch04-saint__body {
@@ -543,7 +547,7 @@
 .ch04-pattern-card {
     width: 100%;
     min-height: 197px;
-    border-radius: 12px;
+    border-radius: 20px;
     background: var(--color-charcoal);
     border: 1px solid var(--saint-color, rgba(245, 241, 234, 0.12));
     padding: var(--space-4);
@@ -758,15 +762,24 @@
 ────────────────────────────────────────── */
 @media (max-width: 1023px) {
 
+    /* Tablet — collapse 2-column grid to single column.
+       Sculpture sits above each card. */
     .ch04-saint {
-        width: 100%;
-        margin-inline: auto;
-        margin-top: 220px;
+        grid-template-columns: minmax(0, 1fr);
+        gap: var(--space-5);
+    }
+    .ch04-saint--art-left  .ch04-saint__sculpture,
+    .ch04-saint--art-right .ch04-saint__sculpture {
+        grid-column: 1; grid-row: 1;
+    }
+    .ch04-saint--art-left  .ch04-saint__card,
+    .ch04-saint--art-right .ch04-saint__card {
+        grid-column: 1; grid-row: 2;
     }
 
     .ch04-saint__sculpture {
-        width: 280px;
-        top: -200px;
+        max-width: 360px;
+        max-height: 500px;
     }
 
     .ch04-pattern__row {
@@ -798,8 +811,6 @@
     }
 
     .ch04-saint__card {
-        height: auto;
-        min-height: 460px;
         padding: var(--space-5);
     }
 
@@ -808,12 +819,9 @@
     }
 
     .ch04-saint__sculpture {
-        width: 220px;
-        top: -160px;
+        max-width: 280px;
+        max-height: 400px;
     }
-
-    .ch04-saint--art-right .ch04-saint__sculpture { right: 8px; }
-    .ch04-saint--art-left  .ch04-saint__sculpture { left: 8px; }
 
     .ch04-pattern__row {
         grid-template-columns: minmax(0, 1fr);

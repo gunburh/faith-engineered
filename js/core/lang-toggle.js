@@ -63,12 +63,23 @@ async function loadCopy() {
 function applyLanguage(lang) {
     if (!copy) return; // copy.json not loaded yet
 
+    // Plain text mode — safe default. Strips any HTML in the JSON value.
     document.querySelectorAll('[data-i18n]').forEach(el => {
         const node = resolvePath(el.dataset.i18n);
         if (!node) return;
 
         const text = node[lang];
-        if (text) el.textContent = text;
+        if (typeof text === 'string') el.textContent = text;
+    });
+
+    // HTML mode — for headlines that contain <em>, <span>, etc. JSON values
+    // are trusted (authored by us, not user input).
+    document.querySelectorAll('[data-i18n-html]').forEach(el => {
+        const node = resolvePath(el.dataset.i18nHtml);
+        if (!node) return;
+
+        const html = node[lang];
+        if (typeof html === 'string') el.innerHTML = html;
     });
 }
 
@@ -128,8 +139,11 @@ function setLanguage(lang) {
 
     currentLang = lang;
 
-    // Update <html lang=""> for screen readers + CSS font switching
+    // Update <html lang=""> for screen readers AND data-lang for CSS
+    // selectors like `[data-lang="th"] .hero__subtitle { ... }`.
     document.documentElement.lang = lang;
+    document.documentElement.dataset.lang = lang;
+    if (document.body) document.body.dataset.lang = lang;
 
     // Crossfade: fade out → swap text → fade in (400ms per spec §2.3)
     const main = document.getElementById('main');
@@ -196,8 +210,10 @@ export async function initLanguageToggle() {
     // Load copy.json
     await loadCopy();
 
-    // Apply on first load
+    // Apply on first load — set BOTH `lang` and `data-lang` so CSS
+    // rules `[data-lang="th"] ...` activate from the very first paint.
     document.documentElement.lang = currentLang;
+    document.documentElement.dataset.lang = currentLang;
     applyLanguage(currentLang);
     updateToggleState(currentLang);
 

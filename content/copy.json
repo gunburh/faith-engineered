@@ -10,119 +10,251 @@
         },
         "subtitle": {
             "en": "Bangkok's spiritual infrastructure is not an accident of faith. It is a design system.",
-            "th": "โครงสร้างพื้นฐานทางจิตวิญญาณของกรุงเทพฯ ไม่ใช่อุบัติเหตุแห่งศรัทธา แต่คือระบบที่ถูกออกแบบ"
+            "th": "โครงสร้างทางจิตวิญญาณของกรุงเทพฯ ไม่ได้เกิดขึ้นโดยบังเอิญจากศรัทธา แต่มันคือระบบที่ถูกออกแบบไว้"
         },
         "cta": {
             "en": "BEGIN READING",
             "th": "เริ่มอ่าน"
-        }
-    },
-    "ch01": {
-        "eyebrow": {
-            "en": "01 · The Stack",
-            "th": "01 · The Stack"
         },
-        "title": {
-            "en": "Six Systems. Zero Contradictions.",
-            "th": "หกระบบ ไม่มีข้อขัดแย้ง"
-        },
-        "hook": {
-            "en": "On any given morning in Bangkok, one person can practice six distinct belief systems before lunch — and feel no conflict whatsoever.",
-            "th": "เช้าวันธรรมดาในกรุงเทพฯ คนคนหนึ่งสามารถปฏิบัติความเชื่อหกระบบที่แตกต่างกันได้ก่อนถึงเวลาเที่ยง — โดยไม่รู้สึกขัดแย้งแม้แต่น้อย"
-        },
-        "thesis": {
-            "en": "Most countries have a religion. Thailand has an architecture.\n\nWhat outsiders call Thai Buddhism is a layered spiritual stack — six belief systems running concurrently, each inherited from a different civilization, each solving a different problem. Animism covers the immediate and personal: the spirit of the mango tree, the ghost at the crossroads. Hindu mythology governs royal power and cosmic order. Theravada Buddhism addresses karma, merit, and the long arc of existence. Chinese folk religion manages prosperity and ancestors. Astrology provides real-time operating data — lucky colors, auspicious dates, compatible partners. And Mutelu, the newest layer, synthesizes all five into a mobile-first spiritual product.\n\nNo other living culture has stacked this many belief systems without collapsing one to serve another. This is not syncretism. It is engineering.",
-            "th": "ประเทศส่วนใหญ่มีศาสนา ประเทศไทยมีสถาปัตยกรรม\n\nสิ่งที่คนนอกเรียกว่า \"พุทธศาสนาไทย\" นั้นแท้จริงคือระบบชั้นความเชื่อที่ซ้อนทับกัน — หกระบบทำงานพร้อมกัน สืบทอดมาจากอารยธรรมที่แตกต่างกัน แต่ละชั้นแก้ปัญหาคนละอย่าง ลัทธิผีสาง / วิญญาณนิยม ดูแลเรื่องใกล้ตัวและส่วนตัว ทั้งวิญญาณของต้นมะม่วงและผีสามแพร่ง พราหมณ์ ปกครองอำนาจของราชวงศ์และระเบียบจักรวาล เถรวาท ว่าด้วยกรรม บุญ และห้วงเวลาอันยาวนานของการมีอยู่ ศาสนาพื้นบ้านจีนบริหารจัดการความมั่งคั่งและบรรพบุรุษ โหราศาสตร์ทำหน้าที่เป็นข้อมูลปฏิบัติการแบบทันที ทั้งสีมงคล วันฤกษ์ดี และคู่ชีวิตที่เข้ากันได้ และ มูเตลู คือชั้นล่าสุด ที่สังเคราะห์ทั้งห้าระบบนั้นให้กลายเป็นผลิตภัณฑ์ทางจิตวิญญาณที่ใช้งานบนมือถือ\n\nไม่มีวัฒนธรรมใดในโลกที่ยังมีชีวิตอยู่ซ้อนระบบความเชื่อมากขนาดนี้ โดยไม่ทำลายระบบใดระบบหนึ่งเพื่อรับใช้อีกระบบ นี่ไม่ใช่การผสมผสาน นี่คือวิศวกรรม"
-        },
-        "evidence": {
-            "en": "The word syncretism gets applied to Thai spirituality the way \"fusion\" gets applied to confused menus. It sounds generous; it explains nothing.\n\nA more useful frame comes from software. Think of the Thai spiritual stack like a computer's operating system layers: each runs independently, each has a specific function, and the whole system is more capable than any individual part. Remove animism and you lose the intimate, place-based rituals that make Thai homes feel inhabited rather than occupied. Remove the Hindu layer and royal ceremony loses its visual vocabulary — the Brahmin priests who open parliament, the Garuda that marks royal property. Remove Buddhism and the ethical framework, the temple schools, the cremation rites disappear. Remove Chinese folk religion and Bangkok's commercial districts lose their altar logic entirely. Remove astrology and a significant portion of Thai business decisions — including the founding dates of companies and the timing of elections — become inexplicable.\n\nUnlike Western monotheism, where competing faiths create theological conflict, or Japanese Shinto, which solved the problem by nationalizing its religion, Thailand's stack works because each layer claims a different jurisdiction. Buddhism governs eternity. Animism governs place. Astrology governs time. Mutelu governs now.\n\nThe stack is also non-hierarchical at the user level. A Thai person does not feel they are compromising their Buddhism by consulting a fortune teller — any more than they compromise their iPhone by running multiple apps. The system was built over approximately 700 years of cultural iteration to accommodate exactly this.\n\nThai spirituality isn't a confused middle ground between religions. It is a sophisticated cultural technology, built in layers, maintained by specialists, updated by each generation, and currently running its most commercially successful version yet. The stack didn't emerge by accident. It was, in the most meaningful sense of the word, engineered.",
-            "th": "คำว่า การผสมผสานความเชื่อ ถูกใช้กับจิตวิญญาณไทยในแบบเดียวกับที่คำว่า \"fusion\" ถูกใช้กับเมนูที่ไม่รู้จะไปทิศทางไหน ฟังดูให้เกียรติ แต่ไม่ได้อธิบายอะไรเลย\n\nกรอบที่มีประโยชน์กว่ามาจากโลกซอฟต์แวร์ ลองคิดถึงระบบชั้นความเชื่อของไทยเหมือนชั้น ระบบปฏิบัติการ ของคอมพิวเตอร์ แต่ละชั้นทำงานอิสระ มีหน้าที่เฉพาะของตัวเอง และระบบทั้งหมดมีความสามารถมากกว่าส่วนประกอบแต่ละชิ้น ตัดชั้น ลัทธิผีสาง / วิญญาณนิยม ออก คุณสูญเสียพิธีกรรมที่ผูกพันกับสถานที่ซึ่งทำให้บ้านไทยรู้สึกมีชีวิตชีวา ตัดชั้น พราหมณ์ ออก พิธีกรรมราชสำนักก็สูญเสียภาษาภาพของมัน ไม่ว่าจะเป็นพราหมณ์ที่เปิดสมัยประชุมรัฐสภา หรือครุฑที่ประทับบนทรัพย์สินของราชวงศ์ ตัดพุทธศาสนาออก กรอบจริยธรรม โรงเรียนวัด และพิธีฌาปนกิจก็หายไปด้วย ตัดศาสนาพื้นบ้านจีนออก ย่านการค้าของกรุงเทพฯ ก็สูญเสียตรรกะแห่งหิ้งบูชาไปเลย ตัดโหราศาสตร์ออก การตัดสินใจทางธุรกิจของไทยจำนวนมาก รวมถึงวันก่อตั้งบริษัทและการจับเวลาการเลือกตั้ง ก็กลายเป็นเรื่องที่อธิบายไม่ได้\n\nต่างจากเทวนิยมตะวันตกที่ความเชื่อที่แข่งขันกันก่อให้เกิดความขัดแย้งทางเทววิทยา หรือ ชินโต ของญี่ปุ่นที่แก้ปัญหาด้วยการทำให้ศาสนากลายเป็นของรัฐ ระบบชั้นของไทยทำงานได้เพราะแต่ละชั้นอ้างสิทธิ์ในเขตอำนาจที่ต่างกัน พุทธศาสนาปกครองนิรันดรกาล ลัทธิผีสาง / วิญญาณนิยม ปกครองสถานที่ โหราศาสตร์ปกครองเวลา มูเตลู ปกครองปัจจุบัน\n\nระบบนี้ยังไม่มีลำดับชั้นในระดับผู้ใช้ คนไทยไม่รู้สึกว่าตัวเองกำลังประนีประนอมพุทธศาสนาด้วยการปรึกษาหมอดู ไม่ต่างอะไรกับที่พวกเขาไม่รู้สึกว่ากำลังทำให้ iPhone เสื่อมค่าด้วยการรันหลาย แอป พร้อมกัน ระบบนี้ถูกสร้างขึ้นจากการทดสอบทางวัฒนธรรมราวๆ 700 ปี เพื่อรองรับสิ่งนี้โดยเฉพาะ\n\nจิตวิญญาณไทยไม่ใช่จุดกึ่งกลางที่สับสนระหว่างศาสนา มันคือเทคโนโลยีทางวัฒนธรรมที่ซับซ้อน สร้างเป็นชั้นๆ ดูแลโดยผู้เชี่ยวชาญ อัปเดตโดยแต่ละรุ่น และกำลังรันเวอร์ชันที่ประสบความสำเร็จเชิงพาณิชย์มากที่สุดในตอนนี้ ระบบชั้นนี้ไม่ได้เกิดขึ้นโดยบังเอิญ มันถูก \"วิศวกร\" ขึ้นมาในความหมายที่แท้จริงที่สุดของคำนั้น"
-        }
-    },
-    "ch02": {
-        "eyebrow": {
-            "en": "02 · The Geography of Luck",
-            "th": "02 · The Geography of Luck"
-        },
-        "title": {
-            "en": "Bangkok Has a Spiritual API",
-            "th": "กรุงเทพฯ มี Spiritual API"
-        },
-        "hook": {
-            "en": "Every major life request — love, money, fertility, fame — has a dedicated address in Bangkok. You just need to know which endpoint to call.",
-            "th": "ทุกคำขอครั้งใหญ่ในชีวิต ไม่ว่าจะเป็นความรัก เงินทอง ลูก หรือชื่อเสียง ล้วนมีที่อยู่เฉพาะในกรุงเทพฯ คุณแค่ต้องรู้ว่าจะเรียก จุดให้บริการ ไหน"
-        },
-        "thesis": {
-            "en": "In most cities, a temple is a temple. You go, you pray, you leave. The deity is generalist, the ask is open-ended, the outcome is fate.\n\nBangkok doesn't work this way.\n\nBangkok's spiritual infrastructure is functionally specialized. Each major shrine handles a specific category of human need. Erawan is for general success — high volume, broad audience, walk-in friendly. Trimurti is exclusively for romantic love — Thursday nights only, red roses required. Jao Mae Tubtim handles fertility. The Ganesh shrine at Huai Khwang serves artists and creative professionals. Each has its own protocols, its own offering requirements, its own peak hours.\n\nThis is not superstition organized loosely around geography. This is a service architecture — and Bangkok, with over 1,000 registered temples and shrines, may be the most densely spiritual city on earth.",
-            "th": "ในเมืองส่วนใหญ่ วัดก็คือวัด คุณไป คุณไหว้ คุณกลับ เทพเจ้าเป็น generalist คำขอเปิดกว้าง ผลลัพธ์คือชะตากรรม\n\nกรุงเทพฯ ไม่ได้ทำงานแบบนั้น\n\nโครงสร้างพื้นฐานทางจิตวิญญาณของกรุงเทพฯ ถูก เฉพาะเจาะจง ตามหน้าที่ ศาลแต่ละแห่งรับผิดชอบความต้องการของมนุษย์คนละประเภท พระพรหมเอราวัณสำหรับความสำเร็จทั่วไป ปริมาณสูง กลุ่มเป้าหมายกว้าง เดินเข้าไปได้เลย ท้าวตรีมูรติเพื่อความรักโดยเฉพาะ คืนวันพฤหัสบดีเท่านั้น ต้องมีดอกกุหลาบสีแดง เจ้าแม่ทับทิมสำหรับเรื่องบุตร ศาลพิฆเนศที่ห้วยขวางรับใช้ศิลปินและคนในสายงานสร้างสรรค์ แต่ละแห่งมีโปรโตคอลของตัวเอง มีข้อกำหนดของเครื่องบูชา มีชั่วโมงเร่งด่วนของตัวเอง\n\nนี่ไม่ใช่ความเชื่องมงายที่จัดระเบียบอย่างหลวมๆ ตามภูมิศาสตร์ นี่คือ โครงสร้างบริการ — และกรุงเทพฯ ที่มีวัดและศาลมากกว่า 1,000 แห่ง อาจเป็นเมืองที่มีความหนาแน่นทางจิตวิญญาณสูงที่สุดในโลก"
-        },
-        "evidence": {
-            "en": "The closest Western parallel is the Catholic patron saint system — St. Christopher for travelers, St. Anthony for lost things, St. Jude for hopeless cases. But those saints exist in prayer and iconography. You light a candle, you whisper a name. The interaction is private and abstract.\n\nBangkok's system is physical. It has real estate.\n\nThe Trimurti Shrine sits at the north entrance of CentralWorld — one of Southeast Asia's largest malls — and on Thursday evenings draws crowds of young professionals with roses and candles. The ritual is simultaneously sincere religious devotion and a highly optimized protocol for romantic luck. Miss the Thursday window and you've missed your slot. This is a shrine with operating hours.\n\nA few hundred meters away, Erawan handles a different queue: career, health, travel safety, examination luck. It receives tens of thousands of visitors weekly, many of them first-timers who learn the protocol by watching. There is a commissioned dance offering. There is a specific garland denomination. The system is legible on arrival.\n\nWhat makes this geography remarkable is its density operating without competition. The shrines do not compete for the same prayers. Their jurisdictions are informal and remarkably stable across generations. A Thai person instinctively knows not to bring romantic petitions to Erawan — not because of a rule, but because the specialization is cultural infrastructure, absorbed early and updated continuously.\n\nThe map also reveals Bangkok's most persistent collective anxieties: love, money, fertility, creative success, protection. That the most recently viral shrines address wealth and fast-money luck tells you something about what contemporary Thailand is worrying about that official statistics don't capture.\n\nInfrastructure reflects values. Read the map.",
-            "th": "ระบบที่ใกล้เคียงที่สุดในโลกตะวันตกคือระบบนักบุญอุปถัมภ์ของคาทอลิก St. Christopher สำหรับนักเดินทาง St. Anthony สำหรับของหาย St. Jude สำหรับคดีสิ้นหวัง แต่นักบุญเหล่านั้นดำรงอยู่ในบทสวดและงานศิลปะไอคอน คุณจุดเทียน คุณกระซิบชื่อ การโต้ตอบเป็นเรื่องส่วนตัวและเป็นนามธรรม\n\nระบบของกรุงเทพฯ คือสิ่งที่จับต้องได้ มันมี real estate\n\nศาลท้าวตรีมูรติตั้งอยู่ที่ทางเข้าด้านเหนือของ CentralWorld ซึ่งเป็นหนึ่งในห้างสรรพสินค้าที่ใหญ่ที่สุดในเอเชียตะวันออกเฉียงใต้ และในคืนวันพฤหัสบดีจะดึงดูดฝูงชนมืออาชีพรุ่นใหม่ที่พกดอกกุหลาบและเทียน พิธีกรรมนั้นเป็นทั้งความศรัทธาทางศาสนาที่จริงใจและโปรโตคอลที่ ปรับให้เหมาะสม มาอย่างดีเพื่อโชคด้านความรัก พลาดหน้าต่างวันพฤหัสบดีและคุณก็พลาด slot ไปแล้ว นี่คือศาลที่มีเวลาทำการ\n\nห่างออกไปไม่กี่ร้อยเมตร พระพรหมเอราวัณรับคิวที่ต่างออกไป ทั้งอาชีพ สุขภาพ ความปลอดภัยในการเดินทาง และโชคในการสอบ รับนักท่องที่ยวหลายหมื่นคนต่อสัปดาห์ หลายคนมาครั้งแรกและเรียนรู้โปรโตคอลจากการดูคนอื่น มีการจ้างโขนถวาย มีพวงมาลัยในราคาที่กำหนด ระบบนี้อ่านออกตั้งแต่ก้าวแรก\n\nสิ่งที่ทำให้ภูมิศาสตร์นี้น่าทึ่งคือความหนาแน่นที่ทำงานโดยไม่แข่งขันกัน ศาลต่างๆ ไม่ได้แย่งคำอธิษฐานชุดเดียวกัน เขตอำนาจของพวกมันเป็นเรื่องไม่เป็นทางการแต่มีเสถียรภาพอย่างน่าทึ่งข้ามรุ่น คนไทยรู้โดยสัญชาตญาณว่าไม่ควรนำคำขอด้านความรักไปที่พระพรหมเอราวัณ ไม่ใช่เพราะมีกฎ แต่เพราะการถูกเจาะจงเฉพาะทางนั้นเป็นโครงสร้างพื้นฐานทางวัฒนธรรมที่ซึมซับมาตั้งแต่ต้นและอัปเดตอยู่เสมอ\n\nแผนที่ยังเผยให้เห็นความวิตกกังวลร่วมที่ฝังลึกที่สุดของกรุงเทพฯ ทั้งความรัก เงิน ลูก ความสำเร็จในงานสร้างสรรค์ และการคุ้มครอง ที่ว่าศาลที่กำลัง ไวรัล ล่าสุดส่วนใหญ่เกี่ยวกับโชคลาภและเงินด่วน บอกคุณบางอย่างเกี่ยวกับสิ่งที่ประเทศไทยกำลังกังวลอยู่ในปัจจุบัน ซึ่งสถิติทางการไม่ได้บันทึกไว้\n\nโครงสร้างพื้นฐานสะท้อนคุณค่า อ่านแผนที่ดูสิ"
-        }
-    },
-    "ch03": {
-        "eyebrow": {
-            "en": "03 · The Offering Economy",
-            "th": "03 · The Offering Economy"
-        },
-        "title": {
-            "en": "The Sacred Has a Balance Sheet",
-            "th": "ความศักดิ์สิทธิ์มีงบดุล"
-        },
-        "hook": {
-            "en": "A single marigold garland costs ฿20. Multiply it across every shrine visit in Thailand this year, and you begin to see a parallel financial system hiding in plain sight.",
-            "th": "พวงมาลัยดาวเรืองหนึ่งพวง ราคา ฿20 คูณมันด้วยจำนวนการเยี่ยมศาลทั่วประเทศไทยในปีนี้ แล้วคุณจะเริ่มเห็นระบบการเงินคู่ขนานที่ซ่อนตัวอยู่ในที่แจ้ง"
-        },
-        "thesis": {
-            "en": "Every major religion generates an economy. The Vatican has tourism and art. Saudi Arabia has Hajj logistics. What makes Thailand's offering economy unusual is not its size — though the total runs to an estimated ฿55–65 billion annually — but its decentralization.\n\nThere is no central institution collecting these flows. No pope, no board, no foundation. The money moves through thousands of independent vendors, temple committees, fortune tellers, amulet dealers, and flower market workers — each a micro-node in a network with no headquarters and no audited accounts.\n\nThe result is a spiritual economy simultaneously enormous and invisible — present in every Bangkok morning market, every roadside shrine, every lottery ticket sold after a lucky dream — and almost entirely absent from GDP reporting.\n\nThis is not informal. It is deliberately distributed.",
-            "th": "ทุกศาสนาหลักสร้างเศรษฐกิจ วาติกันมีการท่องเที่ยวและงานศิลปะ ซาอุดีอาระเบียมีโลจิสติกส์ฮัจ สิ่งที่ทำให้เศรษฐกิจเครื่องบูชาของไทยผิดปกติไม่ใช่ขนาดของมัน แม้ว่าตัวเลขรวมจะอยู่ที่ประมาณ ฿55–65 billion ต่อปี แต่เป็นการกระจายศูนย์ของมัน\n\nไม่มีสถาบันกลางที่รับกระแสเงินเหล่านี้ ไม่มีสันตะปาปา ไม่มีคณะกรรมการ ไม่มีมูลนิธิ เงินไหลผ่านผู้จำหน่ายอิสระหลายพันราย คณะกรรมการวัด หมอดู ผู้ค้าเครื่องราง และคนงานตลาดดอกไม้ แต่ละรายเป็น จุดย่อย ในเครือข่ายที่ไม่มีสำนักงานใหญ่และไม่มีบัญชีที่ตรวจสอบ\n\nผลลัพธ์คือเศรษฐกิจทางจิตวิญญาณที่ยิ่งใหญ่มหึมาและมองไม่เห็นพร้อมกัน ปรากฏอยู่ในทุกตลาดเช้าของกรุงเทพฯ ทุกศาลริมถนน ทุกตั๋วล็อตเตอรี่ที่ขายหลังฝันดี และไม่ปรากฏใน GDP แทบทั้งหมด\n\nนี่ไม่ใช่ informal มันถูกออกแบบให้กระจาย"
-        },
-        "evidence": {
-            "en": "Start at Pak Khlong Talat, Bangkok's wholesale flower market, at 3am. The marigold garlands arrive in the thousands. By sunrise, they are distributed across the city: to temples, office shrines, hotel lobbies, the dashboard altars of taxi drivers. Thailand sells an estimated 240 million garlands per year — a number that sounds implausible until you count the shrines and do the math.\n\nThe garland is the entry-level product. Above it sits a full economy: incense sets (฿30–100), fresh fruit offerings (฿50–300), commissioned dance troupes at Erawan (฿1,500–5,000 per performance), amulets (฿200 to ฿2,000,000+ for collector-grade pieces), fortune teller consultations (฿200–1,000 per session), and a growing digital layer of astrology app subscriptions and online merit-transfer services. The amulet trade alone accounts for an estimated ฿40 billion annually — more than 12 times the Vatican's total museum and merchandise revenue.\n\nWhat sustains this economy is its trust infrastructure. Offerings work, in the market sense, because buyers believe they work. And in Thailand, that belief is durable across education levels, income brackets, and generations. According to a 2024 Krungsri Research survey, 80% of Thai consumers have engaged in Mutelu activities — and Gen Z is 2.1 times more likely than Baby Boomers to travel specifically for spirit-homage visits. Modernization has not diminished belief. It has digitized it.\n\nThe balance sheet of the sacred is larger than most people assume. It just doesn't file annually.",
-            "th": "ลองเริ่มที่ปากคลองตลาด ตลาดดอกไม้ขายส่งของกรุงเทพฯ ตีสาม พวงมาลัยดาวเรืองมาถึงเป็นพันๆ พวง พอรุ่งสางก็กระจายทั่วเมือง ทั้งวัด ศาลสำนักงาน ล็อบบี้โรงแรม และแท่นบูชาบนแดชบอร์ดแท็กซี่ ประเทศไทยขายพวงมาลัยประมาณ 240 ล้านพวงต่อปี ตัวเลขที่ฟังดูไม่น่าจะเป็นไปได้ จนกว่าคุณจะนับศาลแล้วคำนวณ\n\nพวงมาลัยคือสินค้าเบื้องต้น เหนือมันขึ้นไปคือเศรษฐกิจเต็มรูปแบบ ชุดธูปเทียน (฿30–100) ผลไม้บวงสรวง (฿50–300) คณะโขนจ้างที่พระพรหมเอราวัณ (฿1,500–5,000 ต่อชุดการแสดง) เครื่องราง (฿200 ถึง ฿2,000,000+ สำหรับชิ้นระดับนักสะสม) การปรึกษาหมอดู (฿200–1,000 ต่อครั้ง) และชั้นดิจิทัลที่กำลังเติบโตของ subscription แอป ดูดวงและบริการทำบุญออนไลน์ แค่การค้าเครื่องรางอย่างเดียวก็มีมูลค่าประมาณ ฿40 billion ต่อปี มากกว่า 12 เท่าของรายได้รวมจากพิพิธภัณฑ์และสินค้าของวาติกัน\n\nสิ่งที่ค้ำจุนเศรษฐกิจนี้คือโครงสร้างพื้นฐานแห่งความเชื่อ เครื่องบูชาทำงาน ในความหมายเชิงตลาด เพราะผู้ซื้อเชื่อว่ามันทำงาน และในประเทศไทย ความเชื่อนั้นคงทนข้ามระดับการศึกษา ระดับรายได้ และข้ามรุ่น จากผลสำรวจ Krungsri Research ปี 2024 พบว่า 80% ของผู้บริโภคไทยเคยมีส่วนร่วมในกิจกรรม มูเตลู และ Gen Z มีแนวโน้มเดินทางเพื่อไหว้สิ่งศักดิ์สิทธิ์โดยเฉพาะมากกว่า Baby Boomers ถึง 2.1 เท่า ความทันสมัยไม่ได้ลดทอนความเชื่อ มันแค่ทำให้ความเชื่อกลายเป็นดิจิทัล\n\nงบดุลของความศักดิ์สิทธิ์ใหญ่กว่าที่คนส่วนใหญ่คาดไว้มาก แค่มันไม่ยื่นแบบรายงานประจำปีเท่านั้นเอง"
-        }
-    },
-    "ch04": {
-        "eyebrow": {
-            "en": "04 · The New Saints",
-            "th": "04 · The New Saints"
-        },
-        "title": {
-            "en": "The Pantheon Is Still Hiring",
-            "th": "วิหารเทพยังรับสมัครอยู่"
-        },
-        "hook": {
-            "en": "Every generation, Thailand adds new figures to its spiritual roster — and the ones that go viral tell you exactly what the country is afraid of right now.",
-            "th": "ทุกยุค ประเทศไทยเพิ่มบุคคลใหม่เข้าไปในบัญชีรายชื่อทางจิตวิญญาณ และตัวที่ ไวรัล บอกคุณได้อย่างแม่นยำว่าตอนนี้ประเทศกำลังกลัวอะไร"
-        },
-        "thesis": {
-            "en": "Most religions closed their pantheons centuries ago. Christianity formalized canonization in the 10th century. Islam's core figures were established within a generation of the Prophet. The Hindu pantheon, while vast, is largely inherited from ancient texts.\n\nThailand's spiritual system has no such ceiling.\n\nNew figures emerge, gain followings, go viral on TikTok, sell out amulet inventories within days, and embed themselves in the cultural fabric — sometimes within a single year. Since 2015, four figures have made this journey from obscurity to national prominence. Each rode a specific wave of collective anxiety: post-pandemic uncertainty, economic precarity, the desire for fast luck, the need for protection. The new saints are not random. They are symptoms, rendered sacred.",
-            "th": "ศาสนาส่วนใหญ่ปิด วิหารเทพ / เทพมณฑล ของตัวเองไปนานหลายศตวรรษแล้ว คริสตจักรทำให้การประกาศนักบุญเป็นทางการในศตวรรษที่ 10 บุคคลสำคัญของอิสลามถูกกำหนดภายในหนึ่งรุ่นหลังจากศาสดา วิหารเทพ / เทพมณฑล ของฮินดูนั้นกว้างใหญ่ แต่ส่วนใหญ่สืบทอดมาจากตำราโบราณ\n\nระบบจิตวิญญาณของไทยไม่มีเพดานแบบนั้น\n\nบุคคลใหม่ผุดขึ้นมา สร้างแฟนคลับ ไวรัล บน TikTok สินค้าเครื่องรางขายหมดภายในไม่กี่วัน และฝังตัวในวัฒนธรรม บางครั้งภายในปีเดียว ตั้งแต่ปี 2015 มีสี่บุคคลที่เดินทางจากความไม่รู้จักสู่ความโดดเด่นระดับชาติ แต่ละคนเกาะคลื่นความวิตกกังวลรวมกันคนละลูก ทั้งความไม่แน่นอนหลัง pandemic ความเปราะบางทางเศรษฐกิจ ความต้องการโชคด่วน และความต้องการการคุ้มครอง นักบุญใหม่ไม่ได้เกิดขึ้นแบบสุ่ม พวกมันคืออาการ ที่ถูกทำให้ศักดิ์สิทธิ์"
-        },
-        "evidence": {
-            "en": "Consider Taowessuwan (ท้าวเวสสุวรรณ) — a guardian deity from Theravada Buddhist cosmology, present in Thai iconography for centuries but never particularly prominent at the popular level. In 2021–2022, at the peak of COVID-19 anxiety, he exploded into a national phenomenon. Amulet shops sold out. Temple visits spiked. Wat Chulamanee in Samut Songkhram temporarily closed due to overcrowding. The Google Trends line for his name went from flat to vertical in weeks. Nothing about the deity changed. Everything about the moment did. Thailand was afraid, and it reached for the figure that matched that frequency — a fierce protector against invisible threats.\n\nAi Khai (ไอ้ไข่) tells a different story. A child spirit at Wat Chedi in Nakhon Si Thammarat, his association with lottery luck made him the spiritual mascot of a specific aspiration: fast money, the short path out. His viral peak between 2018 and 2020 tracks precisely with the economic strain of the early pandemic era. The offerings left at his shrine — mountains of stucco roosters, firecracker fragments, toy cars — are among the most photographed religious images in contemporary Thailand.\n\nIn medieval Europe, new saints required papal canonization: decades of review, verified miracles, institutional endorsement. The process was a filter for orthodoxy. Thailand's equivalent process is social media. A figure goes viral, offerings are made, results are reported and shared, and the feedback loop of belief accelerates. It is bottom-up, peer-to-peer, market-validated canonization.\n\nThis is not spiritual shallowness. It is the opposite — a culture so fluent in its own sacred vocabulary that it can extend that vocabulary in real time, in response to real needs, without waiting for institutional permission.\n\nThe pantheon is open source. It always has been. The internet just made the iteration cycle visible.",
-            "th": "ลองพิจารณาท้าวเวสสุวรรณ — เทพผู้พิทักษ์จากจักรวาลวิทยา เถรวาท ที่ปรากฏในงานศิลปะไทยมานานหลายศตวรรษ แต่ไม่เคยโดดเด่นในระดับประชาชนมากนัก ในช่วงปี 2021–2022 ซึ่งเป็นจุดสูงสุดของความวิตกกังวลจาก COVID-19 เขากลายเป็นปรากฏการณ์ระดับชาติ ร้านขายเครื่องรางขายหมดเกลี้ยง การเยี่ยมวัดพุ่งสูงขึ้น วัดจุฬามณีในสมุทรสงครามต้องปิดชั่วคราวเพราะผู้คนล้นหลาม เส้นกราฟ Google Trends ของชื่อเขาพุ่งจากราบเรียบเป็นแนวดิ่งภายในไม่กี่สัปดาห์ ไม่มีอะไรในตัวเทพเปลี่ยนแปลงเลย แต่ทุกอย่างในบริบทเปลี่ยนไป ประเทศไทยกำลังกลัว และมันเอื้อมไปหาบุคคลที่ตรงกับความถี่นั้น นั่นคือผู้พิทักษ์ผู้ดุร้ายต่อภัยที่มองไม่เห็น\n\nไอ้ไข่เล่าเรื่องที่ต่างออกไป วิญญาณเด็กที่วัดเจดีย์ จังหวัดนครศรีธรรมราช ความเชื่อมโยงกับโชคลอตเตอรี่ทำให้เขากลายเป็นมาสคอตทางจิตวิญญาณของแรงบันดาลใจที่ชัดเจน เงินด่วน ทางลัดออกจากความยากจน ช่วงไวรัลสูงสุดระหว่างปี 2018–2020 ตรงกับความเครียดทางเศรษฐกิจในช่วงต้นของยุคโรคระบาด อย่างพอดี เครื่องบูชาที่เหลือทิ้งที่ศาลของเขา ทั้งกองปูนปั้นรูปไก่ ซากประทัด รถของเล่น ล้วนเป็นหนึ่งในภาพถ่ายทางศาสนาที่ถูก share มากที่สุดในประเทศไทยร่วมสมัย\n\nในยุโรปยุคกลาง นักบุญใหม่ต้องผ่านการรับรองจากสันตะปาปา กระบวนการตรวจสอบนานหลายทศวรรษ ปาฏิหาริย์ที่ได้รับการยืนยัน การรับรองจากสถาบัน กระบวนการนี้คือตัวกรองของความถูกต้อง กระบวนการที่เทียบเท่าของไทยคือ social media บุคคลหนึ่ง ไวรัล ขึ้นมา มีการบูชา ผลลัพธ์ถูกรายงานและแชร์ต่อ และ วงจรป้อนกลับ ของความเชื่อเร่งตัวขึ้น มันเป็นการรับรองจากล่างขึ้นบน แบบ peer-to-peer ที่ผ่านการยืนยันจากตลาด\n\nนี่ไม่ใช่ความตื้นเขินทางจิตวิญญาณ มันตรงกันข้าม วัฒนธรรมที่เชี่ยวชาญในภาษาศักดิ์สิทธิ์ของตัวเองมากจนสามารถขยายภาษานั้นได้แบบเรียลไทม์ เพื่อตอบสนองความต้องการจริง โดยไม่ต้องรอการอนุมัติจากสถาบัน\n\nวิหารเทพ / เทพมณฑล นี้เป็น ระบบเปิด มันเป็นแบบนั้นมาตลอด อินเทอร์เน็ตแค่ทำให้วงจรการ ทบทวนและปรับปรุง นั้นมองเห็นได้เท่านั้นเอง"
+        "scrollCue": {
+            "en": "SCROLL",
+            "th": "เลื่อน"
         }
     },
     "nav": {
-        "chapters": {
-            "en": [
-                "The Stack",
-                "Geography of Luck",
-                "Offering Economy",
-                "The New Saints"
-            ],
-            "th": [
-                "The Stack",
-                "Geography of Luck",
-                "Offering Economy",
-                "The New Saints"
-            ]
+        "ch01": {
+            "en": "01 · The Stack",
+            "th": "01 · ระบบชั้น"
         },
-        "langToggle": {
-            "en": "TH",
-            "th": "EN"
+        "ch02": {
+            "en": "02 · Geography",
+            "th": "02 · ภูมิศาสตร์"
+        },
+        "ch03": {
+            "en": "03 · Economy",
+            "th": "03 · เศรษฐกิจ"
+        },
+        "ch04": {
+            "en": "04 · Saints",
+            "th": "04 · เทพ"
+        },
+        "about": {
+            "en": "About",
+            "th": "เกี่ยวกับ"
+        }
+    },
+    "ch01": {
+        "header": {
+            "eyebrow": {
+                "en": "CHAPTER 01",
+                "th": "บทที่ 01"
+            },
+            "headline": {
+                "en": "The <em>Stack</em>",
+                "th": "<em>ระบบชั้น</em>"
+            },
+            "subhead": {
+                "en": "| Six Layers, One System",
+                "th": "| หกชั้น หนึ่งระบบ"
+            },
+            "lead": {
+                "en": "One Thai person, one day, six belief systems, zero contradictions.<br>The Thai spiritual stack is not syncretism — it is architecture.",
+                "th": "คนไทยหนึ่งคน หนึ่งวัน หกระบบความเชื่อ ไม่มีข้อขัดแย้ง<br>ระบบชั้นความเชื่อของไทยไม่ใช่การผสมผสาน — แต่คือสถาปัตยกรรม"
+            }
+        },
+        "labels": {
+            "stack": {
+                "en": "Belief System Stack",
+                "th": "ระบบชั้นความเชื่อ"
+            },
+            "syncretism": {
+                "en": "Why This Is Not Syncretism",
+                "th": "ทำไมไม่ใช่การผสมผสาน"
+            }
+        },
+        "scrollCue": {
+            "label": {
+                "en": "SCROLL ↓ CONTINUE TO CHAPTER 02",
+                "th": "เลื่อน ↓ ต่อไปบทที่ 02"
+            },
+            "title": {
+                "en": "<em>The Geography of Luck</em>",
+                "th": "<em>ภูมิศาสตร์แห่งโชค</em>"
+            }
+        }
+    },
+    "ch02": {
+        "header": {
+            "eyebrow": {
+                "en": "CHAPTER 02",
+                "th": "บทที่ 02"
+            },
+            "headline": {
+                "en": "The <em>Geography of Luck</em>",
+                "th": "<em>ภูมิศาสตร์แห่งโชค</em>"
+            },
+            "subhead": {
+                "en": "| Coordinates of Fortune",
+                "th": "| พิกัดแห่งโชคชะตา"
+            },
+            "lead": {
+                "en": "Bangkok's spiritual infrastructure is not random — it is API-shaped.<br>Each shrine handles a different category of human need.",
+                "th": "โครงสร้างพื้นฐานทางจิตวิญญาณของกรุงเทพฯ ไม่ได้สุ่ม — แต่ออกแบบเป็น API<br>ศาลแต่ละแห่งดูแลความต้องการของมนุษย์คนละประเภท"
+            }
+        },
+        "labels": {
+            "shrineMap": {
+                "en": "Bangkok Shrine Map",
+                "th": "แผนที่ศาลเจ้ากรุงเทพฯ"
+            },
+            "allShrines": {
+                "en": "All 6 Shrines",
+                "th": "ศาลเจ้าทั้ง 6"
+            },
+            "thesis": {
+                "en": "The Infrastructure Thesis",
+                "th": "วิทยานิพนธ์โครงสร้างพื้นฐาน"
+            }
+        },
+        "scrollCue": {
+            "label": {
+                "en": "SCROLL ↓ CONTINUE TO CHAPTER 03",
+                "th": "เลื่อน ↓ ต่อไปบทที่ 03"
+            },
+            "title": {
+                "en": "<em>The Offering Economy</em>",
+                "th": "<em>เศรษฐกิจแห่งการบูชา</em>"
+            }
+        }
+    },
+    "ch03": {
+        "header": {
+            "eyebrow": {
+                "en": "CHAPTER 03",
+                "th": "บทที่ 03"
+            },
+            "headline": {
+                "en": "The <em>Offering Economy</em>",
+                "th": "<em>เศรษฐกิจแห่งการบูชา</em>"
+            },
+            "subhead": {
+                "en": "| Sacred Transactions",
+                "th": "| ธุรกรรมศักดิ์สิทธิ์"
+            },
+            "lead": {
+                "en": "Every garland, every amulet, every fortune-teller session is part of a parallel financial system.<br>The sacred has a balance sheet — it just doesn't file annually.",
+                "th": "ทุกพวงมาลัย ทุกเครื่องราง ทุกการดูดวง ล้วนเป็นส่วนหนึ่งของระบบการเงินคู่ขนาน<br>ความศักดิ์สิทธิ์มีงบดุล — แต่ไม่เคยยื่นแบบรายงานประจำปี"
+            }
+        },
+        "labels": {
+            "metrics": {
+                "en": "Key Metrics",
+                "th": "ตัวชี้วัดสำคัญ"
+            },
+            "parallel": {
+                "en": "The Parallel Economy",
+                "th": "เศรษฐกิจคู่ขนาน"
+            },
+            "compare": {
+                "en": "Comparative Scale",
+                "th": "เปรียบเทียบขนาด"
+            },
+            "chain": {
+                "en": "The Value Chain",
+                "th": "ห่วงโซ่คุณค่า"
+            },
+            "slider": {
+                "en": "What ฿B Buys",
+                "th": "฿B ซื้ออะไรได้บ้าง"
+            },
+            "seasonal": {
+                "en": "Seasonal Peaks",
+                "th": "จุดสูงสุดตามฤดูกาล"
+            }
+        },
+        "scrollCue": {
+            "label": {
+                "en": "SCROLL ↓ CONTINUE TO CHAPTER 04",
+                "th": "เลื่อน ↓ ต่อไปบทที่ 04"
+            },
+            "title": {
+                "en": "<em>The New Saints</em>",
+                "th": "<em>เทพยุคใหม่</em>"
+            }
+        }
+    },
+    "ch04": {
+        "header": {
+            "eyebrow": {
+                "en": "CHAPTER 04",
+                "th": "บทที่ 04"
+            },
+            "headline": {
+                "en": "The <span class=\"ch04-headline__main\">NEW SAINT<span class=\"ch04-headline__s\">S</span></span>",
+                "th": "<span class=\"ch04-headline__main\">เทพยุค<span class=\"ch04-headline__s\">ใหม่</span></span>"
+            },
+            "subhead": {
+                "en": "| The Reinvention of Sanctity",
+                "th": "| การปรับใหม่ของความศักดิ์สิทธิ์"
+            },
+            "lead": {
+                "en": "Meet the spiritual startups that scaled faster than most Silicon Valley companies.",
+                "th": "พบกับสตาร์ทอัพทางจิตวิญญาณที่เติบโตเร็วกว่าบริษัทใน Silicon Valley ส่วนใหญ่"
+            }
+        },
+        "labels": {
+            "timeline": {
+                "en": "Viral Timeline",
+                "th": "ไทม์ไลน์ไวรัล"
+            },
+            "four": {
+                "en": "The Four",
+                "th": "สี่องค์"
+            },
+            "pattern": {
+                "en": "The Pattern",
+                "th": "รูปแบบ"
+            }
+        },
+        "scrollCue": {
+            "label": {
+                "en": "SCROLL ↓ END OF JOURNEY",
+                "th": "เลื่อน ↓ จบการเดินทาง"
+            },
+            "title": {
+                "en": "<em>Sources & About</em>",
+                "th": "<em>แหล่งข้อมูลและเกี่ยวกับ</em>"
+            }
+        }
+    },
+    "ch05": {
+        "header": {
+            "eyebrow": {
+                "en": "SOURCES & ABOUT",
+                "th": "แหล่งข้อมูลและเกี่ยวกับ"
+            }
+        },
+        "labels": {
+            "project": {
+                "en": "| THE PROJECT",
+                "th": "| โปรเจกต์"
+            },
+            "author": {
+                "en": "The Author",
+                "th": "ผู้เขียน"
+            },
+            "sources": {
+                "en": "Research Sources",
+                "th": "แหล่งข้อมูลงานวิจัย"
+            },
+            "visualCredits": {
+                "en": "Visual Designs Credits",
+                "th": "เครดิตงานออกแบบภาพ"
+            },
+            "typographyCredits": {
+                "en": "Typography Credits",
+                "th": "เครดิตงานออกแบบตัวอักษร"
+            }
         }
     },
     "footer": {
