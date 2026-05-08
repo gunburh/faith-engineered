@@ -19,11 +19,12 @@
  *   • Comparative Scale — bar FILL race: each row's `--w` animates 0→final%
  *     with stagger; value position rides the bar end
  *   • Value Chain — left-to-right cascade of steps + separators
- *   • Slider — card slide up + blur clear (slider stays interactive)
+ *   • Offering Spectrum — card lift + rail fade + 6 markers stagger in,
+ *     gold thumb fade-in with glow pulse, active tier panel slides from right
  *   • Seasonal Peaks — owns its own entrance, skipped here
  *   • Closing — video scale-in + cue
  *
- * The 47B big number block is owned by economy-interactions.js's existing
+ * The ฿200B big number block is owned by economy-interactions.js's existing
  * count-up logic — we only animate the surrounding caption, not the count.
  *
  * GSAP + ScrollTrigger loaded as window.gsap / window.ScrollTrigger.
@@ -497,34 +498,95 @@ export function initCh03Scroll() {
     }
 
     // ─────────────────────────────────────────────────────
-    // BLOCK 9 — Slider "What ฿B Buys" (single block reveal)
+    // BLOCK 9 — Offering Spectrum (rail draw + markers + thumb + panel)
     // ─────────────────────────────────────────────────────
-    const slider = document.querySelector('.ch03-slider');
-    if (slider) {
-        const sLabel = slider.querySelector('.ch03-section-label');
-        const sBody  = slider.querySelector('.ch03-slider__card') ||
-                       slider.querySelector('.ch03-slider__inner') ||
-                       slider;
+    // Markers (.ch03-spectrum-marker) and the thumb (.ch03-spectrum__thumb)
+    // carry CSS transforms that are critical for positioning (translateY(-50%)
+    // on markers, translate(-50%, -50%) rotate(45deg) on the thumb diamond).
+    // We only animate opacity / filter on those — never transform — to avoid
+    // GSAP overriding their layout transforms.
+    const spectrum = document.querySelector('.ch03-spectrum');
+    if (spectrum) {
+        const sLabel   = spectrum.querySelector('.ch03-section-label');
+        const sLead    = spectrum.querySelector('.ch03-spectrum__lead');
+        const sCard    = spectrum.querySelector('.ch03-spectrum__card');
+        const railWrap = spectrum.querySelector('.ch03-spectrum__rail-wrap');
+        const markers  = spectrum.querySelectorAll('.ch03-spectrum-marker');
+        const thumb    = spectrum.querySelector('.ch03-spectrum__thumb');
+        const panel    = spectrum.querySelector('.ch03-spectrum__panel');
+        const footer   = spectrum.querySelector('.ch03-spectrum__footer');
 
-        if (sLabel) gsap.set(sLabel, { opacity: 0, y: 24 });
-        if (sBody)  gsap.set(sBody,  { opacity: 0, y: 40, scale: 0.96, filter: 'blur(8px)' });
+        if (sLabel)   gsap.set(sLabel,   { opacity: 0, y: 24 });
+        if (sLead)    gsap.set(sLead,    { opacity: 0, y: 18 });
+        if (sCard)    gsap.set(sCard,    { opacity: 0, y: 32 });
+        if (railWrap) gsap.set(railWrap, { opacity: 0 });
+        if (markers.length) gsap.set(markers, { opacity: 0 });          // opacity-only — preserves translateY(-50%)
+        if (thumb)    gsap.set(thumb,    { opacity: 0 });               // opacity-only — preserves rotate/translate
+        if (panel)    gsap.set(panel,    { opacity: 0, x: 40 });
+        if (footer)   gsap.set(footer,   { opacity: 0 });
 
         const tl = gsap.timeline({
             scrollTrigger: trigger({
-                trigger: slider,
-                start: 'top 75%',
+                trigger: spectrum,
+                start: 'top 70%',
                 toggleActions: 'play none none none',
                 once: true,
             }),
         });
+
         if (sLabel) tl.to(sLabel, {
             opacity: 1, y: 0,
-            duration: 0.8, ease: 'power3.out',
+            duration: 0.7, ease: 'power3.out',
         }, 0);
-        if (sBody) tl.to(sBody, {
-            opacity: 1, y: 0, scale: 1, filter: 'blur(0px)',
-            duration: 1.2, ease: 'expo.out',
-        }, 0.15);
+
+        if (sLead) tl.to(sLead, {
+            opacity: 1, y: 0,
+            duration: 0.7, ease: 'power3.out',
+        }, 0.1);
+
+        if (sCard) tl.to(sCard, {
+            opacity: 1, y: 0,
+            duration: 0.9, ease: 'expo.out',
+        }, 0.2);
+
+        // Rail fades up vertically (~600ms ease-out)
+        if (railWrap) tl.to(railWrap, {
+            opacity: 1,
+            duration: 0.6, ease: 'power2.out',
+        }, 0.45);
+
+        // 6 tier markers stagger in (~80ms between each)
+        if (markers.length) tl.to(markers, {
+            opacity: 1,
+            duration: 0.45, ease: 'power3.out',
+            stagger: 0.08,
+        }, 0.55);
+
+        // Thumb fades in last
+        if (thumb) tl.to(thumb, {
+            opacity: 1,
+            duration: 0.5, ease: 'power2.out',
+        }, 1.1);
+
+        // Subtle gold glow pulse on the thumb — uses filter so the diamond's
+        // rotate(45deg) + translate(-50%, -50%) transform stays untouched.
+        if (thumb) tl.to(thumb, {
+            filter: 'drop-shadow(0 0 22px rgba(201, 169, 97, 1))',
+            duration: 0.45, ease: 'power2.out',
+            yoyo: true, repeat: 1,
+        }, '>-0.05')
+        .set(thumb, { filter: '' });
+
+        // Active tier card slides in from the right
+        if (panel) tl.to(panel, {
+            opacity: 1, x: 0,
+            duration: 0.85, ease: 'expo.out',
+        }, 0.65);
+
+        if (footer) tl.to(footer, {
+            opacity: 1,
+            duration: 0.5, ease: 'power2.out',
+        }, 1.2);
     }
 
     // ─────────────────────────────────────────────────────
