@@ -20,6 +20,11 @@ import { initNav }            from './core/nav.js';
 import { initHeroVideo }      from './chapters/hero-video.js';
 import { initHeroSmoke }      from './chapters/hero-smoke.js';
 import { initStackBuild }     from './chapters/stack-build.js';
+import { initCh01Scroll }    from './chapters/ch01-scroll.js';
+import { initCh02Scroll }    from './chapters/ch02-scroll.js';
+import { initCh03Scroll }    from './chapters/ch03-scroll.js';
+import { initCh04Scroll }    from './chapters/ch04-scroll.js';
+import { initCh05Scroll }    from './chapters/ch05-scroll.js';
 import { initGeographyMap }   from './chapters/geography-map.js';
 import { initEconomyInteractions } from './chapters/economy-interactions.js';
 import { initSeasonalPeaks }   from './chapters/seasonal-peaks.js';
@@ -54,11 +59,16 @@ document.addEventListener('DOMContentLoaded', async () => {
     initHeroVideo();
     initHeroSmoke();
     initStackBuild();
+    initCh01Scroll();
     initGeographyMap();
+    initCh02Scroll();
     initEconomyInteractions();
+    initCh03Scroll();
     initSeasonalPeaks();
     initViralTimeline();
+    initCh04Scroll();
     initAboutAccordion();
+    initCh05Scroll();
 
     // Pause videos that are off-screen — biggest scroll-jank fix on this page.
     initVideoVisibilityGate();
