@@ -135,10 +135,11 @@
 ────────────────────────────────────────── */
 .ch03-bignum {
     display: flex;
-    align-items: flex-start;
+    flex-direction: column;
+    align-items: center;
     justify-content: center;
-    gap: var(--space-6);
-    flex-wrap: wrap;
+    text-align: center;
+    gap: var(--space-3);
     /* Tight against the opening video above; standard space below */
     margin-block: var(--space-4) var(--space-9);
 }
@@ -162,9 +163,14 @@
     opacity: 1;
 }
 
+.ch03-bignum__count::before {
+    content: "฿";
+    margin-right: 0.04em;
+}
+
 .ch03-bignum__caption {
-    align-self: flex-end;
-    padding-bottom: var(--space-3);
+    align-self: center;
+    max-width: none;
 }
 
 .ch03-bignum__caption p {
@@ -176,14 +182,7 @@
     color: var(--color-cream);
     margin: 0;
     max-width: none;
-    white-space: nowrap;       /* keep "estimated annual offering economy" on one line */
     opacity: 0.9;
-}
-
-.ch03-bignum__source {
-    margin-top: var(--space-2) !important;
-    color: var(--color-slate) !important;
-    opacity: 1 !important;
 }
 
 /* ──────────────────────────────────────────
@@ -340,14 +339,14 @@
 .ch03-pullquote p {
     font-family: var(--font-display-en);
     font-style: italic;
-    font-weight: 600;
-    font-size: clamp(1.75rem, 3.6vw, 40px);
-    line-height: 1.35;
+    font-weight: 500;
+    font-size: 30px;
+    line-height: 1.4;
     color: var(--color-gold);
-    margin: 0;
-    max-width: none;
+    margin: 0 auto;
+    max-width: 60ch;
     opacity: 1;
-    text-shadow: 0 0 30px rgba(201, 169, 97, 0.25);
+    text-shadow: 0 0 24px rgba(201, 169, 97, 0.22);
 }
 
 /* ──────────────────────────────────────────
@@ -649,18 +648,18 @@
     border-radius: 20px;
     background: var(--color-charcoal);
     border: 1px solid rgba(245, 241, 234, 0.08);
-    padding: var(--space-7);
+    padding: var(--space-7) var(--space-7) var(--space-6);
     display: flex;
     flex-direction: column;
-    gap: var(--space-5);
+    gap: var(--space-6);
 }
 
 /* ── Desktop interactive layout ── */
 .ch03-spectrum__interactive {
     display: grid;
-    grid-template-columns: 220px minmax(0, 1fr);
-    gap: var(--space-7);
-    min-height: 360px;
+    grid-template-columns: 200px minmax(0, 1fr);
+    gap: var(--space-8);
+    align-items: stretch;
 }
 
 .ch03-spectrum__rail-wrap {
@@ -668,6 +667,7 @@
     padding: var(--space-3) 0;
     display: flex;
     align-items: stretch;
+    min-height: 360px;
 }
 
 /* Vertical rail — same gold gradient family as comparative-scale fills */
@@ -788,13 +788,38 @@
     outline-offset: 6px;
 }
 
-/* ── Active tier panel — slides in from the right ── */
+/* ── Active tier panel — sized to rail, content centered, gold accent ── */
 .ch03-spectrum__panel {
+    position: relative;
     align-self: stretch;
-    padding: var(--space-5);
     border-radius: 16px;
-    background: rgba(245, 241, 234, 0.03);
+    background:
+        radial-gradient(circle at top right, rgba(201, 169, 97, 0.06), transparent 55%),
+        rgba(245, 241, 234, 0.025);
     border: 1px solid rgba(245, 241, 234, 0.06);
+    overflow: hidden;
+    display: flex;
+}
+
+/* Slim gold accent strip — visually links the panel to the gold rail */
+.ch03-spectrum__panel::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 14%;
+    bottom: 14%;
+    width: 2px;
+    background: linear-gradient(180deg,
+            rgba(201, 169, 97, 0) 0%,
+            rgba(201, 169, 97, 0.65) 50%,
+            rgba(201, 169, 97, 0) 100%);
+    pointer-events: none;
+}
+
+.ch03-spectrum-card__inner {
+    width: 100%;
+    margin: auto;        /* center vertically + horizontally inside the panel */
+    padding: var(--space-7) var(--space-7) var(--space-7) calc(var(--space-7) + 8px);
     display: flex;
     flex-direction: column;
     gap: var(--space-4);
@@ -802,39 +827,60 @@
 }
 
 @keyframes ch03-spectrum-slide {
-    from { opacity: 0; transform: translateX(16px); }
+    from { opacity: 0; transform: translateX(12px); }
     to   { opacity: 1; transform: translateX(0); }
+}
+
+.ch03-spectrum-card__tier {
+    margin: 0;
+    font-family: var(--font-mono);
+    font-weight: 500;
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--color-gold);
+    opacity: 0.75;
+    max-width: none;
 }
 
 .ch03-spectrum-card__amount {
     font-family: var(--font-display-en);
     font-style: italic;
     font-weight: 500;
-    font-size: clamp(2.25rem, 5vw, 64px);
+    font-size: clamp(2rem, 4vw, 52px);
     line-height: 1;
     color: var(--color-gold);
-    text-shadow: 0 0 18px rgba(201, 169, 97, 0.3);
+    text-shadow: 0 0 20px rgba(201, 169, 97, 0.32);
     margin: 0;
     max-width: none;
     opacity: 1;
+}
+
+.ch03-spectrum-card__divider {
+    width: 64px;
+    height: 1px;
+    border: 0;
+    background: linear-gradient(90deg, var(--color-gold) 0%, rgba(201, 169, 97, 0) 100%);
+    margin: var(--space-2) 0 var(--space-1);
 }
 
 .ch03-spectrum-card__detail {
     margin: 0;
     display: grid;
     grid-template-columns: max-content minmax(0, 1fr);
-    column-gap: var(--space-4);
-    row-gap: var(--space-2);
+    column-gap: var(--space-5);
+    row-gap: var(--space-3);
 }
 
 .ch03-spectrum-card__detail dt {
     font-family: var(--font-ui);
     font-weight: 500;
-    font-size: 11px;
-    letter-spacing: 0.12em;
+    font-size: 10px;
+    letter-spacing: 0.14em;
     text-transform: uppercase;
     color: var(--color-slate);
-    align-self: center;
+    align-self: start;
+    padding-top: 4px;
 }
 
 .ch03-spectrum-card__detail dd {
@@ -842,9 +888,9 @@
     font-family: var(--font-ui);
     font-weight: 400;
     font-size: 16px;
-    line-height: 1.4;
+    line-height: 1.5;
     color: var(--color-cream);
-    max-width: none;
+    max-width: 48ch;
     opacity: 1;
 }
 
@@ -1207,15 +1253,14 @@
         aspect-ratio: 1200 / 670;
     }
 
-    .ch03-bignum {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: var(--space-3);
+    .ch03-bignum__count {
+        font-size: clamp(2.25rem, 11vw, 4rem);
     }
 
-    .ch03-bignum__caption { align-self: flex-start; padding-bottom: 0; }
+    .ch03-bignum__caption p {
+        font-size: 16px;
+    }
 
-    .ch03-pullquote p,
     .ch03-closing__quote p {
         font-size: 24px;
     }

@@ -138,14 +138,21 @@ function renderMarkers(markersEl) {
 
 function renderActivePanel(panelEl, idx, lang) {
     const tier = SPECTRUM_TIERS[idx];
+    const tierLabel = lang === 'th'
+        ? `ระดับ ${idx + 1} จาก ${TIER_COUNT}`
+        : `Tier ${String(idx + 1).padStart(2, '0')} / ${TIER_COUNT}`;
     panelEl.innerHTML = `
-        <p class="ch03-spectrum-card__amount">${tier.amount}</p>
-        <dl class="ch03-spectrum-card__detail">
-            <dt>${SPECTRUM_HEADINGS.buys[lang]}</dt>
-            <dd>${tier.buys[lang]}</dd>
-            <dt>${SPECTRUM_HEADINGS.buyer[lang]}</dt>
-            <dd>${tier.buyer[lang]}</dd>
-        </dl>
+        <div class="ch03-spectrum-card__inner">
+            <p class="ch03-spectrum-card__tier">${tierLabel}</p>
+            <p class="ch03-spectrum-card__amount">${tier.amount}</p>
+            <hr class="ch03-spectrum-card__divider">
+            <dl class="ch03-spectrum-card__detail">
+                <dt>${SPECTRUM_HEADINGS.buys[lang]}</dt>
+                <dd>${tier.buys[lang]}</dd>
+                <dt>${SPECTRUM_HEADINGS.buyer[lang]}</dt>
+                <dd>${tier.buyer[lang]}</dd>
+            </dl>
+        </div>
     `;
 }
 
