@@ -70,9 +70,13 @@ export function initHeroVideo() {
     }
     gsap.registerPlugin(ScrollTrigger);
 
-    // Sync ScrollTrigger to Lenis (defensive — only if Lenis is running)
-    if (window.__lenis && typeof window.__lenis.on === 'function') {
+    // Sync ScrollTrigger to Lenis (defensive — only if Lenis is running).
+    // Guarded by __stRegistered so chapter-scroll modules can't double-register
+    // the listener — otherwise ScrollTrigger.update fires twice per frame and
+    // jank shows up at section boundaries.
+    if (window.__lenis && typeof window.__lenis.on === 'function' && !window.__lenis.__stRegistered) {
         window.__lenis.on('scroll', ScrollTrigger.update);
+        window.__lenis.__stRegistered = true;
     }
 
     // Initial state — ch1 starts hidden, will fade in at end of scrub
