@@ -81,6 +81,88 @@
         "evidence": {
             "en": "Start at Pak Khlong Talat, Bangkok's wholesale flower market, at 3am. The marigold garlands arrive in the thousands. By sunrise, they are distributed across the city: to temples, office shrines, hotel lobbies, the dashboard altars of taxi drivers. Thailand sells an estimated 240 million garlands per year — a number that sounds implausible until you count the shrines and do the math.\n\nThe garland is the entry-level product. Above it sits a full economy: incense sets (฿30–100), fresh fruit offerings (฿50–300), commissioned dance troupes at Erawan (฿1,500–5,000 per performance), amulets (฿200 to ฿2,000,000+ for collector-grade pieces), fortune teller consultations (฿200–1,000 per session), and a growing digital layer of astrology app subscriptions and online merit-transfer services. The amulet trade alone accounts for an estimated ฿40 billion annually — more than 12 times the Vatican's total museum and merchandise revenue.\n\nWhat sustains this economy is its trust infrastructure. Offerings work, in the market sense, because buyers believe they work. And in Thailand, that belief is durable across education levels, income brackets, and generations. According to a 2024 Krungsri Research survey, 80% of Thai consumers have engaged in Mutelu activities — and Gen Z is 2.1 times more likely than Baby Boomers to travel specifically for spirit-homage visits. Modernization has not diminished belief. It has digitized it.\n\nThe balance sheet of the sacred is larger than most people assume. It just doesn't file annually.",
             "th": "ลองเริ่มที่ปากคลองตลาด ตลาดดอกไม้ขายส่งของกรุงเทพฯ ตีสาม พวงมาลัยดาวเรืองมาถึงเป็นพันๆ พวง พอรุ่งสางก็กระจายทั่วเมือง ทั้งวัด ศาลสำนักงาน ล็อบบี้โรงแรม และแท่นบูชาบนแดชบอร์ดแท็กซี่ ประเทศไทยขายพวงมาลัยประมาณ 240 ล้านพวงต่อปี ตัวเลขที่ฟังดูไม่น่าจะเป็นไปได้ จนกว่าคุณจะนับศาลแล้วคำนวณ\n\nพวงมาลัยคือสินค้าเบื้องต้น เหนือมันขึ้นไปคือเศรษฐกิจเต็มรูปแบบ ชุดธูปเทียน (฿30–100) ผลไม้บวงสรวง (฿50–300) คณะโขนจ้างที่พระพรหมเอราวัณ (฿1,500–5,000 ต่อชุดการแสดง) เครื่องราง (฿200 ถึง ฿2,000,000+ สำหรับชิ้นระดับนักสะสม) การปรึกษาหมอดู (฿200–1,000 ต่อครั้ง) และชั้นดิจิทัลที่กำลังเติบโตของ subscription แอป ดูดวงและบริการทำบุญออนไลน์ แค่การค้าเครื่องรางอย่างเดียวก็มีมูลค่าประมาณ ฿40 billion ต่อปี มากกว่า 12 เท่าของรายได้รวมจากพิพิธภัณฑ์และสินค้าของวาติกัน\n\nสิ่งที่ค้ำจุนเศรษฐกิจนี้คือโครงสร้างพื้นฐานแห่งความเชื่อ เครื่องบูชาทำงาน ในความหมายเชิงตลาด เพราะผู้ซื้อเชื่อว่ามันทำงาน และในประเทศไทย ความเชื่อนั้นคงทนข้ามระดับการศึกษา ระดับรายได้ และข้ามรุ่น จากผลสำรวจ Krungsri Research ปี 2024 พบว่า 80% ของผู้บริโภคไทยเคยมีส่วนร่วมในกิจกรรม มูเตลู และ Gen Z มีแนวโน้มเดินทางเพื่อไหว้สิ่งศักดิ์สิทธิ์โดยเฉพาะมากกว่า Baby Boomers ถึง 2.1 เท่า ความทันสมัยไม่ได้ลดทอนความเชื่อ มันแค่ทำให้ความเชื่อกลายเป็นดิจิทัล\n\nงบดุลของความศักดิ์สิทธิ์ใหญ่กว่าที่คนส่วนใหญ่คาดไว้มาก แค่มันไม่ยื่นแบบรายงานประจำปีเท่านั้นเอง"
+        },
+        "bignum": {
+            "cap": {
+                "en": "annual donations to Thai Buddhist temples",
+                "th": "เงินบริจาคแก่วัดในประเทศไทยต่อปี"
+            }
+        },
+        "metrics": {
+            "label": {
+                "en": "Key Metrics",
+                "th": "ตัวชี้วัดหลัก"
+            },
+            "card1": {
+                "en": "donated annually to Thai Buddhist temples",
+                "th": "บริจาคแก่วัดไทยต่อปี"
+            },
+            "card2": {
+                "en": "registered Buddhist temples nationwide",
+                "th": "วัดในทะเบียนทั่วประเทศ"
+            },
+            "card3": {
+                "en": "entry-point garland — universal access price",
+                "th": "พวงมาลัยราคาเริ่มต้น — ราคาที่ทุกคนเข้าถึงได้"
+            }
+        },
+        "pullquote": {
+            "en": "‘Every marigold garland on a tuk-tuk's rearview mirror connects to the same network that moves ฿200 billion through 41,205 temples each year — a parallel financial system, denominated in merit.’",
+            "th": "‘พวงมาลัยดาวเรืองทุกพวงที่ห้อยอยู่ที่กระจกมองหลังตุ๊กตุ๊ก เชื่อมโยงกับเครือข่ายเดียวกันกับเงิน ฿200,000 ล้านบาทที่หมุนผ่าน 41,205 วัดทั่วประเทศในแต่ละปี — ระบบการเงินคู่ขนาน ที่ตีค่าเป็นบุญ’"
+        },
+        "compare": {
+            "label": {
+                "en": "Comparative Scale",
+                "th": "การเปรียบเทียบขนาด"
+            },
+            "row1": {
+                "label": {
+                    "en": "Thailand Offering Economy",
+                    "th": "เศรษฐกิจการถวายของประเทศไทย"
+                },
+                "sub": {
+                    "en": "temple donations · government fiscal data 2021",
+                    "th": "เงินบริจาควัด · ข้อมูลภาครัฐ 2564"
+                }
+            },
+            "row2": {
+                "label": {
+                    "en": "Saudi Hajj Economy",
+                    "th": "เศรษฐกิจฮัจญ์ของซาอุดีอาระเบีย"
+                },
+                "sub": {
+                    "en": "pilgrimage + Umrah · 2024 estimate",
+                    "th": "ฮัจญ์ + อุมเราะห์ · ประมาณการปี 2567"
+                }
+            },
+            "row3": {
+                "label": {
+                    "en": "Vatican Religious Goods",
+                    "th": "สินค้าศาสนาวาติกัน"
+                },
+                "sub": {
+                    "en": "articles + memorabilia exports · 2023 estimate",
+                    "th": "สินค้าศาสนา + ของที่ระลึก · ประมาณการปี 2566"
+                }
+            },
+            "note": {
+                "en": "Note: log scale. Datasets cover different fiscal years.",
+                "th": "หมายเหตุ: มาตราส่วน log ข้อมูลครอบคลุมปีงบประมาณต่างกัน"
+            }
+        },
+        "spectrum": {
+            "label": {
+                "en": "Offering Spectrum",
+                "th": "สเปกตรัมแห่งการถวาย"
+            },
+            "lead": {
+                "en": "From a tuk-tuk driver's daily garland to a corporate temple sponsorship — every income tier participates.",
+                "th": "จากพวงมาลัยรายวันของคนขับตุ๊กตุ๊ก ถึงการอุปถัมภ์วัดของบริษัท — ทุกระดับรายได้มีส่วนร่วม"
+            },
+            "footer": {
+                "en": "Logarithmic scale. Every tier coexists in the same shrine, on the same day.",
+                "th": "มาตราส่วนลอการิทึม ทุกระดับอยู่ร่วมกันในศาลเดียวกัน ในวันเดียวกัน"
+            }
         }
     },
     "ch04": {

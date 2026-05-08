@@ -351,7 +351,7 @@
 }
 
 /* ──────────────────────────────────────────
-   BLOCK 7 — Comparative scale (4 bars)
+   BLOCK 7 — Comparative scale (3 bars · log)
 ────────────────────────────────────────── */
 .ch03-compare {
     margin-block: var(--space-9);
@@ -443,6 +443,26 @@
     letter-spacing: 0.04em;
     white-space: nowrap;
     pointer-events: none;
+}
+
+/* When fill is at 100%, pull the label inside the track to avoid overflow */
+.ch03-compare__value[style*="--pos: 100%"] {
+    left: auto;
+    right: 16px;
+    margin-left: 0;
+    transform: translateY(-50%);
+}
+
+/* Editorial note under the chart */
+.ch03-compare__note {
+    margin: var(--space-5) 0 0;
+    font-family: var(--font-ui);
+    font-weight: 400;
+    font-size: 12px;
+    letter-spacing: 0.04em;
+    color: var(--color-slate);
+    max-width: none;
+    opacity: 0.85;
 }
 
 /* ──────────────────────────────────────────
@@ -601,13 +621,13 @@
 }
 
 /* ──────────────────────────────────────────
-   BLOCK 9 — Slider · What ฿B Buys
+   BLOCK 9 — Offering Spectrum · vertical 6-tier slider
 ────────────────────────────────────────── */
-.ch03-slider {
+.ch03-spectrum {
     margin-block: var(--space-9);
 }
 
-.ch03-slider__lead {
+.ch03-spectrum__lead {
     font-family: var(--font-display-en);
     font-weight: 400;
     font-size: 22px;
@@ -618,180 +638,272 @@
     opacity: 0.92;
 }
 
-.ch03-slider__lead em {
+.ch03-spectrum__lead em {
     font-style: italic;
 }
 
-.ch03-slider__card {
+.ch03-spectrum__card {
     position: relative;
     width: 100%;
     max-width: 1200px;
     border-radius: 20px;
     background: var(--color-charcoal);
     border: 1px solid rgba(245, 241, 234, 0.08);
-    padding: var(--space-7) var(--space-7) var(--space-5);
+    padding: var(--space-7);
     display: flex;
     flex-direction: column;
+    gap: var(--space-5);
 }
 
-/* ── Track wrap — bubble above + endpoint labels below ── */
-.ch03-slider__track-wrap {
+/* ── Desktop interactive layout ── */
+.ch03-spectrum__interactive {
+    display: grid;
+    grid-template-columns: 220px minmax(0, 1fr);
+    gap: var(--space-7);
+    min-height: 360px;
+}
+
+.ch03-spectrum__rail-wrap {
     position: relative;
-    padding: 56px 0 var(--space-3);     /* room above for the bubble */
+    padding: var(--space-3) 0;
+    display: flex;
+    align-items: stretch;
 }
 
-.ch03-slider__bubble {
-    position: absolute;
-    bottom: calc(100% - 48px);          /* sits above the track */
-    left: var(--bubble-x, 0px);
-    transform: translateX(-50%);
-    font-family: var(--font-display-en);
-    font-style: italic;
-    font-weight: 500;
-    font-size: 32px;
-    line-height: 1;
-    color: var(--color-gold);
-    text-shadow: 0 0 14px rgba(201, 169, 97, 0.4);
-    pointer-events: none;
-    white-space: nowrap;
-    /* No transition — bubble must track the thumb in real-time.
-       Browsers update the underlying CSS variable instantly per input event. */
-    will-change: left;
-}
-
-/* Native range input — themed, with diamond thumb */
-.ch03-slider__input {
-    -webkit-appearance: none;
-    appearance: none;
+/* Vertical rail — same gold gradient family as comparative-scale fills */
+.ch03-spectrum__track {
+    position: relative;
     width: 100%;
-    height: 4px;
-    background: linear-gradient(
-        to right,
-        var(--color-gold) 0%,
-        var(--color-gold) var(--fill, 11%),
-        rgba(245, 241, 234, 0.18) var(--fill, 11%),
-        rgba(245, 241, 234, 0.18) 100%
-    );
-    border-radius: 100px;
-    outline: none;
-    cursor: pointer;
-    margin: 0;
+    height: 100%;
+    min-height: 320px;
 }
 
-/* Diamond (rotated square) thumb — gold */
-.ch03-slider__input::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    appearance: none;
-    width: 16px;
-    height: 16px;
-    background: var(--color-gold);
+.ch03-spectrum__track::before {
+    content: "";
+    position: absolute;
+    left: 16px;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    border-radius: 100px;
+    background: rgba(245, 241, 234, 0.12);
+}
+
+.ch03-spectrum__fill {
+    position: absolute;
+    left: 16px;
+    top: 0;
+    width: 4px;
+    height: var(--h, 0%);
+    border-radius: 100px;
+    background: linear-gradient(180deg, #DABF81 0%, #635330 100%);
+    box-shadow: 0 0 18px rgba(201, 169, 97, 0.35);
+    pointer-events: none;
+    transition: height var(--motion-deliberate) var(--ease-brand);
+}
+
+/* Markers — small dot + amount label, anchored at each detent */
+.ch03-spectrum__markers {
+    position: absolute;
+    inset: 0;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.ch03-spectrum-marker {
+    position: absolute;
+    top: var(--top, 0%);
+    left: 0;
+    transform: translateY(-50%);
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    cursor: pointer;
+    padding: 4px 0 4px 36px;
+    background: transparent;
     border: 0;
-    border-radius: 0;
-    transform: rotate(45deg);
-    box-shadow: 0 0 12px rgba(201, 169, 97, 0.6);
-    cursor: grab;
-    transition: transform var(--motion-fast) var(--ease-out),
+    color: inherit;
+    font: inherit;
+}
+
+.ch03-spectrum-marker__dot {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: rgba(245, 241, 234, 0.18);
+    transition: background var(--motion-fast) var(--ease-out),
                 box-shadow var(--motion-fast) var(--ease-out);
 }
 
-.ch03-slider__input::-webkit-slider-thumb:hover,
-.ch03-slider__input::-webkit-slider-thumb:active {
-    box-shadow: 0 0 18px rgba(201, 169, 97, 0.85);
+.ch03-spectrum-marker[data-active="true"] .ch03-spectrum-marker__dot {
+    background: var(--color-gold);
+    box-shadow: 0 0 10px rgba(201, 169, 97, 0.65);
 }
 
-.ch03-slider__input::-moz-range-thumb {
+.ch03-spectrum-marker__label {
+    font-family: var(--font-mono);
+    font-weight: 400;
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    color: var(--color-slate);
+    transition: color var(--motion-fast) var(--ease-out);
+}
+
+.ch03-spectrum-marker[data-active="true"] .ch03-spectrum-marker__label {
+    color: var(--color-cream);
+}
+
+/* Diamond thumb — matches Day-13 design tokens */
+.ch03-spectrum__thumb {
+    position: absolute;
+    left: 18px;                 /* center on rail (rail left:16 + width:4 → midpoint 18) */
+    top: var(--top, 0%);
+    transform: translate(-50%, -50%) rotate(45deg);
     width: 16px;
     height: 16px;
     background: var(--color-gold);
     border: 0;
+    padding: 0;
     border-radius: 0;
-    transform: rotate(45deg);
     box-shadow: 0 0 12px rgba(201, 169, 97, 0.6);
     cursor: grab;
+    touch-action: none;
+    transition: top var(--motion-deliberate) var(--ease-brand),
+                box-shadow var(--motion-fast) var(--ease-out);
 }
 
-.ch03-slider__input:focus-visible {
+.ch03-spectrum__thumb:hover,
+.ch03-spectrum__thumb:active {
+    box-shadow: 0 0 22px rgba(201, 169, 97, 0.95);
+    cursor: grabbing;
+}
+
+.ch03-spectrum__thumb:focus-visible {
     outline: 2px solid var(--color-gold);
     outline-offset: 6px;
 }
 
-/* ฿20 / ฿1,000 endpoint labels under the track */
-.ch03-slider__endpoints {
-    display: flex;
-    justify-content: space-between;
-    margin-top: var(--space-3);
-    font-family: var(--font-mono);
-    font-weight: 400;
-    font-size: 12px;
-    letter-spacing: 0.04em;
-    color: var(--color-slate);
-}
-
-/* ── Hairline rule between sections inside the card ── */
-.ch03-slider__rule {
-    width: 100%;
-    height: 1px;
-    border: 0;
-    background: var(--color-line);
-    margin: var(--space-5) 0;
-}
-
-/* ── Items — flat row, no per-item card; icon + body inline ── */
-.ch03-slider__items {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: var(--space-6);
-}
-
-.ch03-slider-item {
-    display: flex;
-    align-items: flex-start;
-    gap: var(--space-3);
-    padding: 0;
-    border: 0;
-    background: transparent;
-    border-radius: 0;
-}
-
-.ch03-slider-item__icon {
-    width: 28px;
-    height: 28px;
-    object-fit: contain;
-    flex-shrink: 0;
-    margin-top: 2px;
-    filter: drop-shadow(0 0 6px rgba(201, 169, 97, 0.45));
-}
-
-.ch03-slider-item__body {
+/* ── Active tier panel — slides in from the right ── */
+.ch03-spectrum__panel {
+    align-self: stretch;
+    padding: var(--space-5);
+    border-radius: 16px;
+    background: rgba(245, 241, 234, 0.03);
+    border: 1px solid rgba(245, 241, 234, 0.06);
     display: flex;
     flex-direction: column;
-    gap: 4px;
+    gap: var(--space-4);
+    animation: ch03-spectrum-slide var(--motion-deliberate) var(--ease-brand);
+}
+
+@keyframes ch03-spectrum-slide {
+    from { opacity: 0; transform: translateX(16px); }
+    to   { opacity: 1; transform: translateX(0); }
+}
+
+.ch03-spectrum-card__amount {
+    font-family: var(--font-display-en);
+    font-style: italic;
+    font-weight: 500;
+    font-size: clamp(2.25rem, 5vw, 64px);
+    line-height: 1;
+    color: var(--color-gold);
+    text-shadow: 0 0 18px rgba(201, 169, 97, 0.3);
+    margin: 0;
+    max-width: none;
+    opacity: 1;
+}
+
+.ch03-spectrum-card__detail {
+    margin: 0;
+    display: grid;
+    grid-template-columns: max-content minmax(0, 1fr);
+    column-gap: var(--space-4);
+    row-gap: var(--space-2);
+}
+
+.ch03-spectrum-card__detail dt {
+    font-family: var(--font-ui);
+    font-weight: 500;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-slate);
+    align-self: center;
+}
+
+.ch03-spectrum-card__detail dd {
+    margin: 0;
+    font-family: var(--font-ui);
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 1.4;
+    color: var(--color-cream);
+    max-width: none;
+    opacity: 1;
+}
+
+/* ── Mobile static fallback (hidden on desktop) ── */
+.ch03-spectrum__static {
+    display: none;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    flex-direction: column;
+    gap: var(--space-3);
+}
+
+.ch03-spectrum-static__item {
+    display: grid;
+    grid-template-columns: 96px minmax(0, 1fr);
+    gap: var(--space-4);
+    align-items: center;
+    padding: var(--space-3) var(--space-4);
+    border-radius: 12px;
+    background: rgba(245, 241, 234, 0.03);
+    border: 1px solid rgba(245, 241, 234, 0.06);
+}
+
+.ch03-spectrum-static__amount {
+    font-family: var(--font-display-en);
+    font-style: italic;
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 1;
+    color: var(--color-gold);
+    margin: 0;
+    text-align: right;
+    max-width: none;
+    opacity: 1;
+}
+
+.ch03-spectrum-static__body {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
     min-width: 0;
 }
 
-.ch03-slider-item__name {
+.ch03-spectrum-static__buys {
     font-family: var(--font-ui);
     font-weight: 500;
-    font-size: 15px;
-    line-height: 1.3;
+    font-size: 14px;
+    line-height: 1.35;
     color: var(--color-cream);
     margin: 0;
     max-width: none;
     opacity: 1;
 }
 
-.ch03-slider-item__count {
-    font-family: var(--font-display-en);
-    font-style: italic;
-    font-weight: 500;
-    color: var(--color-gold);
-    margin-right: 2px;
-}
-
-.ch03-slider-item__sub {
+.ch03-spectrum-static__buyer {
     font-family: var(--font-ui);
     font-weight: 400;
-    font-size: 13px;
+    font-size: 12px;
     line-height: 1.4;
     color: var(--color-slate);
     margin: 0;
@@ -799,8 +911,16 @@
     opacity: 1;
 }
 
-/* ── Tier strip at the bottom of the card ── */
-.ch03-slider__strip {
+/* Hairline + footer caption */
+.ch03-spectrum__rule {
+    width: 100%;
+    height: 1px;
+    border: 0;
+    background: var(--color-line);
+    margin: 0;
+}
+
+.ch03-spectrum__footer {
     margin: 0;
     font-family: var(--font-mono);
     font-weight: 400;
@@ -1005,10 +1125,22 @@
 
     .ch03-compare__bar,
     .ch03-seasonal-col__bar,
-    .ch03-slider__bubble,
+    .ch03-spectrum__fill,
+    .ch03-spectrum__thumb,
+    .ch03-spectrum__panel,
+    .ch03-spectrum-marker__dot,
     .ch03-closing__cue-line {
         transition: none;
         animation: none;
+    }
+
+    .ch03-spectrum__thumb {
+        box-shadow: 0 0 0 1px rgba(201, 169, 97, 0.6);
+    }
+
+    .ch03-spectrum__thumb:hover,
+    .ch03-spectrum__thumb:active {
+        box-shadow: 0 0 0 1px rgba(201, 169, 97, 0.95);
     }
 
     .ch03-opening__video,
@@ -1037,10 +1169,6 @@
     .ch03-seasonal__chart {
         height: 240px;
     }
-
-    .ch03-slider__items {
-        grid-template-columns: minmax(0, 1fr);
-    }
 }
 
 @media (max-width: 767px) {
@@ -1055,8 +1183,21 @@
 
     .ch03-header__lead,
     .ch03-chain__lead,
-    .ch03-slider__lead {
+    .ch03-spectrum__lead {
         font-size: 18px;
+    }
+
+    /* Mobile fallback — hide interactive slider, show static list */
+    .ch03-spectrum__interactive {
+        display: none;
+    }
+
+    .ch03-spectrum__static {
+        display: flex;
+    }
+
+    .ch03-spectrum__card {
+        padding: var(--space-5);
     }
 
     .ch03-opening__media,
