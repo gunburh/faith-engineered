@@ -181,6 +181,88 @@
                 "en": "<em>The New Saints</em>",
                 "th": "<em>เทพยุคใหม่</em>"
             }
+        },
+        "bignum": {
+            "cap": {
+                "en": "annual donations to Thai Buddhist temples",
+                "th": "เงินบริจาคแก่วัดในประเทศไทยต่อปี"
+            }
+        },
+        "metrics": {
+            "label": {
+                "en": "Key Metrics",
+                "th": "ตัวชี้วัดหลัก"
+            },
+            "card1": {
+                "en": "donated annually to Thai Buddhist temples",
+                "th": "บริจาคแก่วัดไทยต่อปี"
+            },
+            "card2": {
+                "en": "registered Buddhist temples nationwide",
+                "th": "วัดในทะเบียนทั่วประเทศ"
+            },
+            "card3": {
+                "en": "entry-point garland — universal access price",
+                "th": "พวงมาลัยราคาเริ่มต้น — ราคาที่ทุกคนเข้าถึงได้"
+            }
+        },
+        "pullquote": {
+            "en": "‘Every marigold garland on a tuk-tuk's rearview mirror connects to the same network that moves ฿200 billion through 41,205 temples each year — a parallel financial system, denominated in merit.’",
+            "th": "‘พวงมาลัยดาวเรืองทุกพวงที่ห้อยอยู่ที่กระจกมองหลังตุ๊กตุ๊ก เชื่อมโยงกับเครือข่ายเดียวกันกับเงิน ฿200,000 ล้านบาทที่หมุนผ่าน 41,205 วัดทั่วประเทศในแต่ละปี — ระบบการเงินคู่ขนาน ที่ตีค่าเป็นบุญ’"
+        },
+        "compare": {
+            "label": {
+                "en": "Comparative Scale",
+                "th": "การเปรียบเทียบขนาด"
+            },
+            "row1": {
+                "label": {
+                    "en": "Thailand Offering Economy",
+                    "th": "เศรษฐกิจการถวายของประเทศไทย"
+                },
+                "sub": {
+                    "en": "temple donations · government fiscal data 2021",
+                    "th": "เงินบริจาควัด · ข้อมูลภาครัฐ 2564"
+                }
+            },
+            "row2": {
+                "label": {
+                    "en": "Saudi Hajj Economy",
+                    "th": "เศรษฐกิจฮัจญ์ของซาอุดีอาระเบีย"
+                },
+                "sub": {
+                    "en": "pilgrimage + Umrah · 2024 estimate",
+                    "th": "ฮัจญ์ + อุมเราะห์ · ประมาณการปี 2567"
+                }
+            },
+            "row3": {
+                "label": {
+                    "en": "Vatican Religious Goods",
+                    "th": "สินค้าศาสนาวาติกัน"
+                },
+                "sub": {
+                    "en": "articles + memorabilia exports · 2023 estimate",
+                    "th": "สินค้าศาสนา + ของที่ระลึก · ประมาณการปี 2566"
+                }
+            },
+            "note": {
+                "en": "Note: log scale. Datasets cover different fiscal years.",
+                "th": "หมายเหตุ: มาตราส่วน log ข้อมูลครอบคลุมปีงบประมาณต่างกัน"
+            }
+        },
+        "spectrum": {
+            "label": {
+                "en": "Offering Spectrum",
+                "th": "สเปกตรัมแห่งการถวาย"
+            },
+            "lead": {
+                "en": "From a tuk-tuk driver's daily garland to a corporate temple sponsorship — every income tier participates.",
+                "th": "จากพวงมาลัยรายวันของคนขับตุ๊กตุ๊ก ถึงการอุปถัมภ์วัดของบริษัท — ทุกระดับรายได้มีส่วนร่วม"
+            },
+            "footer": {
+                "en": "Logarithmic scale. Every tier coexists in the same shrine, on the same day.",
+                "th": "มาตราส่วนลอการิทึม ทุกระดับอยู่ร่วมกันในศาลเดียวกัน ในวันเดียวกัน"
+            }
         }
     },
     "ch04": {

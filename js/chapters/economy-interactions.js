@@ -3,16 +3,17 @@ import { bindScrollChevrons } from '../utils.js';
 /**
  * economy-interactions.js — Faith Engineered · Chapter 03 · The Offering Economy
  *
- * Three interactions wired here:
- *   1. Count-up reveal of the 47B big number (IntersectionObserver, one-shot)
- *   2. "What ฿B Buys" slider — drag to cycle through 4 spend tiers,
- *      each rendering a 3-card row of icons + counts
- *   3. Seasonal Peaks bar chart — 12 columns rendered on init
+ * Interactions wired here:
+ *   1. Count-up reveal of the ฿200B big number (IntersectionObserver, one-shot)
+ *   2. Offering Spectrum — vertical 6-tier slider with active tier card
+ *      (snap-to-detent, keyboard nav, mobile static fallback, bilingual)
+ *   3. Value-chain horizontal scroll · chevron buttons
+ *
+ * Seasonal Peaks chart is owned by chapters/seasonal-peaks.js.
  *
  * prefers-reduced-motion:
  *   - Count-up shows the final value immediately (no animation)
- *   - Bar heights snap (no transition — handled in CSS)
- *   - Slider remains fully interactive
+ *   - Slider keeps snap behavior; gold-glow animation suppressed via CSS
  */
 
 const REDUCED_MOTION =
@@ -67,174 +68,253 @@ function initBigNumberCountUp() {
 }
 
 // ─────────────────────────────────────────────────────────
-// 2. Slider — What ฿B Buys
+// 2. Offering Spectrum (6-tier vertical slider, log-scale)
 // ─────────────────────────────────────────────────────────
 
-const SLIDER_TIERS = [
+const SPECTRUM_TIERS = [
     {
-        max: 99,
-        items: [
-            { count: '5×', name: 'Marigold garlands',    sub: 'Standard offering · any shrine', icon: 'flower_icon.png' },
-            { count: '1×', name: 'Full incense set',     sub: '7 sticks + 2 candles',           icon: 'candle_icon.png' },
-            { count: '1×', name: 'Small amulet (basic)', sub: 'Wat Pho / street vendor',        icon: 'amulet_icon.png' },
-        ],
+        amount: '฿20',
+        buys:  { en: 'Marigold garland',                            th: 'พวงมาลัยดอกดาวเรือง' },
+        buyer: { en: 'Taxi driver · daily',                         th: 'คนขับแท็กซี่ · รายวัน' },
     },
     {
-        max: 499,
-        items: [
-            { count: '1×', name: 'Silk garland',     sub: 'Premium offering · larger shrines', icon: 'flower_icon.png' },
-            { count: '1×', name: 'Premium incense',  sub: 'Imported · long burn time',         icon: 'candle_icon.png' },
-            { count: '1×', name: 'Mid-tier amulet',  sub: 'Blessed · single-monk lineage',     icon: 'amulet_icon.png' },
-        ],
+        amount: '฿100',
+        buys:  { en: 'Incense set + candles',                       th: 'ชุดธูปเทียน' },
+        buyer: { en: 'Office worker · weekly visit',                th: 'พนักงานออฟฟิศ · รายสัปดาห์' },
     },
     {
-        max: 999,
-        items: [
-            { count: '1×', name: 'Gold-leaf offering', sub: 'Major-shrine standard',         icon: 'flower_icon.png' },
-            { count: '1×', name: 'Ceremonial set',     sub: 'Multi-component · monk-led',    icon: 'candle_icon.png' },
-            { count: '1×', name: 'Quality amulet',     sub: 'Blessed · multi-monk lineage',  icon: 'amulet_icon.png' },
-        ],
+        amount: '฿500',
+        buys:  { en: 'Silk garland for major shrine',               th: 'พวงมาลัยผ้าไหม สำหรับศาลหลัก' },
+        buyer: { en: 'Middle-class family · monthly',               th: 'ครอบครัวชนชั้นกลาง · รายเดือน' },
     },
     {
-        max: Infinity,
-        items: [
-            { count: '1×', name: 'Fortune teller consultation', sub: '60-min private session', icon: 'phone_icon.png'  },
-            { count: '1×', name: 'Full ceremony',               sub: 'Monk + altar + chant',   icon: 'candle_icon.png' },
-            { count: '1×', name: 'Premium amulet',              sub: 'Old · rare · collector', icon: 'amulet_icon.png' },
-        ],
+        amount: '฿5,000',
+        buys:  { en: "Sangkhathan offering set + monk's meal",      th: 'สังฆทานครบชุด + ภัตตาหารพระ' },
+        buyer: { en: 'Upper-middle · occasional',                   th: 'ชนชั้นกลางตอนบน · ครั้งคราว' },
+    },
+    {
+        amount: '฿50,000',
+        buys:  { en: 'Phaa Pa ceremony (full ordination kit)',      th: 'งานผ้าป่า (ชุดบวชครบ)' },
+        buyer: { en: 'Business owner · annual',                     th: 'เจ้าของธุรกิจ · รายปี' },
+    },
+    {
+        amount: '฿500,000',
+        buys:  { en: 'Pavilion / sala sponsorship — name engraved', th: 'ถวายศาลา · จารึกชื่อผู้ถวาย' },
+        buyer: { en: 'Corporate / wealthy patron · annual',         th: 'บริษัท / ผู้มีศักดิ์ฐานะสูง · รายปี' },
     },
 ];
 
-function tierFor(value) {
-    return SLIDER_TIERS.find((t) => value <= t.max) || SLIDER_TIERS[SLIDER_TIERS.length - 1];
+const SPECTRUM_HEADINGS = {
+    buys:  { en: 'Buys',          th: 'ซื้อได้' },
+    buyer: { en: 'Typical buyer', th: 'ผู้ถวายทั่วไป' },
+};
+
+const TIER_COUNT = SPECTRUM_TIERS.length;
+
+function getCurrentLang() {
+    const l = document.documentElement.lang;
+    return l === 'th' ? 'th' : 'en';
 }
 
-function renderSliderItems(itemsEl, tier) {
-    itemsEl.innerHTML = tier.items.map((it) => `
-        <div class="ch03-slider-item">
-            <img class="ch03-slider-item__icon" src="assets/icons/${it.icon}" alt="" aria-hidden="true">
-            <div class="ch03-slider-item__body">
-                <p class="ch03-slider-item__name">
-                    <span class="ch03-slider-item__count">${it.count}</span> ${it.name}
-                </p>
-                <p class="ch03-slider-item__sub">${it.sub}</p>
-            </div>
+function tierFractionFor(idx) {
+    // 0 → top of rail, 1 → bottom. Tier 1 (cheapest) at top, Tier 6 (highest) at bottom.
+    return idx / (TIER_COUNT - 1);
+}
+
+function renderMarkers(markersEl) {
+    markersEl.innerHTML = SPECTRUM_TIERS.map((t, i) => {
+        const top = tierFractionFor(i) * 100;
+        return `
+            <li class="ch03-spectrum-marker"
+                data-spectrum-marker
+                data-idx="${i}"
+                style="--top: ${top}%;">
+                <span class="ch03-spectrum-marker__dot" aria-hidden="true"></span>
+                <span class="ch03-spectrum-marker__label">${t.amount}</span>
+            </li>
+        `;
+    }).join('');
+}
+
+function renderActivePanel(panelEl, idx, lang) {
+    const tier = SPECTRUM_TIERS[idx];
+    const tierLabel = lang === 'th'
+        ? `ระดับ ${idx + 1} จาก ${TIER_COUNT}`
+        : `Tier ${String(idx + 1).padStart(2, '0')} / ${TIER_COUNT}`;
+    panelEl.innerHTML = `
+        <div class="ch03-spectrum-card__inner">
+            <p class="ch03-spectrum-card__tier">${tierLabel}</p>
+            <p class="ch03-spectrum-card__amount">${tier.amount}</p>
+            <hr class="ch03-spectrum-card__divider">
+            <dl class="ch03-spectrum-card__detail">
+                <dt>${SPECTRUM_HEADINGS.buys[lang]}</dt>
+                <dd>${tier.buys[lang]}</dd>
+                <dt>${SPECTRUM_HEADINGS.buyer[lang]}</dt>
+                <dd>${tier.buyer[lang]}</dd>
+            </dl>
         </div>
+    `;
+}
+
+function renderStaticList(listEl, lang) {
+    listEl.innerHTML = SPECTRUM_TIERS.map((tier) => `
+        <li class="ch03-spectrum-static__item">
+            <p class="ch03-spectrum-static__amount">${tier.amount}</p>
+            <div class="ch03-spectrum-static__body">
+                <p class="ch03-spectrum-static__buys">${tier.buys[lang]}</p>
+                <p class="ch03-spectrum-static__buyer">${tier.buyer[lang]}</p>
+            </div>
+        </li>
     `).join('');
 }
 
-function initSpendSlider() {
-    const input = document.querySelector('[data-slider-input]');
-    const valueEl = document.querySelector('[data-slider-value]');
-    const bubbleEl = document.querySelector('[data-slider-bubble]');
-    const itemsEl = document.querySelector('[data-slider-items]');
-    if (!input || !itemsEl) return;
+function ariaValueText(idx, lang) {
+    const tier = SPECTRUM_TIERS[idx];
+    return `Tier ${idx + 1} of ${TIER_COUNT}: ${tier.amount} — ${tier.buys[lang]} (${tier.buyer[lang]})`;
+}
 
-    const min = Number(input.min);
-    const max = Number(input.max);
+function initOfferingSpectrum() {
+    const root      = document.querySelector('[data-spectrum-interactive]');
+    const trackEl   = document.querySelector('[data-spectrum-track]');
+    const fillEl    = document.querySelector('[data-spectrum-fill]');
+    const thumbEl   = document.querySelector('[data-spectrum-thumb]');
+    const markersEl = document.querySelector('[data-spectrum-markers]');
+    const panelEl   = document.querySelector('[data-spectrum-panel]');
+    const valTextEl = document.querySelector('[data-spectrum-valuetext]');
+    const staticEl  = document.querySelector('[data-spectrum-static]');
+    if (!root || !trackEl || !thumbEl || !panelEl || !markersEl || !staticEl) return;
 
-    // Cache the track width — only recompute on resize, never on input.
-    // Avoids forced layout reads inside the hot path.
-    let trackWidth = input.getBoundingClientRect().width;
-    const THUMB = 18;
-
-    // Track only re-renders items when tier index actually changes.
-    let lastTierIdx = -1;
+    let activeIdx = 0;
 
     const update = () => {
-        const v = Number(input.value);
-        const fillPct = ((v - min) / (max - min)) * 100;
+        const lang = getCurrentLang();
+        const frac = tierFractionFor(activeIdx);
+        const pct  = frac * 100;
 
-        input.style.setProperty('--fill', `${fillPct}%`);
+        thumbEl.style.setProperty('--top', `${pct}%`);
+        fillEl.style.setProperty('--h', `${pct}%`);
 
-        if (valueEl) valueEl.textContent = `${v.toLocaleString('en-US')}฿`;
+        // Mark active marker
+        markersEl.querySelectorAll('[data-spectrum-marker]').forEach((m) => {
+            const idx = Number(m.dataset.idx);
+            m.dataset.active = String(idx === activeIdx);
+        });
 
-        if (bubbleEl) {
-            const px = (fillPct / 100) * (trackWidth - THUMB) + THUMB / 2;
-            bubbleEl.style.setProperty('--bubble-x', `${px}px`);
-        }
+        // ARIA
+        thumbEl.setAttribute('aria-valuenow', String(activeIdx + 1));
+        const vt = ariaValueText(activeIdx, lang);
+        thumbEl.setAttribute('aria-valuetext', vt);
+        if (valTextEl) valTextEl.textContent = vt;
 
-        // Re-render items only when crossing a tier boundary
-        const tierIdx = SLIDER_TIERS.findIndex((t) => v <= t.max);
-        if (tierIdx !== lastTierIdx) {
-            lastTierIdx = tierIdx;
-            renderSliderItems(itemsEl, SLIDER_TIERS[tierIdx]);
-        }
+        renderActivePanel(panelEl, activeIdx, lang);
     };
 
-    input.addEventListener('input', update);
-    window.addEventListener('resize', () => {
-        trackWidth = input.getBoundingClientRect().width;
+    const setIdx = (idx) => {
+        const clamped = Math.max(0, Math.min(TIER_COUNT - 1, idx));
+        if (clamped === activeIdx) return;
+        activeIdx = clamped;
         update();
+    };
+
+    // Render once
+    renderMarkers(markersEl);
+    renderStaticList(staticEl, getCurrentLang());
+    update();
+
+    // ── Marker click — jump to that tier ──
+    markersEl.addEventListener('click', (e) => {
+        const m = e.target.closest('[data-spectrum-marker]');
+        if (!m) return;
+        setIdx(Number(m.dataset.idx));
     });
 
-    update();
-}
+    // ── Keyboard navigation on the thumb ──
+    thumbEl.addEventListener('keydown', (e) => {
+        let handled = true;
+        switch (e.key) {
+            case 'ArrowDown':
+            case 'ArrowRight':
+                setIdx(activeIdx + 1);
+                break;
+            case 'ArrowUp':
+            case 'ArrowLeft':
+                setIdx(activeIdx - 1);
+                break;
+            case 'Home':
+                setIdx(0);
+                break;
+            case 'End':
+                setIdx(TIER_COUNT - 1);
+                break;
+            case 'PageDown':
+                setIdx(activeIdx + 2);
+                break;
+            case 'PageUp':
+                setIdx(activeIdx - 2);
+                break;
+            default:
+                handled = false;
+        }
+        if (handled) e.preventDefault();
+    });
 
-// ─────────────────────────────────────────────────────────
-// 3. Seasonal peaks bar chart
-// ─────────────────────────────────────────────────────────
+    // ── Pointer drag — snap to nearest tier on release; live-snap during drag ──
+    let dragging = false;
 
-const SEASONS = [
-    { m: 'Jan', h: 8, kind: 'gold',    peak: 'Chinese New Year' },
-    { m: 'Feb', h: 5, kind: 'gray',    peak: '' },
-    { m: 'Mar', h: 4, kind: 'gray',    peak: '' },
-    { m: 'Apr', h: 9, kind: 'gold',    peak: 'Songkran' },
-    { m: 'May', h: 4, kind: 'gray',    peak: '' },
-    { m: 'Jun', h: 4, kind: 'gold',    peak: 'Buddhist Lent' },
-    { m: 'Jul', h: 3, kind: 'gray',    peak: '' },
-    { m: 'Aug', h: 3, kind: 'gray',    peak: '' },
-    { m: 'Sep', h: 5, kind: 'gray',    peak: '' },
-    { m: 'Oct', h: 6, kind: 'oxblood', peak: 'Veg Festival' },
-    { m: 'Nov', h: 4, kind: 'gray',    peak: '' },
-    { m: 'Dec', h: 9, kind: 'gold',    peak: 'New Year' },
-];
-
-function renderSeasonalChart() {
-    const chart = document.querySelector('[data-seasonal-chart]');
-    if (!chart) return;
-
-    chart.innerHTML = SEASONS.map((s) => `
-        <div class="ch03-seasonal-col">
-            <span class="ch03-seasonal-col__peak">${s.peak}</span>
-            <div class="ch03-seasonal-col__bar ch03-seasonal-col__bar--${s.kind}"
-                 style="--h: 0%;"
-                 role="img"
-                 aria-label="${s.m}: relative demand ${s.h} of 10${s.peak ? ', peak: ' + s.peak : ''}"></div>
-            <span class="ch03-seasonal-col__label">${s.m}</span>
-        </div>
-    `).join('');
-
-    // Animate-in on first scroll into view (skipped for reduced motion)
-    const bars = chart.querySelectorAll('.ch03-seasonal-col__bar');
-    const setHeights = () => {
-        bars.forEach((bar, i) => {
-            bar.style.setProperty('--h', `${SEASONS[i].h * 10}%`);
-        });
+    const idxFromPointerY = (clientY) => {
+        const rect = trackEl.getBoundingClientRect();
+        const y = clientY - rect.top;
+        const frac = Math.max(0, Math.min(1, y / rect.height));
+        return Math.round(frac * (TIER_COUNT - 1));
     };
 
-    if (REDUCED_MOTION) {
-        setHeights();
-        return;
-    }
+    const onPointerMove = (e) => {
+        if (!dragging) return;
+        setIdx(idxFromPointerY(e.clientY));
+    };
 
-    let triggered = false;
-    const io = new IntersectionObserver(
-        (entries) => {
-            for (const entry of entries) {
-                if (!entry.isIntersecting || triggered) continue;
-                triggered = true;
-                setHeights();
-                io.disconnect();
-            }
-        },
-        { threshold: 0.25 }
-    );
-    io.observe(chart);
+    const onPointerUp = (e) => {
+        if (!dragging) return;
+        dragging = false;
+        thumbEl.releasePointerCapture?.(e.pointerId);
+        document.removeEventListener('pointermove', onPointerMove);
+        document.removeEventListener('pointerup', onPointerUp);
+        document.removeEventListener('pointercancel', onPointerUp);
+    };
+
+    thumbEl.addEventListener('pointerdown', (e) => {
+        // Ignore non-primary buttons on mouse/pen
+        if (e.button !== undefined && e.button !== 0) return;
+        dragging = true;
+        thumbEl.focus();
+        thumbEl.setPointerCapture?.(e.pointerId);
+        setIdx(idxFromPointerY(e.clientY));
+        document.addEventListener('pointermove', onPointerMove);
+        document.addEventListener('pointerup', onPointerUp);
+        document.addEventListener('pointercancel', onPointerUp);
+        e.preventDefault();
+    });
+
+    // Click anywhere on the track (outside thumb) → jump to nearest tier
+    trackEl.addEventListener('pointerdown', (e) => {
+        if (e.target === thumbEl || thumbEl.contains(e.target)) return;
+        if (e.target.closest('[data-spectrum-marker]')) return;
+        setIdx(idxFromPointerY(e.clientY));
+    });
+
+    // ── Bilingual: re-render when <html lang> changes ──
+    const langObserver = new MutationObserver(() => {
+        renderStaticList(staticEl, getCurrentLang());
+        update();
+    });
+    langObserver.observe(document.documentElement, {
+        attributes: true,
+        attributeFilter: ['lang'],
+    });
 }
 
 // ─────────────────────────────────────────────────────────
-// 4. Value-chain horizontal scroll · chevron button
+// 3. Value-chain horizontal scroll · chevron button
 // ─────────────────────────────────────────────────────────
 
 function initChainScroll() {
@@ -259,7 +339,7 @@ function initChainScroll() {
 
 export function initEconomyInteractions() {
     initBigNumberCountUp();
-    initSpendSlider();
+    initOfferingSpectrum();
     // Seasonal Peaks is owned by chapters/seasonal-peaks.js (desktop = Three.js,
     // mobile = flat bar chart). Initialized separately in main.js.
     initChainScroll();
