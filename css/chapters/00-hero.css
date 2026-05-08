@@ -57,10 +57,29 @@
 }
 
 [data-lang="th"] .hero__subtitle {
-    font-family: var(--font-display-th);
+    font-family: var(--font-ui-th); /* IBM Plex Sans Thai · Regular */
+    font-weight: 400;
     font-size: clamp(1.25rem, 2.6vw, 2.1rem);
-    line-height: 1.4;
-    max-width: 32ch;
+    line-height: 1.5;
+    letter-spacing: 0;
+    max-width: 36ch;
+}
+
+/* CTA in Thai mode — JetBrains Mono · Regular (Latin glyphs of mono +
+   browser-fallback Thai for "เริ่มอ่าน"). */
+[data-lang="th"] .btn-cta__label {
+    font-family: var(--font-mono);
+    font-weight: 400;
+    letter-spacing: 0.06em;
+    text-transform: none;
+}
+
+/* Scroll cue uses Inter — Thai glyphs fall back to IBM Plex Sans Thai
+   so display is deterministic across OS / browser. */
+[data-lang="th"] .scroll-cue__label {
+    font-family: 'Inter', 'IBM Plex Sans Thai', sans-serif;
+    font-weight: 400;
+    text-transform: none;
 }
 
 /* ──────────────────────────────────────────

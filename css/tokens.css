@@ -34,10 +34,10 @@
     --font-display-en: 'Cormorant Garamond', serif;
     --font-display-th: 'IBM Plex Sans Thai Looped', 'Sarabun', sans-serif;
     --font-body-en: 'Cormorant Garamond', Georgia, serif;
-    --font-body-th: 'IBM Plex Sans Thai', 'Sarabun', sans-serif;
+    --font-body-th: 'IBM Plex Sans Thai', sans-serif;
     --font-ui-en: 'Inter', sans-serif;
-    --font-ui-th: 'IBM Plex Thai', sans-serif;
-    --font-mono: 'JetBrains Mono', monospace;
+    --font-ui-th: 'IBM Plex Sans Thai', sans-serif;
+    --font-mono: 'JetBrains Mono', 'IBM Plex Sans Thai', monospace;
 
     /* TYPE SCALE */
     --text-xs: clamp(0.75rem, 0.7vw + 0.6rem, 0.875rem);
