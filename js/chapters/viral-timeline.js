@@ -246,9 +246,27 @@ function renderThree(container) {
         return new THREE.CatmullRomCurve3(points, false, 'catmullrom', 0.5);
     }
 
+    // Compute finite-difference tangents at each sampled point. Used to
+    // displace points perpendicular to the curve in the wave loop.
+    function computeTangents(points) {
+        const N = points.length;
+        const tangents = new Array(N);
+        for (let i = 0; i < N; i++) {
+            const prev = points[Math.max(0, i - 1)];
+            const next = points[Math.min(N - 1, i + 1)];
+            const dx = next.x - prev.x;
+            const dy = next.y - prev.y;
+            const len = Math.hypot(dx, dy) || 1;
+            tangents[i] = { x: dx / len, y: dy / len };
+        }
+        return tangents;
+    }
+
     RIBBONS.forEach((def, idx) => {
         const curve = buildCurve(def, aspect);
         const sampledPoints = curve.getSpacedPoints(SAMPLE_COUNT - 1);
+        const tangents = computeTangents(sampledPoints);
+        const displacedPoints = sampledPoints.map((p) => p.clone());
         const gradTex = buildPeakGradientTexture(THREE, def.peakT, def.color);
 
         const line = new MeshLine();
@@ -277,7 +295,17 @@ function renderThree(container) {
 
         ribbons.push({
             def, idx, curve, line, material, mesh, gradTex,
+            basePoints: sampledPoints,
+            tangents,
+            displacedPoints,
+            peakIndex: Math.round(def.peakT * (SAMPLE_COUNT - 1)),
+            // Saint world = base + saintWaveOffset; updated each frame.
+            saintBase: saintWorld.clone(),
             saintWorld: saintWorld.clone(),
+            saintWaveOffsetX: 0,
+            saintWaveOffsetY: 0,
+            // Phase offsets so ribbons don't sway in sync
+            wavePhase: idx * 1.7,
         });
     });
 
@@ -310,7 +338,7 @@ function renderThree(container) {
         const sparkMat = new THREE.PointsMaterial({
             color: 0xFFFFFF,
             map: glowTexture,
-            size: 36,
+            size: 42,
             transparent: true,
             opacity: REDUCED_MOTION ? 1.0 : 0,
             blending: THREE.AdditiveBlending,
@@ -378,10 +406,71 @@ function renderThree(container) {
             useColor: false, gaussian: true,
         });
 
+        // ── 2 elliptical rings orbiting the spark ──
+        // Different tilts + opposite spin directions give a 3D orbital
+        // feel even though the camera is orthographic 2D.
+        // Per-particle color is modulated by orbital phase: bright when
+        // "in front" (top of local ellipse), dim when "behind" — fakes
+        // depth without leaving the 2D plane.
+        function buildRing({ count, rx, ry, tiltDeg, baseColor, size, baseOpacity, speed, dir }) {
+            const geometry = new THREE.BufferGeometry();
+            const positions = new Float32Array(count * 3);
+            const colors    = new Float32Array(count * 3);
+            const angles    = new Float32Array(count);
+            for (let i = 0; i < count; i++) {
+                angles[i] = (i / count) * Math.PI * 2;
+                colors[i * 3 + 0] = baseColor[0];
+                colors[i * 3 + 1] = baseColor[1];
+                colors[i * 3 + 2] = baseColor[2];
+            }
+            geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+            geometry.setAttribute('color',    new THREE.BufferAttribute(colors, 3));
+
+            const material = new THREE.PointsMaterial({
+                map: glowTexture,
+                size,
+                transparent: true,
+                opacity: REDUCED_MOTION ? baseOpacity : 0,
+                blending: THREE.AdditiveBlending,
+                depthWrite: false,
+                sizeAttenuation: false,
+                alphaTest: 0.02,
+                vertexColors: true,
+            });
+            const points = new THREE.Points(geometry, material);
+            scene.add(points);
+            return {
+                geometry, material, points, count, angles,
+                rx, ry,
+                tiltCos: Math.cos(tiltDeg * Math.PI / 180),
+                tiltSin: Math.sin(tiltDeg * Math.PI / 180),
+                speed, dir,
+                baseColor: [...baseColor],
+                baseOpacity,
+            };
+        }
+
+        // Saint-color RGB normalized 0..1
+        const sr = ((color >> 16) & 0xff) / 255;
+        const sg = ((color >>  8) & 0xff) / 255;
+        const sb = ( color        & 0xff) / 255;
+
+        const ringA = buildRing({
+            count: 90, rx: 0.14, ry: 0.042, tiltDeg: 8,
+            baseColor: [sr, sg, sb], size: 6, baseOpacity: 1.0,
+            speed: 0.7, dir: 1,
+        });
+        const ringB = buildRing({
+            count: 120, rx: 0.22, ry: 0.072, tiltDeg: -28,
+            baseColor: [0.96, 0.95, 0.92], size: 5, baseOpacity: 0.95,
+            speed: 0.45, dir: -1,
+        });
+
         saintNodes.push({
             ribbon: rb,
             sparkGeo, sparkMat, spark, sparkPhase,
             burstTight, burstWide,
+            ringA, ringB,
             cx, cy,
         });
     });
@@ -487,27 +576,116 @@ function renderThree(container) {
     let entranceDone = REDUCED_MOTION;
     const startTime = performance.now();
 
-    function wobbleLayer(layer, t) {
+    // Update one orbital ring — each particle steps its angle by dt*speed*dir,
+    // computes (lx,ly) on the ellipse, applies tilt rotation, then anchors to
+    // (cx+ox, cy+oy). Per-particle color is modulated by orbital phase to
+    // simulate depth (bright in front, dim behind).
+    function updateRing(ring, t, cx, cy, ox, oy) {
+        const arr = ring.geometry.attributes.position.array;
+        const col = ring.geometry.attributes.color.array;
+        const baseAngles = ring.angles;
+        const phase = t * ring.speed * ring.dir;
+        const r = ring.baseColor[0];
+        const g = ring.baseColor[1];
+        const b = ring.baseColor[2];
+        for (let i = 0; i < ring.count; i++) {
+            const a = baseAngles[i] + phase;
+            const lx = Math.cos(a) * ring.rx;
+            const ly = Math.sin(a) * ring.ry;
+            const x = lx * ring.tiltCos - ly * ring.tiltSin;
+            const y = lx * ring.tiltSin + ly * ring.tiltCos;
+            arr[i * 3 + 0] = cx + ox + x;
+            arr[i * 3 + 1] = cy + oy + y;
+            arr[i * 3 + 2] = 0;
+            // Depth modulation — sin(a) ∈ [-1, 1], maps to brightness 0.55 → 1.0
+            // (kept above 0.5 so "behind" particles are still clearly visible)
+            const k = 0.55 + 0.45 * (Math.sin(a) * 0.5 + 0.5);
+            col[i * 3 + 0] = r * k;
+            col[i * 3 + 1] = g * k;
+            col[i * 3 + 2] = b * k;
+        }
+        ring.geometry.attributes.position.needsUpdate = true;
+        ring.geometry.attributes.color.needsUpdate    = true;
+    }
+
+    function wobbleLayer(layer, t, ox, oy) {
         const arr  = layer.geometry.attributes.position.array;
         const base = layer.basePos;
         const ph   = layer.phases;
         const am   = layer.ampl;
         for (let i = 0; i < layer.count; i++) {
-            arr[i * 3 + 0] = base[i * 3 + 0] + Math.sin(t * 1.1 + ph[i]) * am[i];
-            arr[i * 3 + 1] = base[i * 3 + 1] + Math.cos(t * 1.3 + ph[i] * 1.4) * am[i];
+            arr[i * 3 + 0] = base[i * 3 + 0] + ox + Math.sin(t * 1.1 + ph[i]) * am[i];
+            arr[i * 3 + 1] = base[i * 3 + 1] + oy + Math.cos(t * 1.3 + ph[i] * 1.4) * am[i];
             arr[i * 3 + 2] = 0;
         }
         layer.geometry.attributes.position.needsUpdate = true;
+    }
+
+    // Wave-displace ribbon points perpendicular to local tangent. Two
+    // octaves of sin gives organic "rope in space" feel without a single
+    // dominant frequency. Saint position is sampled at peakIndex from the
+    // displaced curve so spark/particles/labels follow the wave naturally.
+    const WAVE_SPEED_A = 0.55;
+    const WAVE_FREQ_A  = 0.04;
+    const WAVE_AMP_A   = 0.022;
+    const WAVE_SPEED_B = 0.85;
+    const WAVE_FREQ_B  = 0.085;
+    const WAVE_AMP_B   = 0.012;
+
+    function updateRibbonWave(rb, t) {
+        const N = rb.basePoints.length;
+        for (let i = 0; i < N; i++) {
+            const base = rb.basePoints[i];
+            const tan  = rb.tangents[i];
+            const wave =
+                  Math.sin(t * WAVE_SPEED_A + i * WAVE_FREQ_A + rb.wavePhase) * WAVE_AMP_A
+                + Math.sin(t * WAVE_SPEED_B + i * WAVE_FREQ_B + rb.wavePhase * 1.7) * WAVE_AMP_B;
+            // Perpendicular in xy-plane
+            const px = -tan.y;
+            const py =  tan.x;
+            rb.displacedPoints[i].set(
+                base.x + px * wave,
+                base.y + py * wave,
+                0
+            );
+        }
+        rb.line.setPoints(rb.displacedPoints);
+
+        // Saint world = displaced point at peakIndex
+        const sp = rb.displacedPoints[rb.peakIndex];
+        rb.saintWaveOffsetX = sp.x - rb.saintBase.x;
+        rb.saintWaveOffsetY = sp.y - rb.saintBase.y;
+        rb.saintWorld.set(sp.x, sp.y, 0);
     }
 
     const render = () => {
         const t = (performance.now() - startTime) / 1000;
 
         if (!REDUCED_MOTION) {
+            // Wave each ribbon — "rope in space" undulation.
+            for (let i = 0; i < ribbons.length; i++) {
+                updateRibbonWave(ribbons[i], t);
+            }
+
             for (let si = 0; si < saintNodes.length; si++) {
                 const node = saintNodes[si];
-                wobbleLayer(node.burstTight, t);
-                wobbleLayer(node.burstWide,  t);
+                const rb = node.ribbon;
+                const ox = rb.saintWaveOffsetX;
+                const oy = rb.saintWaveOffsetY;
+
+                // Spark follows the wave
+                const sArr = node.sparkGeo.attributes.position.array;
+                sArr[0] = node.cx + ox;
+                sArr[1] = node.cy + oy;
+                node.sparkGeo.attributes.position.needsUpdate = true;
+
+                // Burst clouds follow the wave (offset added on top of base + wobble)
+                wobbleLayer(node.burstTight, t, ox, oy);
+                wobbleLayer(node.burstWide,  t, ox, oy);
+
+                // 2 orbital rings around the spark
+                updateRing(node.ringA, t, node.cx, node.cy, ox, oy);
+                updateRing(node.ringB, t, node.cx, node.cy, ox, oy);
 
                 if (entranceDone) {
                     const isHover = hoveredIdx === si;
@@ -525,6 +703,12 @@ function renderThree(container) {
                     const wideTarget  = node.burstWide.baseOpacity  * dim * boost;
                     node.burstTight.material.opacity += (tightTarget - node.burstTight.material.opacity) * 0.15;
                     node.burstWide.material.opacity  += (wideTarget  - node.burstWide.material.opacity)  * 0.15;
+
+                    // Rings hover dim/boost
+                    const ringATarget = node.ringA.baseOpacity * dim * boost;
+                    const ringBTarget = node.ringB.baseOpacity * dim * boost;
+                    node.ringA.material.opacity += (ringATarget - node.ringA.material.opacity) * 0.15;
+                    node.ringB.material.opacity += (ringBTarget - node.ringB.material.opacity) * 0.15;
                 }
             }
 
@@ -556,6 +740,8 @@ function renderThree(container) {
                 n.sparkMat.opacity = 1.0;
                 n.burstTight.material.opacity = n.burstTight.baseOpacity;
                 n.burstWide.material.opacity  = n.burstWide.baseOpacity;
+                n.ringA.material.opacity = n.ringA.baseOpacity;
+                n.ringB.material.opacity = n.ringB.baseOpacity;
             });
             entranceDone = true;
             return;
@@ -583,6 +769,12 @@ function renderThree(container) {
             gsap.fromTo(n.burstWide.material,
                 { opacity: 0 },
                 { opacity: n.burstWide.baseOpacity,  duration: 1.4, delay: d + 0.2, ease: 'power2.out' });
+            gsap.fromTo(n.ringA.material,
+                { opacity: 0 },
+                { opacity: n.ringA.baseOpacity, duration: 1.0, delay: d + 0.3, ease: 'power2.out' });
+            gsap.fromTo(n.ringB.material,
+                { opacity: 0 },
+                { opacity: n.ringB.baseOpacity, duration: 1.2, delay: d + 0.4, ease: 'power2.out' });
         });
 
         const totalDuration = 0.6 + (ribbons.length - 1) * 0.2 + 1.4 + 0.2;
@@ -619,12 +811,21 @@ function renderThree(container) {
             const newPoints = newCurve.getSpacedPoints(SAMPLE_COUNT - 1);
             rb.line.setPoints(newPoints);
             rb.material.uniforms.resolution.value.set(w, h);
-            rb.saintWorld.copy(newCurve.getPointAt(rb.def.peakT));
+            // Refresh wave caches
+            rb.basePoints       = newPoints;
+            rb.tangents         = computeTangents(newPoints);
+            rb.displacedPoints  = newPoints.map((p) => p.clone());
+            rb.peakIndex        = Math.round(rb.def.peakT * (SAMPLE_COUNT - 1));
+            const newSaintBase  = newCurve.getPointAt(rb.def.peakT);
+            rb.saintBase.copy(newSaintBase);
+            rb.saintWorld.copy(newSaintBase);
+            rb.saintWaveOffsetX = 0;
+            rb.saintWaveOffsetY = 0;
         });
 
-        // Re-anchor saint nodes (halos + spark + bursts) to new saint positions.
+        // Re-anchor saint nodes (spark + bursts) to new saint base positions.
         saintNodes.forEach((node, i) => {
-            const c = ribbons[i].saintWorld;
+            const c = ribbons[i].saintBase;
             const dx = c.x - node.cx;
             const dy = c.y - node.cy;
             node.cx = c.x;
@@ -671,6 +872,8 @@ function renderThree(container) {
                 window.gsap.killTweensOf(n.sparkMat);
                 window.gsap.killTweensOf(n.burstTight.material);
                 window.gsap.killTweensOf(n.burstWide.material);
+                window.gsap.killTweensOf(n.ringA.material);
+                window.gsap.killTweensOf(n.ringB.material);
             });
         }
 
@@ -690,7 +893,7 @@ function renderThree(container) {
             node.sparkGeo.dispose();
             node.sparkMat.dispose();
             scene.remove(node.spark);
-            [node.burstTight, node.burstWide].forEach((layer) => {
+            [node.burstTight, node.burstWide, node.ringA, node.ringB].forEach((layer) => {
                 layer.geometry.dispose();
                 layer.material.dispose();
                 scene.remove(layer.points);
