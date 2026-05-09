@@ -41,7 +41,10 @@ function splitChars(el) {
                 span.className = 'ch04-anim-char';
                 span.style.display = 'inline-block';
                 span.style.willChange = 'transform, opacity, filter';
-                span.textContent = c === ' ' ? ' ' : c;
+                // Use NBSP (U+00A0) for spaces — a single ASCII space inside
+                // an inline-block span collapses to zero width, which would
+                // render "The NEW SAINTS" as "TheNEWSAINTS".
+                span.textContent = c === ' ' ? ' ' : c;
                 frag.appendChild(span);
                 chars.push(span);
             }
@@ -122,6 +125,12 @@ export function initCh04Scroll() {
     const subhead  = header?.querySelector('.ch04-header__subhead');
     const lead     = header?.querySelector('.ch04-header__lead');
     const oxbloodS = headline?.querySelector('.ch04-headline__s');
+    // Mirror the glyph into a data-text attribute so the shimmer ::after can
+    // render the same character via attr(data-text) + background-clip:text
+    // (crimson sweep band follows letter shape rather than a flat rectangle).
+    if (oxbloodS) {
+        oxbloodS.setAttribute('data-text', oxbloodS.textContent.trim());
+    }
 
     if (header) {
         if (headline) {
@@ -209,21 +218,47 @@ export function initCh04Scroll() {
               .to(sweep, { opacity: 0, duration: 0.4, ease: 'power1.in' }, '>-0.2');
         }
 
-        // Italic oxblood "S" — crimson burst lands as sweep finishes
-        if (oxbloodS) tl.to(oxbloodS, {
-            filter: 'drop-shadow(0 0 18px rgba(184, 51, 74, 0.85)) drop-shadow(0 0 36px rgba(184, 51, 74, 0.5))',
-            duration: 1.2,
-            ease: 'power2.out',
-        }, '-=0.6');
+        // ── Italic oxblood "S" — crimson cinematic ignition ───
+        // Same shape as ch02's "Luck" treatment, retuned to crimson:
+        //   1. Color/text-shadow build (cream → bright crimson) — single
+        //      glyph here so no per-char stagger; the layered text-shadow
+        //      gives depth on the letter itself
+        //   2. Container drop-shadow halo expands (3-layer crimson bloom)
+        //   3. CSS .is-ignited engages a one-shot shimmer sweep across
+        //      the glyph via background-clip:text (mirrors ch02 mechanic)
+        if (oxbloodS) {
+            tl.to(oxbloodS, {
+                color: '#FF99A8',
+                textShadow:
+                    '0 0 6px rgba(255, 220, 220, 0.9), ' +
+                    '0 0 14px rgba(220, 80, 100, 0.85), ' +
+                    '0 0 28px rgba(184, 51, 74, 0.55)',
+                duration: 0.6,
+                ease: 'power2.out',
+            }, '-=0.55');
 
+            tl.to(oxbloodS, {
+                filter:
+                    'drop-shadow(0 0 14px rgba(220, 80, 100, 0.95)) ' +
+                    'drop-shadow(0 0 32px rgba(184, 51, 74, 0.65)) ' +
+                    'drop-shadow(0 0 56px rgba(184, 51, 74, 0.35))',
+                duration: 1.6,
+                ease: 'power2.out',
+            }, '<');
+
+            // Engage the CSS shimmer sweep right as the halo peaks.
+            tl.add(() => oxbloodS.classList.add('is-ignited'), '<+0.15');
+        }
+
+        // Subhead + lead — absolute positions (matches ch01/ch02/ch03 pattern).
         if (subhead) tl.to(subhead, {
             opacity: 1, y: 0, filter: 'blur(0px)',
             duration: 0.55, ease: 'power3.out',
-        }, '-=1.0');
+        }, 0.25);
         if (lead) tl.to(lead, {
             opacity: 1, y: 0, filter: 'blur(0px)',
-            duration: 0.65, ease: 'power3.out',
-        }, '-=0.45');
+            duration: 0.6, ease: 'power3.out',
+        }, 0.4);
     }
 
     // ─────────────────────────────────────────────────────

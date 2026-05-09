@@ -153,17 +153,19 @@ export function initCh01Scroll() {
                 ease: 'power2.out',
             }, '-=0.5');
         }
+        // Absolute positions so subhead/lead lift in alongside the eyebrow
+        // and divider, well before the headline chars finish settling.
         if (subhead) {
             tl.to(subhead, {
                 opacity: 1, y: 0, filter: 'blur(0px)',
                 duration: 0.55, ease: 'power3.out',
-            }, '-=1.0');
+            }, 0.25);
         }
         if (lead) {
             tl.to(lead, {
                 opacity: 1, y: 0, filter: 'blur(0px)',
-                duration: 0.65, ease: 'power3.out',
-            }, '-=0.45');
+                duration: 0.6, ease: 'power3.out',
+            }, 0.4);
         }
     }
 
@@ -178,7 +180,14 @@ export function initCh01Scroll() {
 
         if (video) {
             quote.style.perspective = '1200px';
-            gsap.set(video, { scale: 1.2, opacity: 0.35 });
+            // Cinematic letterbox: bars closed, desaturated + slightly bright,
+            // soft blur — a film projector starting up.
+            gsap.set(video, {
+                clipPath: 'inset(48% 0% 48% 0%)',
+                scale: 1.08,
+                opacity: 1,
+                filter: 'saturate(0.35) brightness(1.18) blur(6px)',
+            });
         }
         if (card) gsap.set(card, {
             opacity: 0, x: fromX, rotateY: fromX < 0 ? -18 : 18,
@@ -193,14 +202,25 @@ export function initCh01Scroll() {
                 once: true,
             }),
         });
-        if (video) tl.to(video, {
-            scale: 1, opacity: 1,
-            duration: 1.6, ease: 'power2.out',
-        }, 0);
+        if (video) {
+            // Letterbox bars retract first
+            tl.to(video, {
+                clipPath: 'inset(0% 0% 0% 0%)',
+                duration: 1.4,
+                ease: 'expo.out',
+            }, 0);
+            // Color grade + dolly settle (slower, overlapping the bar opening)
+            tl.to(video, {
+                scale: 1,
+                filter: 'saturate(1) brightness(1) blur(0px)',
+                duration: 1.8,
+                ease: 'power2.out',
+            }, 0.15);
+        }
         if (card) tl.to(card, {
             opacity: 1, x: 0, rotateY: 0,
             duration: 1.3, ease: 'expo.out',
-        }, 0.25);
+        }, 0.4);
     };
     setupQuote('.ch01-quote--left',  -80);
     setupQuote('.ch01-quote--right',  80);
@@ -258,6 +278,51 @@ export function initCh01Scroll() {
             opacity: 1, scale: 1, filter: 'blur(0px)',
             duration: 1.2, ease: 'expo.out',
         }, '-=0.6');
+
+        // Golden string — draw the 3-strand SVG ribbon from active card to
+        // detail panel using stroke-dashoffset. Layered: halo → mid → core
+        // (small stagger so the bright core "trails" the wider glow).
+        // The path's `d` attribute is set by stack-build.js at init (with
+        // card 06 active by default), so getTotalLength() is reliable here.
+        const stringSvg = stackSection.querySelector('.ch01-stack-string');
+        if (stringSvg) {
+            const paths = stringSvg.querySelectorAll('.ch01-stack-string__path');
+
+            // Take the SVG's opacity off the CSS transition gate so GSAP owns it
+            stringSvg.style.transition = 'none';
+            stringSvg.style.opacity = '0';
+            stringSvg.dataset.visible = 'true';
+
+            paths.forEach((p) => {
+                const len = p.getTotalLength?.() || 0;
+                if (!len) return;
+                p.style.strokeDasharray = len;
+                p.style.strokeDashoffset = len;
+            });
+
+            tl.to(stringSvg, {
+                opacity: 1,
+                duration: 0.4, ease: 'power2.out',
+            }, '-=0.25');
+
+            if (paths.length) {
+                tl.to(paths, {
+                    strokeDashoffset: 0,
+                    duration: 1.5,
+                    ease: 'power2.out',
+                    stagger: 0.12,
+                    onComplete: () => {
+                        // Hand control back to the per-frame loop in stack-build.js
+                        // (resize / active-card change re-draws the path freely).
+                        paths.forEach((p) => {
+                            p.style.strokeDasharray = '';
+                            p.style.strokeDashoffset = '';
+                        });
+                        stringSvg.style.transition = '';
+                    },
+                }, '<');
+            }
+        }
     }
 
     // ─────────────────────────────────────────────────────
@@ -317,7 +382,17 @@ export function initCh01Scroll() {
         const line  = closing.querySelector('.ch01-closing__line');
         const cue   = closing.querySelector('.ch01-closing__cue');
 
-        if (video) gsap.set(video, { scale: 1.15, opacity: 0.6 });
+        if (video) {
+            // Cinematic emerge-from-black: dolly-in 1.22 → 1, faded + heavy
+            // blur + desaturated, with a brief brightness overshoot (lens
+            // bloom) before settling to neutral grade.
+            gsap.set(video, {
+                scale: 1.22,
+                opacity: 0,
+                filter: 'saturate(0.2) brightness(0.4) blur(14px)',
+                transformOrigin: 'center center',
+            });
+        }
         if (line)  gsap.set(line,  { scaleY: 0, transformOrigin: 'top center' });
         if (cue)   gsap.set(cue,   { opacity: 0, y: 16 });
 
@@ -329,18 +404,31 @@ export function initCh01Scroll() {
                 once: true,
             }),
         });
-        if (video) tl.to(video, {
-            scale: 1, opacity: 1,
-            duration: 1.6, ease: 'power2.out',
-        }, 0);
+        if (video) {
+            // Phase 1 — fade up + dolly + clear blur (frame opens)
+            tl.to(video, {
+                opacity: 1,
+                scale: 1.04,
+                filter: 'saturate(0.9) brightness(1.35) blur(0px)',
+                duration: 1.6,
+                ease: 'power2.out',
+            }, 0);
+            // Phase 2 — lens bloom settles to neutral grade + final dolly
+            tl.to(video, {
+                scale: 1,
+                filter: 'saturate(1) brightness(1) blur(0px)',
+                duration: 1.2,
+                ease: 'power2.inOut',
+            }, '>-0.2');
+        }
         if (line) tl.to(line, {
             scaleY: 1,
             duration: 1.0, ease: 'expo.out',
-        }, 0.5);
+        }, 0.7);
         if (cue) tl.to(cue, {
             opacity: 1, y: 0,
             duration: 0.8, ease: 'power2.out',
-        }, 0.8);
+        }, 1.0);
     }
 
     // Refresh after layout settles (fonts, images) so positions are correct.

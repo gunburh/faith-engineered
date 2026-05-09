@@ -46,7 +46,10 @@ function splitChars(el) {
                 span.className = 'ch03-anim-char';
                 span.style.display = 'inline-block';
                 span.style.willChange = 'transform, opacity, filter';
-                span.textContent = c === ' ' ? ' ' : c;
+                // Use NBSP (U+00A0) for spaces — a single ASCII space inside
+                // an inline-block span collapses to zero width, which would
+                // render "The Offering Economy" as "TheOfferingEconomy".
+                span.textContent = c === ' ' ? ' ' : c;
                 frag.appendChild(span);
                 chars.push(span);
             }
@@ -192,14 +195,17 @@ export function initCh03Scroll() {
             ease: 'power2.out',
         }, '-=0.5');
 
+        // Absolute positions (matches ch01/ch02 pattern) so subhead + lead
+        // lift in alongside the eyebrow / divider — no waiting for the
+        // coin-toss char cascade to finish.
         if (subhead) tl.to(subhead, {
             opacity: 1, y: 0, filter: 'blur(0px)',
             duration: 0.55, ease: 'power3.out',
-        }, '-=1.0');
+        }, 0.25);
         if (lead) tl.to(lead, {
             opacity: 1, y: 0, filter: 'blur(0px)',
-            duration: 0.65, ease: 'power3.out',
-        }, '-=0.45');
+            duration: 0.6, ease: 'power3.out',
+        }, 0.4);
     }
 
     // ─────────────────────────────────────────────────────

@@ -1,4 +1,6 @@
-import { bindScrollChevrons } from '../utils.js';
+// (bindScrollChevrons no longer needed — the shrine row is now a 3D
+//  coverflow carousel, not a scrolling list. Chevrons advance the active
+//  index by ±1 instead of scrolling.)
 
 /**
  * geography-map.js — Faith Engineered · Chapter 02 · The Geography of Luck
@@ -161,19 +163,28 @@ function renderMiniCards(rowEl) {
 }
 
 /**
- * Scroll a mini card into view horizontally within its scroll container,
- * WITHOUT touching the document scroll. Avoids the page jumping down to
- * the "All 6 Shrines" row when a pin or detail change happens.
+ * Update each <li> in the coverflow carousel with its --offset and --abs
+ * CSS variables, based on its index relative to the active card. Cards
+ * more than 2 steps from active get data-hidden="true" so they fade out.
+ *
+ * The transform/opacity formulas live in CSS (.ch02-shrines__row > li);
+ * this function only writes the per-li input variables.
  */
-function scrollMiniIntoRow(miniEl, rowEl) {
-    const r = miniEl.getBoundingClientRect();
-    const rowR = rowEl.getBoundingClientRect();
-    const pad = 16;
-    if (r.left < rowR.left + pad) {
-        rowEl.scrollBy({ left: r.left - rowR.left - pad, behavior: 'smooth' });
-    } else if (r.right > rowR.right - pad) {
-        rowEl.scrollBy({ left: r.right - rowR.right + pad, behavior: 'smooth' });
-    }
+function updateCarouselOffsets(rowEl, activeId) {
+    const items = rowEl.querySelectorAll(':scope > li');
+    let activeIdx = -1;
+    items.forEach((li, idx) => {
+        const btn = li.querySelector('[data-shrine-id]');
+        if (btn && btn.dataset.shrineId === activeId) activeIdx = idx;
+    });
+    if (activeIdx < 0) return;
+    items.forEach((li, idx) => {
+        const offset = idx - activeIdx;
+        const abs = Math.abs(offset);
+        li.style.setProperty('--offset', String(offset));
+        li.style.setProperty('--abs', String(abs));
+        li.dataset.hidden = abs > 2 ? 'true' : 'false';
+    });
 }
 
 // ─────────────────────────────────────────────────────────
@@ -188,19 +199,25 @@ function activateShrine(id, ctx) {
     const shrine = SHRINES.find((s) => s.id === id);
     if (!shrine) return;
 
-    const { detailEl, rowEl, markers, map } = ctx;
+    const { detailEl, rowEl, markers, map, leftChevron, rightChevron } = ctx;
 
     // Detail card
     if (detailEl) detailEl.innerHTML = detailHTML(shrine);
 
-    // Mini-card states + horizontal-only scroll (never moves the page)
+    // Mini-card states + coverflow geometry update
     if (rowEl) {
-        const minis = rowEl.querySelectorAll('[data-shrine-id]');
-        minis.forEach((m) => {
-            const isActive = m.dataset.shrineId === id;
-            m.dataset.active = String(isActive);
-            if (isActive) scrollMiniIntoRow(m, rowEl);
+        const items = rowEl.querySelectorAll(':scope > li');
+        items.forEach((li) => {
+            const btn = li.querySelector('[data-shrine-id]');
+            if (btn) btn.dataset.active = String(btn.dataset.shrineId === id);
         });
+        updateCarouselOffsets(rowEl, id);
+
+        // Sync boundary state on chevrons (disabled at row ends).
+        const activeIdx = Array.prototype.findIndex.call(items, (li) =>
+            li.querySelector('[data-shrine-id]')?.dataset.shrineId === id);
+        if (leftChevron)  leftChevron.toggleAttribute('disabled',  activeIdx <= 0);
+        if (rightChevron) rightChevron.toggleAttribute('disabled', activeIdx >= items.length - 1);
     }
 
     // Pin states (custom data-active on the marker DOM element)
@@ -314,7 +331,7 @@ export function initGeographyMap() {
         if (ph) ph.textContent = 'Map unavailable — interactive list below works fully.';
     }
 
-    const ctx = { detailEl, rowEl, markers, map };
+    const ctx = { detailEl, rowEl, markers, map, leftChevron, rightChevron };
 
     // Build markers AFTER ctx exists so the click handler can read it via closure.
     if (map) {
@@ -329,16 +346,34 @@ export function initGeographyMap() {
         activateShrine(btn.dataset.shrineId, ctx);
     });
 
-    // Chevrons — right scrolls forward, left returns to start.
-    // Toggles data-scroll-end on the viewport so CSS can swap their visibility.
-    bindScrollChevrons({
-        viewport: viewportEl,
-        row: rowEl,
-        rightBtn: rightChevron,
-        leftBtn: leftChevron,
-        step: 285 + 12,
-    });
+    // Chevrons — advance the active shrine by ±1 (clamped at row ends),
+    // so the carousel rotates one card to the side instead of scrolling.
+    // Boundary disabled state is synced inside activateShrine().
+    function activateAdjacent(delta) {
+        const items = rowEl.querySelectorAll(':scope > li');
+        if (!items.length) return;
+        const currentLi = rowEl
+            .querySelector('[data-shrine-id][data-active="true"]')
+            ?.closest('li');
+        const currentIdx = currentLi
+            ? Array.prototype.indexOf.call(items, currentLi)
+            : 0;
+        const nextIdx = Math.max(0, Math.min(items.length - 1, currentIdx + delta));
+        const nextBtn = items[nextIdx]?.querySelector('[data-shrine-id]');
+        if (nextBtn) activateShrine(nextBtn.dataset.shrineId, ctx);
+    }
 
-    // Default selection (uses behavior: 'smooth' scrollIntoView; harmless on init)
+    if (rightChevron) rightChevron.addEventListener('click', () => activateAdjacent(+1));
+    if (leftChevron)  leftChevron.addEventListener('click',  () => activateAdjacent(-1));
+
+    // Keyboard nav on the carousel viewport — Arrow Left / Right advances.
+    if (viewportEl) {
+        viewportEl.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight') { activateAdjacent(+1); e.preventDefault(); }
+            else if (e.key === 'ArrowLeft') { activateAdjacent(-1); e.preventDefault(); }
+        });
+    }
+
+    // Default selection — also seeds the initial coverflow offsets.
     activateShrine(DEFAULT_SHRINE_ID, ctx);
 }

@@ -90,8 +90,8 @@
                 "th": "บทที่ 02"
             },
             "headline": {
-                "en": "The <em>Geography of Luck</em>",
-                "th": "<em>ภูมิศาสตร์แห่งโชค</em>"
+                "en": "The <em>Geography of <span class=\"ch02-luck\">Luck</span></em>",
+                "th": "<em>ภูมิศาสตร์แห่ง<span class=\"ch02-luck\">โชค</span></em>"
             },
             "subhead": {
                 "en": "| Coordinates of Fortune",

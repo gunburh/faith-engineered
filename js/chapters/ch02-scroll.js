@@ -38,7 +38,10 @@ function splitChars(el) {
                 span.className = 'ch02-anim-char';
                 span.style.display = 'inline-block';
                 span.style.willChange = 'transform, opacity, filter';
-                span.textContent = c === ' ' ? ' ' : c;
+                // Use NBSP (U+00A0) for spaces — a single ASCII space inside
+                // an inline-block span collapses to zero width, which would
+                // render "The Geography of Luck" as "TheGeographyofLuck".
+                span.textContent = c === ' ' ? ' ' : c;
                 frag.appendChild(span);
                 chars.push(span);
             }
@@ -85,7 +88,15 @@ export function initCh02Scroll() {
     const headline = header?.querySelector('.ch02-headline');
     const subhead  = header?.querySelector('.ch02-header__subhead');
     const lead     = header?.querySelector('.ch02-header__lead');
-    const luckEm   = headline?.querySelector('em');
+    // .ch02-luck wraps the final word ("Luck" / "โชค") so we can ignite it
+    // independently from the rest of the italicised <em>. We mirror the
+    // word into a data-text attribute so the shimmer ::after can render the
+    // same glyphs (via attr(data-text) + background-clip:text) regardless
+    // of the active language.
+    const luckSpan = headline?.querySelector('.ch02-luck');
+    if (luckSpan) {
+        luckSpan.setAttribute('data-text', luckSpan.textContent.trim());
+    }
 
     if (header) {
         if (headline) {
@@ -94,6 +105,11 @@ export function initCh02Scroll() {
         }
 
         const headlineChars = headline ? splitChars(headline) : [];
+        // Chars that ended up inside .ch02-luck after splitChars (preserved
+        // as descendants because splitChars walks INTO elements).
+        const luckChars = luckSpan
+            ? Array.from(luckSpan.querySelectorAll('.ch02-anim-char'))
+            : [];
 
         if (eyebrow) gsap.set(eyebrow, { opacity: 0, y: -8, letterSpacing: '0.5em' });
         if (divider) gsap.set(divider, { scaleX: 0, transformOrigin: 'center center' });
@@ -106,7 +122,10 @@ export function initCh02Scroll() {
         });
         if (subhead) gsap.set(subhead, { opacity: 0, y: 24, filter: 'blur(8px)' });
         if (lead)    gsap.set(lead,    { opacity: 0, y: 24, filter: 'blur(8px)' });
-        if (luckEm)  gsap.set(luckEm,  { filter: 'drop-shadow(0 0 0px rgba(201, 169, 97, 0))' });
+        if (luckSpan) gsap.set(luckSpan, {
+            filter: 'drop-shadow(0 0 0px rgba(201, 169, 97, 0))',
+            letterSpacing: '0em',
+        });
 
         const tl = gsap.timeline({
             scrollTrigger: trigger({
@@ -136,21 +155,53 @@ export function initCh02Scroll() {
             stagger: 0.045,
         }, 0.4);
 
-        // "Geography of Luck" em — delayed gold glow burst
-        if (luckEm) tl.to(luckEm, {
-            filter: 'drop-shadow(0 0 18px rgba(201, 169, 97, 0.85)) drop-shadow(0 0 36px rgba(201, 169, 97, 0.45))',
-            duration: 1.6,
-            ease: 'power2.out',
-        }, '-=0.5');
-
+        // Subhead + lead lift in alongside the eyebrow / divider — same
+        // pattern as ch01: absolute positions instead of relative offsets so
+        // they don't wait for the headline char-cascade to finish.
         if (subhead) tl.to(subhead, {
             opacity: 1, y: 0, filter: 'blur(0px)',
             duration: 0.55, ease: 'power3.out',
-        }, '-=1.0');
+        }, 0.25);
         if (lead) tl.to(lead, {
             opacity: 1, y: 0, filter: 'blur(0px)',
-            duration: 0.65, ease: 'power3.out',
-        }, '-=0.45');
+            duration: 0.6, ease: 'power3.out',
+        }, 0.4);
+
+        // ── "Luck" cinematic ignition ─────────────────────────
+        // Sequence (all anchored relative to the end of headline char cascade):
+        //   1. Per-char ignition wave — color shift cream → gold + layered
+        //      text-shadow stagger (gold sparks running across the word)
+        //   2. Container halo build — drop-shadow grows around the word
+        //   3. Subtle letter-spacing breath — word "expands" by ~0.02em
+        //   4. Switch on .is-ignited which engages the CSS shimmer sweep
+        //      (a single ::after gradient pass via CSS animation)
+        if (luckChars.length) {
+            tl.to(luckChars, {
+                color: '#FFE4A8',
+                textShadow:
+                    '0 0 6px rgba(255, 244, 218, 0.9), ' +
+                    '0 0 14px rgba(255, 220, 130, 0.85), ' +
+                    '0 0 28px rgba(201, 169, 97, 0.55)',
+                duration: 0.6,
+                ease: 'power2.out',
+                stagger: 0.09,                // ignition wave
+            }, '-=0.55');
+        }
+
+        if (luckSpan) {
+            tl.to(luckSpan, {
+                filter:
+                    'drop-shadow(0 0 14px rgba(255, 220, 130, 0.95)) ' +
+                    'drop-shadow(0 0 32px rgba(201, 169, 97, 0.65)) ' +
+                    'drop-shadow(0 0 56px rgba(201, 169, 97, 0.35))',
+                letterSpacing: '0.025em',
+                duration: 1.6,
+                ease: 'power2.out',
+            }, '<');
+
+            // Engage the CSS shimmer sweep right as the halo peaks.
+            tl.add(() => luckSpan.classList.add('is-ignited'), '<+0.15');
+        }
     }
 
     // ─────────────────────────────────────────────────────
@@ -254,8 +305,22 @@ export function initCh02Scroll() {
         const row    = shrines.querySelector('.ch02-shrines__row');
 
         if (sLabel) gsap.set(sLabel, { opacity: 0, y: 24 });
-        // Cards are injected by JS — re-run state set + animation when ready.
-        // Use ScrollTrigger that re-evaluates child elements on enter.
+
+        // ── Pre-hide cards SYNCHRONOUSLY at module init ──────────
+        // initGeographyMap() runs immediately before this in main.js and
+        // populates the row, so the cards are already in the DOM by now.
+        // Hiding them here (before the browser's first post-init paint)
+        // prevents the FOUC where cards briefly show in their final
+        // coverflow positions and then "blink" back into the entrance.
+        const initialCards = row ? Array.from(row.querySelectorAll(':scope > li')) : [];
+        if (initialCards.length) {
+            gsap.set(initialCards, {
+                '--offset': 0,
+                '--abs': 0,
+                opacity: 0,
+                filter: 'blur(10px) brightness(0.5)',
+            });
+        }
 
         const tl = gsap.timeline({
             scrollTrigger: trigger({
@@ -264,23 +329,109 @@ export function initCh02Scroll() {
                 toggleActions: 'play none none none',
                 once: true,
                 onEnter: () => {
-                    const cards = row ? row.querySelectorAll('li, .ch02-shrine-card') : [];
-                    if (cards.length) {
-                        gsap.set(cards, {
-                            opacity: 0,
-                            x: 100,
-                            scale: 0.92,
-                            filter: 'blur(8px)',
+                    // ── "Center-out deck fan" entrance ──────────────────
+                    // Niche to this coverflow: instead of the usual stagger
+                    // (which conflicts with CSS-owned 3D transforms), we
+                    // animate the CSS custom property `--offset` on each
+                    // card directly. The CSS calc() formulas in the
+                    // stylesheet re-evaluate every frame as --offset
+                    // changes, so translateX/rotateY/scale animate
+                    // smoothly without GSAP touching `transform` itself.
+                    //
+                    // Reveal order is center-out, not left-to-right:
+                    //   • active (offset 0)  materialises first with a
+                    //     gold brightness overshoot
+                    //   • ±1 cards fan out simultaneously
+                    //   • ±2 cards fan out simultaneously, slightly later
+                    //   • |offset| ≥ 3 are seated without animation
+                    //
+                    // After the timeline completes we clear the inline
+                    // opacity/filter styles so the CSS opacity calc
+                    // (1 − 0.30·|offset|) regains control for the
+                    // post-entrance carousel interactions.
+                    const cards = row ? Array.from(row.querySelectorAll(':scope > li')) : [];
+                    if (!cards.length) return;
+
+                    // Find active card (set by initGeographyMap on init)
+                    const activeIdx = cards.findIndex((c) =>
+                        c.querySelector('[data-shrine-id][data-active="true"]'));
+                    const safeActive = activeIdx >= 0 ? activeIdx : 0;
+
+                    // Pre-compute target coverflow position per card
+                    const targets = cards.map((c, i) => {
+                        const offset = i - safeActive;
+                        return { card: c, offset, abs: Math.abs(offset) };
+                    });
+
+                    // Re-assert the stacked-hidden state in case anything
+                    // (e.g. activateShrine) ran between init and now and
+                    // mutated the per-card vars.
+                    gsap.set(cards, {
+                        '--offset': 0,
+                        '--abs': 0,
+                        opacity: 0,
+                        filter: 'blur(10px) brightness(0.5)',
+                    });
+
+                    // Hidden cards (|offset| > 2) — place at target without
+                    // animation; they stay invisible.
+                    targets.filter((t) => t.abs > 2).forEach((t) => {
+                        gsap.set(t.card, {
+                            '--offset': t.offset,
+                            '--abs': t.abs,
                         });
-                        gsap.to(cards, {
-                            opacity: 1, x: 0, scale: 1,
-                            filter: 'blur(0px)',
+                        t.card.dataset.hidden = 'true';
+                    });
+
+                    const tl2 = gsap.timeline({ delay: 0.15 });
+
+                    // Phase 1 — active card materialises with gold overshoot
+                    const active = targets.find((t) => t.offset === 0)?.card;
+                    if (active) {
+                        tl2.to(active, {
+                            opacity: 1,
+                            filter: 'blur(0px) brightness(1.35) drop-shadow(0 0 22px rgba(201, 169, 97, 0.55))',
+                            duration: 0.7,
+                            ease: 'power3.out',
+                        }, 0)
+                           .to(active, {
+                               filter: 'blur(0px) brightness(1)',
+                               duration: 0.5,
+                               ease: 'power2.inOut',
+                           }, 0.55);
+                    }
+
+                    // Phase 2 — ±1 fan out (left + right move outward together)
+                    targets.filter((t) => t.abs === 1).forEach((t) => {
+                        tl2.to(t.card, {
+                            '--offset': t.offset,
+                            '--abs': t.abs,
+                            opacity: 1,
+                            filter: 'blur(0px) brightness(1)',
+                            duration: 0.9,
+                            ease: 'expo.out',
+                        }, 0.25);
+                    });
+
+                    // Phase 3 — ±2 fan out further, slightly delayed
+                    targets.filter((t) => t.abs === 2).forEach((t) => {
+                        tl2.to(t.card, {
+                            '--offset': t.offset,
+                            '--abs': t.abs,
+                            opacity: 1,
+                            filter: 'blur(0px) brightness(1)',
                             duration: 1.0,
                             ease: 'expo.out',
-                            stagger: 0.12,
-                            delay: 0.3,
+                        }, 0.45);
+                    });
+
+                    // Cleanup — hand opacity + filter back to CSS calc
+                    tl2.add(() => {
+                        cards.forEach((c) => {
+                            c.style.opacity = '';
+                            c.style.filter = '';
                         });
-                    }
+                    });
                 },
             }),
         });

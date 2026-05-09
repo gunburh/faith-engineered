@@ -1,5 +1,3 @@
-import { bindScrollChevrons } from '../utils.js';
-
 /**
  * economy-interactions.js — Faith Engineered · Chapter 03 · The Offering Economy
  *
@@ -7,8 +5,9 @@ import { bindScrollChevrons } from '../utils.js';
  *   1. Count-up reveal of the ฿200B big number (IntersectionObserver, one-shot)
  *   2. Offering Spectrum — vertical 6-tier slider with active tier card
  *      (snap-to-detent, keyboard nav, mobile static fallback, bilingual)
- *   3. Value-chain horizontal scroll · chevron buttons
  *
+ * The Value Chain is now a static, centered 5-card row (no scroll, no chevrons),
+ * so its previous horizontal-scroll wiring has been removed.
  * Seasonal Peaks chart is owned by chapters/seasonal-peaks.js.
  *
  * prefers-reduced-motion:
@@ -314,26 +313,6 @@ function initOfferingSpectrum() {
 }
 
 // ─────────────────────────────────────────────────────────
-// 3. Value-chain horizontal scroll · chevron button
-// ─────────────────────────────────────────────────────────
-
-function initChainScroll() {
-    const row = document.querySelector('[data-chain-row]');
-    if (!row) return;
-    const viewport = row.parentElement;
-    const rightBtn = document.querySelector('[data-chain-chevron][data-direction="right"]');
-    const leftBtn  = document.querySelector('[data-chain-chevron][data-direction="left"]');
-
-    bindScrollChevrons({
-        viewport,
-        row,
-        rightBtn,
-        leftBtn,
-        step: 236,    // 220 (card) + 16 (gap)
-    });
-}
-
-// ─────────────────────────────────────────────────────────
 // Public init
 // ─────────────────────────────────────────────────────────
 
@@ -342,5 +321,4 @@ export function initEconomyInteractions() {
     initOfferingSpectrum();
     // Seasonal Peaks is owned by chapters/seasonal-peaks.js (desktop = Three.js,
     // mobile = flat bar chart). Initialized separately in main.js.
-    initChainScroll();
 }

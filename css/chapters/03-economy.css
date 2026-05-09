@@ -486,7 +486,10 @@
     font-style: italic;
 }
 
-/* Viewport hosts the scrollable steps list + the floating chevron */
+/* Viewport hosts the steps list — no scroll, no chevron.
+   The 5 cards + 4 separators are centered as a single fixed row inside
+   the article. On viewports too narrow to fit the row, it wraps to a
+   grid (see responsive override below). */
 .ch03-chain__viewport {
     position: relative;
 }
@@ -494,38 +497,22 @@
 .ch03-chain__steps {
     list-style: none;
     margin: 0;
-    padding: 0 80px var(--space-3) 0;   /* right-padding so chevron doesn't cover last card */
+    padding: 0 0 var(--space-3);
     display: flex;
     align-items: stretch;
+    justify-content: center;
     gap: var(--space-2);
-    overflow-x: auto;
-    scrollbar-width: thin;
-    scrollbar-color: rgba(201, 169, 97, 0.25) transparent;
+    flex-wrap: nowrap;            /* keep all 5 cards on one row — sequential narrative */
 }
-
-/* Floating chevron — anchored right of the row, vertically centred */
-.ch03-chain__chevron {
-    position: absolute;
-    top: 50%;
-    right: 0;
-    transform: translateY(-50%);
-}
-
-.ch03-chain__chevron:hover {
-    transform: translateY(-50%) scale(1.08);
-}
-
-.ch03-chain__chevron:active {
-    transform: translateY(-50%) scale(0.96);
-}
-
-.ch03-chain__steps::-webkit-scrollbar { height: 4px; }
-.ch03-chain__steps::-webkit-scrollbar-track { background: transparent; }
-.ch03-chain__steps::-webkit-scrollbar-thumb { background: rgba(201, 169, 97, 0.25); }
 
 .ch03-chain-step {
-    flex-shrink: 0;
-    width: 220px;
+    /* Equal-share distribution: each card grabs an equal slice of the
+       leftover row width after separators + gaps, capped at 220px so the
+       chain doesn't look stretched on very wide viewports. min-width: 0
+       lets the flex children actually shrink below their content width. */
+    flex: 1 1 0;
+    min-width: 0;
+    max-width: 220px;
     border-radius: 20px;
     background: var(--color-charcoal);
     border: 1px solid rgba(245, 241, 234, 0.08);
@@ -1218,6 +1205,25 @@
 }
 
 @media (max-width: 767px) {
+
+    /* Value chain — stack vertically on mobile so each card has room
+       to breathe; rotate the chevron separators 90° to keep the directional
+       narrative (now pointing down between stacked cards). */
+    .ch03-chain__steps {
+        flex-direction: column;
+        align-items: stretch;
+        gap: var(--space-3);
+    }
+
+    .ch03-chain-step {
+        max-width: none;
+    }
+
+    .ch03-chain-step__sep {
+        align-self: center;
+        transform: rotate(90deg);
+        font-size: 22px;
+    }
 
     .ch03-headline {
         font-size: clamp(3rem, 14vw, 4.5rem);

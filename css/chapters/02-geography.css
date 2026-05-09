@@ -117,6 +117,62 @@
     font-weight: 500;
 }
 
+/* ── "Luck" / "โชค" — cinematic gold ignition target ────────
+   Inline-block so we can apply transform/filter without breaking the
+   line. Initial color matches the rest of the headline (cream); GSAP
+   fades it toward bright gold during the ignition sequence (Block 1).
+   The `.is-ignited` class is added by JS once chars finish settling
+   and triggers the one-shot CSS shimmer sweep below. */
+.ch02-luck {
+    position: relative;
+    display: inline-block;
+    color: inherit;
+    font-style: inherit;
+    will-change: filter, color, letter-spacing;
+}
+
+/* One-shot shimmer band — a bright highlight sweeps across the word.
+   Implemented as a ::after that mirrors the text via background-clip
+   so the highlight follows letter shapes rather than a flat rectangle. */
+.ch02-luck::after {
+    content: attr(data-text);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    background: linear-gradient(110deg,
+        transparent 35%,
+        rgba(255, 255, 240, 0.0) 42%,
+        rgba(255, 244, 200, 0.95) 50%,
+        rgba(255, 220, 130, 0.85) 53%,
+        rgba(255, 255, 240, 0.0) 60%,
+        transparent 70%);
+    background-size: 220% 100%;
+    background-position: -120% center;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+    opacity: 0;
+    will-change: background-position, opacity;
+}
+
+.ch02-luck.is-ignited::after {
+    animation: ch02-luck-shimmer 1.4s cubic-bezier(0.22, 1, 0.36, 1) 0.05s forwards;
+}
+
+@keyframes ch02-luck-shimmer {
+    0%   { opacity: 0;   background-position: -120% center; }
+    20%  { opacity: 1; }
+    100% { opacity: 0;   background-position:  220% center; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .ch02-luck::after { animation: none !important; opacity: 0 !important; }
+}
+
 .ch02-header__subhead {
     font-family: var(--font-display-th);
     font-weight: 400;
@@ -452,45 +508,83 @@
     margin-block: var(--space-9);
 }
 
+/* ── 3D coverflow carousel ────────────────────────────────
+   Replaces the previous horizontal-scroll list. All 6 cards are stacked
+   in 3D space, centered on a single active card; siblings recede with
+   scale + opacity + rotateY based on their distance from active.
+   The active card is set by `geography-map.js` via `data-active="true"`,
+   which also writes per-li CSS vars (--offset, --abs) used here. */
 .ch02-shrines__viewport {
     position: relative;
+    --bleed-gutter: max(var(--space-5), calc(50vw - var(--container-default) / 2 + var(--space-5)));
+    width: 100vw;
+    margin-left: calc(50% - 50vw);
+    /* 3D context for the cards */
+    perspective: 1600px;
+    perspective-origin: 50% 50%;
+    min-height: 280px;
+    /* Cards far from active translate way off-screen — clip them */
+    overflow: hidden;
 }
 
 .ch02-shrines__row {
-    display: grid;
-    grid-auto-flow: column;
-    grid-auto-columns: 285px;
-    gap: var(--space-3);
-    overflow-x: auto;
-    overflow-y: hidden;
+    position: relative;
+    display: block;
     list-style: none;
     margin: 0;
-    padding: var(--space-3) 64px var(--space-4) 0;
-    scroll-snap-type: x proximity;
-    scrollbar-width: thin;
-    scrollbar-color: rgba(201, 169, 97, 0.3) transparent;
+    padding: 0;
+    width: 100%;
+    min-height: 280px;
+    transform-style: preserve-3d;
 }
 
-.ch02-shrines__row::-webkit-scrollbar { height: 4px; }
-.ch02-shrines__row::-webkit-scrollbar-track { background: transparent; }
-.ch02-shrines__row::-webkit-scrollbar-thumb { background: rgba(201, 169, 97, 0.3); }
+/* Each <li> = one card slot, absolutely positioned and pushed left/right
+   based on --offset (negative = left of active, 0 = active, positive = right).
+   --abs is set to |offset| from JS and drives scale + opacity attenuation. */
+.ch02-shrines__row > li {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 285px;
+    --offset: 0;
+    --abs: 0;
+    transform:
+        translate(-50%, -50%)
+        translateX(calc(var(--offset) * 65%))
+        rotateY(calc(var(--offset) * -22deg))
+        scale(calc(1 - 0.13 * var(--abs)));
+    transform-origin: center center;
+    opacity: calc(1 - 0.30 * var(--abs));
+    z-index: calc(10 - var(--abs));
+    transition:
+        transform 600ms cubic-bezier(0.22, 1, 0.36, 1),
+        opacity 500ms ease;
+    will-change: transform, opacity;
+}
+
+/* Cards too far from the active one (|offset| > 2) — keep in DOM but
+   completely hide (no clicks, no paint cost beyond opacity 0). */
+.ch02-shrines__row > li[data-hidden="true"] {
+    opacity: 0;
+    pointer-events: none;
+}
 
 .ch02-mini {
-    width: 285px;
-    min-height: 170px;
+    width: 100%;
+    min-height: 200px;
     border-radius: 20px;
     background: var(--color-charcoal);
     border: 1px solid rgba(245, 241, 234, 0.08);
-    padding: var(--space-4);
+    padding: var(--space-5);
     cursor: pointer;
-    scroll-snap-align: start;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     text-align: left;
     gap: var(--space-3);
-    transition: border-color var(--motion-base) var(--ease-brand),
-                transform var(--motion-base) var(--ease-brand);
+    transition:
+        border-color var(--motion-base) var(--ease-brand),
+        box-shadow var(--motion-base) var(--ease-brand);
 }
 
 .ch02-mini:hover {
@@ -499,6 +593,9 @@
 
 .ch02-mini[data-active="true"] {
     border-color: var(--color-gold);
+    box-shadow:
+        0 24px 60px rgba(0, 0, 0, 0.55),
+        0 0 36px rgba(201, 169, 97, 0.25);
 }
 
 .ch02-mini:focus-visible {
@@ -624,12 +721,43 @@
     }
 }
 
-/* Chevron position — anchored to right edge of shrines viewport */
+/* Chevron position — both shown for the coverflow carousel (right →
+   next shrine, left → previous shrine). Anchored to the article's inner
+   left/right edge, not the viewport edge, so they sit where users
+   expect after the full-bleed break-out above.
+   Override the global .fe-chevron[data-direction="left"] hidden state
+   (which only made sense for the old scroll-snap row). */
 .ch02-shrines__chevron {
     position: absolute;
     top: 50%;
-    right: 0;
     transform: translateY(-50%);
+    opacity: 1;
+    pointer-events: auto;
+    z-index: 20;        /* keep chevrons above the cards' 3D stack */
+}
+
+/* Both selectors include [data-direction] so specificity (0,2,0) ties
+   with the global `.fe-chevron[data-direction="left"]{opacity:0}` rule.
+   Source order then wins → chevron stays visible regardless of the
+   legacy data-scroll-end signal that the old scroll-snap row used. */
+.ch02-shrines__chevron[data-direction="right"] {
+    right: var(--bleed-gutter);
+    opacity: 1;
+    pointer-events: auto;
+}
+.ch02-shrines__chevron[data-direction="left"] {
+    left: var(--bleed-gutter);
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/* Disabled state — JS toggles `disabled` when the active card sits at
+   either end of the row, so the chevron telegraphs that there's nothing
+   further in that direction. */
+.ch02-shrines__chevron[disabled] {
+    opacity: 0.25;
+    cursor: default;
+    pointer-events: none;
 }
 
 .ch02-shrines__chevron:hover {
@@ -959,6 +1087,48 @@
 }
 
 @media (max-width: 767px) {
+
+    /* Shrines coverflow → vertical scroll-snap stack on mobile.
+       3D depth doesn't read well at small widths and side cards become
+       unreadably small, so we collapse to a stacked list with the active
+       card highlighted via existing data-active styling. */
+    .ch02-shrines__viewport {
+        perspective: none;
+        min-height: 0;
+        height: 480px;
+        overflow-y: auto;
+        scroll-snap-type: y mandatory;
+        scrollbar-width: thin;
+        scrollbar-color: rgba(201, 169, 97, 0.3) transparent;
+    }
+
+    .ch02-shrines__row {
+        position: static;
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-3);
+        padding-inline: var(--space-5);
+        min-height: 0;
+        height: auto;
+        transform-style: flat;
+    }
+
+    .ch02-shrines__row > li {
+        position: static;
+        width: 100%;
+        transform: none;
+        opacity: 1;
+        scroll-snap-align: center;
+    }
+
+    .ch02-shrines__row > li[data-hidden="true"] {
+        opacity: 1;
+        pointer-events: auto;
+    }
+
+    .ch02-shrines__chevron {
+        display: none;
+    }
 
     .ch02-headline {
         font-size: clamp(3rem, 14vw, 4.5rem);
