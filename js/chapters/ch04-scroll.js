@@ -320,12 +320,15 @@ export function initCh04Scroll() {
         const sections  = row.querySelectorAll('.ch04-saint__section');
         const isArtLeft = row.classList.contains('ch04-saint--art-left');
 
-        // Saint accent color (oxblood / gold / violet) — pulled from CSS var
-        // by reading computed style on the sculpture's filter, fall back gold.
+        // Saint accent color (oxblood / gold / violet / cream) — used as the
+        // GSAP-driven inline drop-shadow during the entrance reveal. This
+        // inline filter overrides the stylesheet rule, so any new variant
+        // MUST be added here too — otherwise it falls back to gold.
         const accentMap = {
             oxblood: 'rgba(107, 31, 46, 0.6)',
             gold:    'rgba(201, 169, 97, 0.6)',
             violet:  'rgba(138, 56, 245, 0.55)',
+            cream:   'rgba(255, 255, 255, 0.6)',
         };
         let accent = 'rgba(201, 169, 97, 0.6)';
         for (const k of Object.keys(accentMap)) {

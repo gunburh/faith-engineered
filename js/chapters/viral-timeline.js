@@ -34,49 +34,49 @@ const BREAKPOINT = 768;
 
 const RIBBONS = [
     {
-        saint:        'Nang Kwak',
-        year:         2015,
-        peakT:        0.05,
-        color:        0xB8334A,
-        curveOffsets: [ 0.34,  0.18, -0.10, -0.26],
-        context:      'Pre-pandemic prosperity icon',
-        id:           'nang-kwak',
+        saint: 'Nang Kwak',
+        year: 2015,
+        peakT: 0.20,           // pulled in from 0.05 — keep label off the edge
+        color: 0xB8334A,
+        curveOffsets: [0.34, 0.18, -0.10, -0.26],
+        context: 'Pre-pandemic prosperity icon',
+        id: 'nang-kwak',
     },
     {
-        saint:        'Ai Khai',
-        year:         2019,
-        peakT:        0.40,
-        color:        0xC9A961,
-        curveOffsets: [-0.18,  0.08, -0.26,  0.16],
-        context:      'Pre-pandemic boom — fortune child',
-        id:           'ai-khai',
+        saint: 'Ai Khai',
+        year: 2019,
+        peakT: 0.42,           // nudged toward center
+        color: 0xC9A961,
+        curveOffsets: [-0.18, 0.08, -0.26, 0.16],
+        context: 'Pre-pandemic boom — fortune child',
+        id: 'ai-khai',
     },
     {
-        saint:        'Taowessuwan',
-        year:         2022,
-        peakT:        0.70,
-        color:        0x7B5FAB,
-        curveOffsets: [ 0.16, -0.34,  0.26, -0.10],
-        context:      'Post-pandemic guardian wealth',
-        id:           'taowessuwan',
+        saint: 'Taowessuwan',
+        year: 2022,
+        peakT: 0.66,           // pulled in from 0.70
+        color: 0x7B5FAB,
+        curveOffsets: [0.16, -0.34, 0.26, -0.10],
+        context: 'Post-pandemic guardian wealth',
+        id: 'taowessuwan',
     },
     {
-        saint:        'Kru Kai Kaew',
-        year:         2023,
-        peakT:        0.80,
-        color:        0xF5F1EA,
-        curveOffsets: [-0.26,  0.34, -0.18,  0.26],
-        context:      'AI-era luck specialist',
-        id:           'kru-kai',
+        saint: 'Kru Kai Kaew',
+        year: 2023,
+        peakT: 0.82,           // pulled in from 0.80
+        color: 0xF5F1EA,
+        curveOffsets: [-0.26, 0.34, -0.18, 0.26],
+        context: 'AI-era luck specialist',
+        id: 'kru-kai',
     },
 ];
 
 // ── Mobile data (unchanged from original dot timeline) ────
 const FLAT_DOTS = [
-    { kind: 'oxblood', name: 'Nang Kwak',    pos: 0  },
-    { kind: 'gold',    name: 'Ai Khai',      pos: 40 },
-    { kind: 'violet',  name: 'Taowessuwan',  pos: 70 },
-    { kind: 'cream',   name: 'Kru Kai Kaew', pos: 80 },
+    { kind: 'oxblood', name: 'Nang Kwak', pos: 0 },
+    { kind: 'gold', name: 'Ai Khai', pos: 40 },
+    { kind: 'violet', name: 'Taowessuwan', pos: 70 },
+    { kind: 'cream', name: 'Kru Kai Kaew', pos: 80 },
 ];
 const FLAT_YEARS = [2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025];
 
@@ -119,7 +119,7 @@ function makeGlowTexture(THREE) {
 
     const data = ctx.createImageData(SIZE, SIZE);
     const c = SIZE / 2;
-    const sigma  = SIZE * 0.16;        // tighter Gaussian peak
+    const sigma = SIZE * 0.16;        // tighter Gaussian peak
     const sigma2 = 2 * sigma * sigma;
 
     for (let y = 0; y < SIZE; y++) {
@@ -127,7 +127,7 @@ function makeGlowTexture(THREE) {
             const dx = x - c;
             const dy = y - c;
             const d2 = dx * dx + dy * dy;
-            const r  = Math.sqrt(d2) / c;       // 0 (center) .. 1 (edge) ..>1 (corner)
+            const r = Math.sqrt(d2) / c;       // 0 (center) .. 1 (edge) ..>1 (corner)
             let a = Math.exp(-d2 / sigma2);
             // Smoothstep-like fade that hits 0 by r=1 — kills any residual
             // alpha at the texture edge, which is the source of the visible
@@ -163,14 +163,14 @@ function buildPeakGradientTexture(THREE, peakT, color) {
     const ctx = cv.getContext('2d');
 
     const r = (color >> 16) & 0xff;
-    const g = (color >> 8)  & 0xff;
+    const g = (color >> 8) & 0xff;
     const b = color & 0xff;
 
     const data = ctx.createImageData(W, H);
     for (let x = 0; x < W; x++) {
         const t = x / (W - 1);
         const dist = Math.abs(t - peakT);
-        const wide  = 0.20 * Math.exp(-(dist * dist) / 0.05);
+        const wide = 0.20 * Math.exp(-(dist * dist) / 0.05);
         const sharp = 0.85 * Math.exp(-(dist * dist) / 0.004);
         const alpha = Math.min(1.0, 0.20 + wide + sharp);
         const a255 = Math.round(alpha * 255);
@@ -236,12 +236,16 @@ function renderThree(container) {
     const SAMPLE_COUNT = 200;
 
     function buildCurve(def, asp) {
-        const W = asp * 0.95;
+        // Extend slightly PAST the visible canvas so the ribbons feel like
+        // they flow off both screen edges instead of terminating at them.
+        // Combined with the chart's full-bleed (100vw) and the relaxed bg
+        // mask fade, this gives the "edge-to-edge cinema strip" feeling.
+        const W = asp * 1.08;
         const points = [
-            new THREE.Vector3(-W,        def.curveOffsets[0], 0),
+            new THREE.Vector3(-W, def.curveOffsets[0], 0),
             new THREE.Vector3(-W * 0.33, def.curveOffsets[1], 0),
-            new THREE.Vector3( W * 0.33, def.curveOffsets[2], 0),
-            new THREE.Vector3( W,        def.curveOffsets[3], 0),
+            new THREE.Vector3(W * 0.33, def.curveOffsets[2], 0),
+            new THREE.Vector3(W, def.curveOffsets[3], 0),
         ];
         return new THREE.CatmullRomCurve3(points, false, 'catmullrom', 0.5);
     }
@@ -356,7 +360,7 @@ function renderThree(container) {
             const basePos = new Float32Array(count * 3);
             const positions = new Float32Array(count * 3);
             const phases = new Float32Array(count);
-            const ampl   = new Float32Array(count);
+            const ampl = new Float32Array(count);
             for (let i = 0; i < count; i++) {
                 const angle = Math.random() * Math.PI * 2;
                 // gaussian=true → tight Gaussian peak (4-sample average).
@@ -372,7 +376,7 @@ function renderThree(container) {
                 positions[i * 3 + 2] = 0;
                 phases[i] = Math.random() * Math.PI * 2;
                 // Visible wobble — was 0.002–0.007, now ~3× bigger.
-                ampl[i]   = 0.008 + Math.random() * 0.018;
+                ampl[i] = 0.008 + Math.random() * 0.018;
             }
             geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
 
@@ -415,8 +419,8 @@ function renderThree(container) {
         function buildRing({ count, rx, ry, tiltDeg, baseColor, size, baseOpacity, speed, dir }) {
             const geometry = new THREE.BufferGeometry();
             const positions = new Float32Array(count * 3);
-            const colors    = new Float32Array(count * 3);
-            const angles    = new Float32Array(count);
+            const colors = new Float32Array(count * 3);
+            const angles = new Float32Array(count);
             for (let i = 0; i < count; i++) {
                 angles[i] = (i / count) * Math.PI * 2;
                 colors[i * 3 + 0] = baseColor[0];
@@ -424,7 +428,7 @@ function renderThree(container) {
                 colors[i * 3 + 2] = baseColor[2];
             }
             geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-            geometry.setAttribute('color',    new THREE.BufferAttribute(colors, 3));
+            geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
 
             const material = new THREE.PointsMaterial({
                 map: glowTexture,
@@ -452,8 +456,8 @@ function renderThree(container) {
 
         // Saint-color RGB normalized 0..1
         const sr = ((color >> 16) & 0xff) / 255;
-        const sg = ((color >>  8) & 0xff) / 255;
-        const sb = ( color        & 0xff) / 255;
+        const sg = ((color >> 8) & 0xff) / 255;
+        const sb = (color & 0xff) / 255;
 
         const ringA = buildRing({
             count: 90, rx: 0.14, ry: 0.042, tiltDeg: 8,
@@ -484,8 +488,8 @@ function renderThree(container) {
         <p class="ch04-timeline__tooltip-context"></p>
     `;
     overlay.appendChild(tooltip);
-    const tooltipName    = tooltip.querySelector('.ch04-timeline__tooltip-name');
-    const tooltipYear    = tooltip.querySelector('.ch04-timeline__tooltip-year');
+    const tooltipName = tooltip.querySelector('.ch04-timeline__tooltip-name');
+    const tooltipYear = tooltip.querySelector('.ch04-timeline__tooltip-year');
     const tooltipContext = tooltip.querySelector('.ch04-timeline__tooltip-context');
 
     let hoveredIdx = -1;
@@ -512,9 +516,9 @@ function renderThree(container) {
             const saint = ribbons[idx].saintWorld;
             const screen = projectToScreen(saint.x, saint.y);
             tooltip.style.left = `${screen.x}px`;
-            tooltip.style.top  = `${screen.y + 64}px`;
-            tooltipName.textContent    = def.saint;
-            tooltipYear.textContent    = String(def.year);
+            tooltip.style.top = `${screen.y + 64}px`;
+            tooltipName.textContent = def.saint;
+            tooltipYear.textContent = String(def.year);
             tooltipContext.textContent = def.context;
             tooltip.dataset.state = 'visible';
         };
@@ -566,7 +570,7 @@ function renderThree(container) {
             label.yearEl.style.transform =
                 `translate(${sx}px, ${sy + 28}px) translate(-50%, -50%)`;
             label.hover.style.left = `${sx}px`;
-            label.hover.style.top  = `${sy}px`;
+            label.hover.style.top = `${sy}px`;
         });
     }
 
@@ -605,14 +609,14 @@ function renderThree(container) {
             col[i * 3 + 2] = b * k;
         }
         ring.geometry.attributes.position.needsUpdate = true;
-        ring.geometry.attributes.color.needsUpdate    = true;
+        ring.geometry.attributes.color.needsUpdate = true;
     }
 
     function wobbleLayer(layer, t, ox, oy) {
-        const arr  = layer.geometry.attributes.position.array;
+        const arr = layer.geometry.attributes.position.array;
         const base = layer.basePos;
-        const ph   = layer.phases;
-        const am   = layer.ampl;
+        const ph = layer.phases;
+        const am = layer.ampl;
         for (let i = 0; i < layer.count; i++) {
             arr[i * 3 + 0] = base[i * 3 + 0] + ox + Math.sin(t * 1.1 + ph[i]) * am[i];
             arr[i * 3 + 1] = base[i * 3 + 1] + oy + Math.cos(t * 1.3 + ph[i] * 1.4) * am[i];
@@ -626,23 +630,23 @@ function renderThree(container) {
     // dominant frequency. Saint position is sampled at peakIndex from the
     // displaced curve so spark/particles/labels follow the wave naturally.
     const WAVE_SPEED_A = 0.55;
-    const WAVE_FREQ_A  = 0.04;
-    const WAVE_AMP_A   = 0.022;
+    const WAVE_FREQ_A = 0.04;
+    const WAVE_AMP_A = 0.022;
     const WAVE_SPEED_B = 0.85;
-    const WAVE_FREQ_B  = 0.085;
-    const WAVE_AMP_B   = 0.012;
+    const WAVE_FREQ_B = 0.085;
+    const WAVE_AMP_B = 0.012;
 
     function updateRibbonWave(rb, t) {
         const N = rb.basePoints.length;
         for (let i = 0; i < N; i++) {
             const base = rb.basePoints[i];
-            const tan  = rb.tangents[i];
+            const tan = rb.tangents[i];
             const wave =
-                  Math.sin(t * WAVE_SPEED_A + i * WAVE_FREQ_A + rb.wavePhase) * WAVE_AMP_A
+                Math.sin(t * WAVE_SPEED_A + i * WAVE_FREQ_A + rb.wavePhase) * WAVE_AMP_A
                 + Math.sin(t * WAVE_SPEED_B + i * WAVE_FREQ_B + rb.wavePhase * 1.7) * WAVE_AMP_B;
             // Perpendicular in xy-plane
             const px = -tan.y;
-            const py =  tan.x;
+            const py = tan.x;
             rb.displacedPoints[i].set(
                 base.x + px * wave,
                 base.y + py * wave,
@@ -681,7 +685,7 @@ function renderThree(container) {
 
                 // Burst clouds follow the wave (offset added on top of base + wobble)
                 wobbleLayer(node.burstTight, t, ox, oy);
-                wobbleLayer(node.burstWide,  t, ox, oy);
+                wobbleLayer(node.burstWide, t, ox, oy);
 
                 // 2 orbital rings around the spark
                 updateRing(node.ringA, t, node.cx, node.cy, ox, oy);
@@ -690,8 +694,8 @@ function renderThree(container) {
                 if (entranceDone) {
                     const isHover = hoveredIdx === si;
                     const isOther = hoveredIdx !== -1 && !isHover;
-                    const dim     = isOther ? 0.4 : 1.0;
-                    const boost   = isHover ? 1.20 : 1.0;
+                    const dim = isOther ? 0.4 : 1.0;
+                    const boost = isHover ? 1.20 : 1.0;
 
                     // Spark pulse with hover modulation
                     const pulse = 0.78 + Math.sin(t * 1.5 + node.sparkPhase) * 0.22;
@@ -700,9 +704,9 @@ function renderThree(container) {
 
                     // Burst layer hover dim/boost
                     const tightTarget = node.burstTight.baseOpacity * dim * boost;
-                    const wideTarget  = node.burstWide.baseOpacity  * dim * boost;
+                    const wideTarget = node.burstWide.baseOpacity * dim * boost;
                     node.burstTight.material.opacity += (tightTarget - node.burstTight.material.opacity) * 0.15;
-                    node.burstWide.material.opacity  += (wideTarget  - node.burstWide.material.opacity)  * 0.15;
+                    node.burstWide.material.opacity += (wideTarget - node.burstWide.material.opacity) * 0.15;
 
                     // Rings hover dim/boost
                     const ringATarget = node.ringA.baseOpacity * dim * boost;
@@ -717,7 +721,7 @@ function renderThree(container) {
                 for (let i = 0; i < ribbons.length; i++) {
                     const isHover = hoveredIdx === i;
                     const isOther = hoveredIdx !== -1 && !isHover;
-                    const target  = isHover ? 1.0 : isOther ? 0.4 : 0.95;
+                    const target = isHover ? 1.0 : isOther ? 0.4 : 0.95;
                     const cur = ribbons[i].material.opacity;
                     ribbons[i].material.opacity = cur + (target - cur) * 0.15;
                 }
@@ -739,7 +743,7 @@ function renderThree(container) {
             saintNodes.forEach((n) => {
                 n.sparkMat.opacity = 1.0;
                 n.burstTight.material.opacity = n.burstTight.baseOpacity;
-                n.burstWide.material.opacity  = n.burstWide.baseOpacity;
+                n.burstWide.material.opacity = n.burstWide.baseOpacity;
                 n.ringA.material.opacity = n.ringA.baseOpacity;
                 n.ringB.material.opacity = n.ringB.baseOpacity;
             });
@@ -768,7 +772,7 @@ function renderThree(container) {
                 { opacity: n.burstTight.baseOpacity, duration: 1.2, delay: d + 0.1, ease: 'power2.out' });
             gsap.fromTo(n.burstWide.material,
                 { opacity: 0 },
-                { opacity: n.burstWide.baseOpacity,  duration: 1.4, delay: d + 0.2, ease: 'power2.out' });
+                { opacity: n.burstWide.baseOpacity, duration: 1.4, delay: d + 0.2, ease: 'power2.out' });
             gsap.fromTo(n.ringA.material,
                 { opacity: 0 },
                 { opacity: n.ringA.baseOpacity, duration: 1.0, delay: d + 0.3, ease: 'power2.out' });
@@ -812,11 +816,11 @@ function renderThree(container) {
             rb.line.setPoints(newPoints);
             rb.material.uniforms.resolution.value.set(w, h);
             // Refresh wave caches
-            rb.basePoints       = newPoints;
-            rb.tangents         = computeTangents(newPoints);
-            rb.displacedPoints  = newPoints.map((p) => p.clone());
-            rb.peakIndex        = Math.round(rb.def.peakT * (SAMPLE_COUNT - 1));
-            const newSaintBase  = newCurve.getPointAt(rb.def.peakT);
+            rb.basePoints = newPoints;
+            rb.tangents = computeTangents(newPoints);
+            rb.displacedPoints = newPoints.map((p) => p.clone());
+            rb.peakIndex = Math.round(rb.def.peakT * (SAMPLE_COUNT - 1));
+            const newSaintBase = newCurve.getPointAt(rb.def.peakT);
             rb.saintBase.copy(newSaintBase);
             rb.saintWorld.copy(newSaintBase);
             rb.saintWaveOffsetX = 0;
@@ -837,12 +841,12 @@ function renderThree(container) {
             // moves with the saint (preserves its scattered shape).
             [node.burstTight, node.burstWide].forEach((layer) => {
                 const base = layer.basePos;
-                const arr  = layer.geometry.attributes.position.array;
+                const arr = layer.geometry.attributes.position.array;
                 for (let j = 0; j < layer.count; j++) {
                     base[j * 3 + 0] += dx;
                     base[j * 3 + 1] += dy;
-                    arr[j * 3 + 0]  += dx;
-                    arr[j * 3 + 1]  += dy;
+                    arr[j * 3 + 0] += dx;
+                    arr[j * 3 + 1] += dy;
                 }
                 layer.geometry.attributes.position.needsUpdate = true;
             });
@@ -914,9 +918,9 @@ function renderThree(container) {
 
         renderer.dispose();
 
-        if (canvas.parentNode)  canvas.parentNode.removeChild(canvas);
+        if (canvas.parentNode) canvas.parentNode.removeChild(canvas);
         if (overlay.parentNode) overlay.parentNode.removeChild(overlay);
-        if (bgEl.parentNode)    bgEl.parentNode.removeChild(bgEl);
+        if (bgEl.parentNode) bgEl.parentNode.removeChild(bgEl);
 
         delete container.dataset.mode;
     };
@@ -930,7 +934,7 @@ function renderThree(container) {
 // ─────────────────────────────────────────────────────────
 export function initViralTimeline() {
     const container = document.querySelector('[data-viral-timeline]');
-    if (!container) return () => {};
+    if (!container) return () => { };
 
     let activeCleanup = null;
     let lastIsMobile = window.innerWidth < BREAKPOINT;
