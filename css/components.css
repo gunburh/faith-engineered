@@ -342,6 +342,16 @@
 /* ──────────────────────────────────────────
    AUDIO TOGGLE
 ────────────────────────────────────────── */
+/* Hidden for now — audio integration is not shipped yet. Removing it
+   from the flow (display: none) lets the nav's existing flex layout
+   reflow naturally: .nav-controls becomes lang-only, the
+   `margin-left: auto` on .nav__links absorbs the freed space, and the
+   chapter pills + lang toggle slide rightward to keep the nav balanced
+   against the logo. To re-enable, just delete this single rule. */
+.audio-toggle {
+    display: none !important;
+}
+
 .audio-toggle {
     position: relative;
     display: flex;
