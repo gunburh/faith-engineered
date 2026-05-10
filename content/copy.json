@@ -350,6 +350,16 @@
                 "th": "ทุกพวงมาลัย ทุกเครื่องราง ทุกการดูดวง ล้วนเป็นส่วนหนึ่งของระบบการเงินคู่ขนาน<br>ความศักดิ์สิทธิ์มีงบดุล — แต่ไม่เคยยื่นแบบรายงานประจำปี"
             }
         },
+        "parallel": {
+            "cap1": {
+                "en": "Every incense stick. Every amulet. Every lottery ticket purchased after a shrine visit. This isn't a side industry. This is a parallel financial system, denominated in merit.",
+                "th": "ทุกแท่งธูป ทุกเครื่องราง ทุกใบสลากที่ซื้อหลังไปไหว้ศาล นี่ไม่ใช่อุตสาหกรรมเสริม — แต่คือระบบการเงินคู่ขนาน ที่ใช้บุญเป็นสกุลเงิน"
+            },
+            "cap2": {
+                "en": "The value chain runs from Damnoen Saduak flower market to Bangkok's Erawan Shrine — a supply chain older than the Stock Exchange of Thailand.",
+                "th": "ห่วงโซ่คุณค่าเริ่มต้นจากตลาดดอกไม้ดำเนินสะดวก ไปจนถึงศาลพระพรหมเอราวัณกรุงเทพฯ — ห่วงโซ่อุปทานที่เก่าแก่กว่าตลาดหลักทรัพย์ไทย"
+            }
+        },
         "labels": {
             "metrics": {
                 "en": "Key Metrics",
@@ -758,11 +768,29 @@
             "typographyCredits": {
                 "en": "Typography Credits",
                 "th": "เครดิตงานออกแบบตัวอักษร"
+            },
+            "codeCredits": {
+                "en": "Code Snippet Credits",
+                "th": "เครดิตซอร์สโค้ดที่อ้างอิง"
+            }
+        },
+        "codeCredits": {
+            "liquidGlassLabel": {
+                "en": "Liquid Glass UI",
+                "th": "ลิควิดกลาส UI"
+            },
+            "auroraLabel": {
+                "en": "About Animated Background",
+                "th": "พื้นหลังเคลื่อนไหว About"
             }
         },
         "projectLead": {
             "en": "Faith Engineered is a visual essay exploring Thai Mutelu — the layered spiritual culture that underlies modern Thai life. This project argues that Thai spirituality is not confused syncretism but sophisticated systems design: a modular belief stack, updated continuously for 700 years.",
-            "th": "Faith Engineered คือ visual essay ที่สำรวจมูเตลูแบบไทย — วัฒนธรรมจิตวิญญาณซ้อนชั้นที่อยู่เบื้องหลังชีวิตไทยสมัยใหม่ โครงการนี้เสนอว่าจิตวิญญาณไทยไม่ใช่การผสมผสานที่สับสน แต่คือการออกแบบระบบที่ซับซ้อน: ระบบชั้นความเชื่อแบบโมดูล อัปเดตต่อเนื่องมา 700 ปี"
+            "th": "Faith Engineered (วิศวกรรมศรัทธา) คือบทความเชิงภาพที่พาผู้ชมสำรวจภูมิทัศน์แห่ง ไทยมูเตลู — ระบบวัฒนธรรมทางจิตวิญญาณอันซ้อนชั้น ซึ่งแทรกซึมอยู่ใต้พื้นผิวของชีวิตไทยร่วมสมัย โครงการนี้ตั้งข้อเสนอว่า จิตวิญญาณแบบไทยมิใช่ความปะปนของศรัทธาอันไร้ระเบียบ หากแต่เป็น “วิศวกรรมศรัทธา” — การออกแบบระบบความเชื่ออย่างละเอียดลุ่มลึก เปรียบดังโครงสร้างศรัทธาแบบแยกส่วนที่ได้รับการปรับประยุกต์และต่อยอดอย่างไม่หยุดนิ่ง ตลอดระยะเวลากว่า 700 ปีแห่งประวัติศาสตร์"
+        },
+        "authorName": {
+            "en": "BHANUPONG CHOMCHIN",
+            "th": "ภาณุพงศ์ โฉมฉิน"
         },
         "authorSub": {
             "en": "College of Social Communication Innovation · Sophomore · SWU · Bangkok · 2026",
@@ -834,8 +862,8 @@
                 "th": "เกี่ยวกับโครงการนี้"
             },
             "aboutBody": {
-                "en": "Faith Engineered is an editorial interactive essay built as a final project for SWU COSCI Track B. It explores Thai Mutelu through the lens of systems design and cultural analysis.",
-                "th": "Faith Engineered คือ editorial interactive essay ที่ทำเป็นโครงการจบของ มศว COSCI Track B สำรวจมูเตลูไทยผ่านเลนส์ของการออกแบบระบบและการวิเคราะห์เชิงวัฒนธรรม"
+                "en": "Faith Engineered is an editorial interactive essay developed as a final project by a second-year student in the Computer Innovation for Communication program, College of Social Communication Innovation, Srinakharinwirot University (SWU), Track B, for the course Interactive Media Development for Web Page Communication. The project investigates the phenomenon of Thai Mutelu through the lens of systems design and cultural analysis, examining how architectures of belief have been constructed, inherited, and continuously reconfigured to persist within contemporary Thai life.",
+                "th": "Faith Engineered (วิศวกรรมศรัทธา) คือบทความเชิงบรรณาธิการแบบปฏิสัมพันธ์ (editorial interactive essay) ที่พัฒนาขึ้นในฐานะโครงงานปลายภาคของนักศึกษาชั้นปีที่ 2 เอกนวัตกรรมคอมพิวเตอร์เพื่อการสื่อสาร วิทยาลัยนวัตกรรมสื่อสารสังคม มหาวิทยาลัยศรีนครินทรวิโรฒ Track B ในรายวิชา Interactive Media Development for Web Page Communication โครงการนี้มุ่งสำรวจปรากฏการณ์ ไทยมูเตลู ผ่านเลนส์ของการออกแบบระบบและการวิเคราะห์เชิงวัฒนธรรม เพื่อทำความเข้าใจว่าโครงสร้างแห่งศรัทธาได้ถูกประกอบ สืบทอด และปรับเปลี่ยนให้ดำรงอยู่ร่วมกับสังคมไทยร่วมสมัยอย่างไร"
             },
             "techTitle": {
                 "en": "TECH STACK",
@@ -851,6 +879,32 @@
         "libraries": {
             "en": "Built with Three.js · GSAP · Lenis · Howler.js · Splitting.js",
             "th": "Built with Three.js · GSAP · Lenis · Howler.js · Splitting.js"
+        },
+        "aboutDesc": {
+            "en": "Editorial Interactive Essay on<br>Thai Mutelu Culture.",
+            "th": "บทความเชิงปฏิสัมพันธ์<br>เกี่ยวกับวัฒนธรรมไทยมูเตลู"
+        },
+        "chapters": {
+            "ch01": {
+                "en": "01 · The Stack",
+                "th": "01 · ระบบชั้น"
+            },
+            "ch02": {
+                "en": "02 · The Geography of Luck",
+                "th": "02 · ภูมิศาสตร์แห่งโชค"
+            },
+            "ch03": {
+                "en": "03 · The Offering Economy",
+                "th": "03 · เศรษฐกิจแห่งการบูชา"
+            },
+            "ch04": {
+                "en": "04 · The New Saints",
+                "th": "04 · เทพยุคใหม่"
+            },
+            "about": {
+                "en": "Sources & About",
+                "th": "เกี่ยวกับและอ้างอิง"
+            }
         }
     }
 }

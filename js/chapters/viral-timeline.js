@@ -32,51 +32,61 @@ const REDUCED_MOTION =
 
 const BREAKPOINT = 768;
 
+// i18n helpers — same shape as stack-build.js / geography-map.js. Lang
+// is read live from <html lang> at every t() call so a MutationObserver
+// can re-render labels/tooltip on toggle without a full module reinit.
+const getLang = () => (document.documentElement.lang === 'th' ? 'th' : 'en');
+const t = (v) => (v && typeof v === 'object' && 'en' in v) ? (v[getLang()] || v.en) : v;
+
 const RIBBONS = [
     {
-        saint: 'Nang Kwak',
+        saint:   { en: 'Nang Kwak',                 th: 'นางกวัก' },
         year: 2015,
         peakT: 0.20,           // pulled in from 0.05 — keep label off the edge
         color: 0xB8334A,
         curveOffsets: [0.34, 0.18, -0.10, -0.26],
-        context: 'Pre-pandemic prosperity icon',
+        context: { en: 'Pre-pandemic prosperity icon',
+                   th: 'สัญลักษณ์ความรุ่งเรืองก่อนโควิด' },
         id: 'nang-kwak',
     },
     {
-        saint: 'Ai Khai',
+        saint:   { en: 'Ai Khai',                   th: 'ไอ้ไข่' },
         year: 2019,
         peakT: 0.42,           // nudged toward center
         color: 0xC9A961,
         curveOffsets: [-0.18, 0.08, -0.26, 0.16],
-        context: 'Pre-pandemic boom — fortune child',
+        context: { en: 'Pre-pandemic boom — fortune child',
+                   th: 'บูมก่อนโควิด — เทพเด็กแห่งโชค' },
         id: 'ai-khai',
     },
     {
-        saint: 'Taowessuwan',
+        saint:   { en: 'Taowessuwan',               th: 'ท้าวเวสสุวรรณ' },
         year: 2022,
         peakT: 0.66,           // pulled in from 0.70
         color: 0x7B5FAB,
         curveOffsets: [0.16, -0.34, 0.26, -0.10],
-        context: 'Post-pandemic guardian wealth',
+        context: { en: 'Post-pandemic guardian wealth',
+                   th: 'เทพผู้พิทักษ์ทรัพย์หลังโควิด' },
         id: 'taowessuwan',
     },
     {
-        saint: 'Kru Kai Kaew',
+        saint:   { en: 'Kru Kai Kaew',              th: 'ครูกายแก้ว' },
         year: 2023,
         peakT: 0.82,           // pulled in from 0.80
         color: 0xF5F1EA,
         curveOffsets: [-0.26, 0.34, -0.18, 0.26],
-        context: 'AI-era luck specialist',
+        context: { en: 'AI-era luck specialist',
+                   th: 'ผู้เชี่ยวชาญด้านโชคยุค AI' },
         id: 'kru-kai',
     },
 ];
 
 // ── Mobile data (unchanged from original dot timeline) ────
 const FLAT_DOTS = [
-    { kind: 'oxblood', name: 'Nang Kwak', pos: 0 },
-    { kind: 'gold', name: 'Ai Khai', pos: 40 },
-    { kind: 'violet', name: 'Taowessuwan', pos: 70 },
-    { kind: 'cream', name: 'Kru Kai Kaew', pos: 80 },
+    { kind: 'oxblood', name: { en: 'Nang Kwak',    th: 'นางกวัก' },        pos: 0  },
+    { kind: 'gold',    name: { en: 'Ai Khai',      th: 'ไอ้ไข่' },          pos: 40 },
+    { kind: 'violet',  name: { en: 'Taowessuwan',  th: 'ท้าวเวสสุวรรณ' },   pos: 70 },
+    { kind: 'cream',   name: { en: 'Kru Kai Kaew', th: 'ครูกายแก้ว' },      pos: 80 },
 ];
 const FLAT_YEARS = [2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025];
 
@@ -85,19 +95,31 @@ const FLAT_YEARS = [2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 
 // ─────────────────────────────────────────────────────────
 function renderFlat(container) {
     container.dataset.mode = 'flat';
-    container.innerHTML = `
-        <div class="ch04-timeline__track">
-            ${FLAT_DOTS.map((d) => `
-                <div class="ch04-timeline__dot ch04-timeline__dot--${d.kind}" style="--pos: ${d.pos}%;">
-                    <span class="ch04-timeline__name">${d.name}</span>
-                </div>
-            `).join('')}
-        </div>
-        <ul class="ch04-timeline__years" role="list">
-            ${FLAT_YEARS.map((y) => `<li>${y}</li>`).join('')}
-        </ul>
-    `;
+    const paint = () => {
+        container.innerHTML = `
+            <div class="ch04-timeline__track">
+                ${FLAT_DOTS.map((d) => `
+                    <div class="ch04-timeline__dot ch04-timeline__dot--${d.kind}" style="--pos: ${d.pos}%;">
+                        <span class="ch04-timeline__name">${t(d.name)}</span>
+                    </div>
+                `).join('')}
+            </div>
+            <ul class="ch04-timeline__years" role="list">
+                ${FLAT_YEARS.map((y) => `<li>${y}</li>`).join('')}
+            </ul>
+        `;
+    };
+    paint();
+
+    // Re-paint on lang toggle so the dot labels swap EN ↔ TH live.
+    const langObserver = new MutationObserver(paint);
+    langObserver.observe(document.documentElement, {
+        attributes: true,
+        attributeFilter: ['lang'],
+    });
+
     return () => {
+        langObserver.disconnect();
         container.innerHTML = '';
         delete container.dataset.mode;
     };
@@ -497,7 +519,7 @@ function renderThree(container) {
     const labels = RIBBONS.map((def, idx) => {
         const nameEl = document.createElement('div');
         nameEl.className = 'ch04-timeline__name-label';
-        nameEl.textContent = def.saint;
+        nameEl.textContent = t(def.saint);
         overlay.appendChild(nameEl);
 
         const yearEl = document.createElement('div');
@@ -517,9 +539,9 @@ function renderThree(container) {
             const screen = projectToScreen(saint.x, saint.y);
             tooltip.style.left = `${screen.x}px`;
             tooltip.style.top = `${screen.y + 64}px`;
-            tooltipName.textContent = def.saint;
+            tooltipName.textContent = t(def.saint);
             tooltipYear.textContent = String(def.year);
-            tooltipContext.textContent = def.context;
+            tooltipContext.textContent = t(def.context);
             tooltip.dataset.state = 'visible';
         };
         const onLeave = () => {
@@ -860,6 +882,25 @@ function renderThree(container) {
     renderer.render(scene, camera);
     updateLabelPositions();
 
+    // ── Re-render labels + tooltip on lang toggle ───────
+    // Same pattern as stack-build.js / geography-map.js. The Three.js
+    // scene itself doesn't need to rebuild — only the HTML overlay text.
+    const langObserver = new MutationObserver(() => {
+        labels.forEach((label) => {
+            label.nameEl.textContent = t(label.def.saint);
+        });
+        // If a saint is currently hovered, refresh the tooltip in place.
+        if (hoveredIdx !== -1 && tooltip.dataset.state === 'visible') {
+            const def = labels[hoveredIdx].def;
+            tooltipName.textContent = t(def.saint);
+            tooltipContext.textContent = t(def.context);
+        }
+    });
+    langObserver.observe(document.documentElement, {
+        attributes: true,
+        attributeFilter: ['lang'],
+    });
+
     // ── Cleanup ──────────────────────────────────────────
     const cleanup = () => {
         if (rafId != null) {
@@ -867,6 +908,7 @@ function renderThree(container) {
             rafId = null;
         }
         visibilityIO.disconnect();
+        langObserver.disconnect();
 
         if (window.gsap) {
             ribbons.forEach((rb) => {

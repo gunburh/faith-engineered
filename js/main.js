@@ -38,11 +38,30 @@ import { initAboutAccordion }  from './chapters/about-accordion.js';
 // import { initCounters }       from './chapters/counters.js';
 // import { initAudio }          from './lib/audio.js';
 
+// Disable browser auto-scroll-restoration. Refresh always lands at the
+// top so the hero scrub timeline initialises with the hero in viewport.
+//
+// Why: when the browser restores a mid-page scroll position, the hero
+// section is offscreen at load. Chrome doesn't composite offscreen
+// videos, so bg05's requestVideoFrameCallback never fires, the seek
+// pipeline's `pending` lock can desync, and scrolling back up shows a
+// broken/stuck hero scrub. Forcing scroll to top sidesteps all of that.
+//
+// Run synchronously at module-evaluation time (before DOMContentLoaded)
+// so it lands before the browser has a chance to restore.
+if (typeof history !== 'undefined' && 'scrollRestoration' in history) {
+    history.scrollRestoration = 'manual';
+}
+
 // ─────────────────────────────────────────────────────────
 // Bootstrap
 // ─────────────────────────────────────────────────────────
 
 document.addEventListener('DOMContentLoaded', async () => {
+
+    // Belt + braces — even with scrollRestoration='manual', some
+    // browsers (older Safari) still scroll if a hash is present.
+    if (window.scrollY !== 0) window.scrollTo(0, 0);
 
     // 1. Language toggle — must be first (other modules may read lang)
     await initLanguageToggle();

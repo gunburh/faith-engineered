@@ -7,6 +7,17 @@
     <meta name="description" content="Faith Engineered — How Thailand designed a religion for the modern world.">
     <title>Faith Engineered · วิศวกรรมศรัทธา</title>
 
+    <!-- Force scroll to hero on every refresh.
+         Hero scrub timeline (hero-video.js) breaks if the page loads
+         offscreen — bg05 isn't composited so its rVFC never fires and
+         the seek pipeline stalls. Setting scrollRestoration BEFORE the
+         browser parses the body, plus stripping any hash from the URL,
+         beats the anchor jump that would otherwise restore mid-page. -->
+    <script>
+        if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+        if (location.hash) history.replaceState(null, '', location.pathname + location.search);
+    </script>
+
     <!-- Preconnect for font performance -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -529,7 +540,7 @@
                                     alt="Marigold garlands stacked at a Bangkok flower wholesaler" width="590"
                                     height="445">
                             </div>
-                            <figcaption class="ch03-parallel__cap">
+                            <figcaption class="ch03-parallel__cap" data-i18n="ch03.parallel.cap1">
                                 Every incense stick. Every amulet. Every lottery ticket purchased after a shrine visit.
                                 This isn't a side industry. This is a parallel financial system, denominated in merit.
                             </figcaption>
@@ -540,7 +551,7 @@
                                 <img class="ch03-parallel__img" src="assets/images/economy/parallel2_ch3.jpeg"
                                     alt="Vendors and pilgrims at a Bangkok shrine forecourt" width="590" height="445">
                             </div>
-                            <figcaption class="ch03-parallel__cap">
+                            <figcaption class="ch03-parallel__cap" data-i18n="ch03.parallel.cap2">
                                 The value chain runs from Damnoen Saduak flower market to Bangkok's Erawan Shrine
                                 — a supply chain older than the Stock Exchange of Thailand.
                             </figcaption>
@@ -1012,7 +1023,7 @@
                         <!-- Block 2 · THE AUTHOR -->
                         <section class="ch05-block" aria-labelledby="ch05-author-label">
                             <p id="ch05-author-label" class="ch05-block__eyebrow" data-i18n="ch05.labels.author">The Author</p>
-                            <h3 class="ch05-block__name">BHANUPONG CHOMCHIN</h3>
+                            <h3 class="ch05-block__name" data-i18n="ch05.authorName">BHANUPONG CHOMCHIN</h3>
                             <p class="ch05-block__sub" data-i18n="ch05.authorSub">
                                 College of Social Communication Innovation · Sophomore · SWU · Bangkok · 2026
                             </p>
@@ -1302,6 +1313,21 @@
                             </dl>
                         </section>
 
+                        <!-- Block 6 · CODE SNIPPET CREDITS -->
+                        <section class="ch05-block" aria-labelledby="ch05-code-label">
+                            <p id="ch05-code-label" class="ch05-block__eyebrow" data-i18n="ch05.labels.codeCredits">Code Snippet Credits</p>
+                            <dl class="ch05-typography">
+                                <div class="ch05-typography__row">
+                                    <dt data-i18n="ch05.codeCredits.liquidGlassLabel">Liquid Glass UI</dt>
+                                    <dd><a href="https://21st.dev/community/easemize" target="_blank" rel="noopener">21st.dev · easemize</a></dd>
+                                </div>
+                                <div class="ch05-typography__row">
+                                    <dt data-i18n="ch05.codeCredits.auroraLabel">About Animated Background</dt>
+                                    <dd><a href="https://21st.dev/community/thanh" target="_blank" rel="noopener">21st.dev · thanh</a></dd>
+                                </div>
+                            </dl>
+                        </section>
+
                     </div><!-- /.ch05-left -->
 
 
@@ -1347,20 +1373,24 @@
                                     <dd>v0.160 · MIT</dd>
                                 </div>
                                 <div class="ch05-tech__row">
+                                    <dt>THREE.MeshLine</dt>
+                                    <dd>spite · MIT</dd>
+                                </div>
+                                <div class="ch05-tech__row">
                                     <dt>GSAP</dt>
                                     <dd>v3.12 · Standard</dd>
+                                </div>
+                                <div class="ch05-tech__row">
+                                    <dt>ScrollTrigger</dt>
+                                    <dd>GSAP plugin</dd>
                                 </div>
                                 <div class="ch05-tech__row">
                                     <dt>Lenis</dt>
                                     <dd>v1.0 · MIT</dd>
                                 </div>
                                 <div class="ch05-tech__row">
-                                    <dt>Howler.js</dt>
-                                    <dd>v2.2 · MIT</dd>
-                                </div>
-                                <div class="ch05-tech__row">
-                                    <dt>Splitting.js</dt>
-                                    <dd>v1.0 · MIT</dd>
+                                    <dt>Leaflet</dt>
+                                    <dd>v1.9 · BSD-2-Clause</dd>
                                 </div>
                             </dl>
                         </article>
@@ -1395,7 +1425,7 @@
                 <a href="/" class="footer__logo" aria-label="Faith Engineered home">
                     <img src="assets/logo/fe_logo01.png" alt="Faith Engineered" width="154" height="80">
                 </a>
-                <p class="footer__about-desc">Editorial Interactive Essay on<br>Thai Mutelu Culture.</p>
+                <p class="footer__about-desc" data-i18n-html="footer.aboutDesc">Editorial Interactive Essay on<br>Thai Mutelu Culture.</p>
                 <p class="footer__about-meta">SWU COSCI COMMU TRACK B<br>| Final Project · 2026.</p>
                 <a href="https://www.instagram.com/gunburh" class="footer__social" rel="noopener"
                     aria-label="Instagram @gunburh">
@@ -1407,11 +1437,11 @@
             <nav class="footer__col footer__chapters" aria-label="Chapter links">
                 <h3 class="footer__heading">Chapters</h3>
                 <ul>
-                    <li><a href="#chapter-01">01 · The Stack</a></li>
-                    <li><a href="#chapter-02">02 · The Geography of Luck</a></li>
-                    <li><a href="#chapter-03">03 · The Offering Economy</a></li>
-                    <li><a href="#chapter-04">04 · The New Saints</a></li>
-                    <li><a href="#about">Sources &amp; About</a></li>
+                    <li><a href="#chapter-01" data-i18n="footer.chapters.ch01">01 · The Stack</a></li>
+                    <li><a href="#chapter-02" data-i18n="footer.chapters.ch02">02 · The Geography of Luck</a></li>
+                    <li><a href="#chapter-03" data-i18n="footer.chapters.ch03">03 · The Offering Economy</a></li>
+                    <li><a href="#chapter-04" data-i18n="footer.chapters.ch04">04 · The New Saints</a></li>
+                    <li><a href="#about" data-i18n="footer.chapters.about">Sources &amp; About</a></li>
                 </ul>
             </nav>
 
@@ -1420,13 +1450,15 @@
                 <h3 id="footer-credits-heading" class="footer__heading">Technology</h3>
                 <ul class="footer__credits-list">
                     <li><a href="https://threejs.org" rel="noopener">Three.js v0.160 · MIT</a></li>
+                    <li><a href="https://github.com/spite/THREE.MeshLine" rel="noopener">THREE.MeshLine · spite · MIT</a></li>
                     <li><a href="https://gsap.com" rel="noopener">GSAP v3.12 · Standard</a></li>
+                    <li><a href="https://gsap.com/scrolltrigger" rel="noopener">ScrollTrigger · GSAP plugin</a></li>
                     <li><a href="https://lenis.darkroom.engineering" rel="noopener">Lenis v1.0 · MIT</a></li>
-                    <li><a href="https://howlerjs.com" rel="noopener">Howler.js v2.2 · MIT</a></li>
-                    <li><a href="https://splitting.js.org" rel="noopener">Splitting.js v1.0 · MIT</a></li>
+                    <li><a href="https://leafletjs.com" rel="noopener">Leaflet v1.9 · BSD-2-Clause</a></li>
                     <li>Cormorant Garamond · OFL</li>
                     <li>IBM Plex Sans Thai · OFL</li>
                     <li>Inter · OFL</li>
+                    <li>JetBrains Mono · OFL</li>
                 </ul>
             </section>
 
