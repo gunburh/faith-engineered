@@ -117,7 +117,12 @@ export function initSmoothScroll() {
         gsap.ticker.add((time) => {
             lenis.raf(time * 1000); // GSAP time is in seconds, Lenis expects ms
         });
-        gsap.ticker.lagSmoothing(0); // prevent GSAP from skipping frames
+        // Re-enable default-style lag smoothing — when a single frame takes
+        // more than 500ms (e.g. Chrome's video decoder stalls during heavy
+        // hero scrub), clamp the next delta to 33ms so the rest of the
+        // animations don't fast-forward to "catch up". Trade: video may
+        // briefly lag the scroll under load, but scroll itself stays smooth.
+        gsap.ticker.lagSmoothing(500, 33);
     } else {
         // Fallback: vanilla RAF
         requestAnimationFrame(raf);

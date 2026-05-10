@@ -105,7 +105,13 @@ export function initHeroVideo() {
                 trigger: hero,
                 start: 'top top',
                 end: () => `+=${scrubPx}`,
-                scrub: true,
+                // scrub: 0.5 instead of `true` — GSAP lerps the timeline
+                // playhead toward the scroll target over 0.5s instead of
+                // matching it 1:1. Chrome stops re-seeking the video on
+                // every single scroll event, decoder pressure drops, scroll
+                // smooths out. Cost: video frame trails the scroll position
+                // by ~half a second under fast wheel input.
+                scrub: 0.5,
                 invalidateOnRefresh: true,
             },
         });
@@ -119,11 +125,87 @@ export function initHeroVideo() {
             tl.to(heroContent, { opacity: 0, duration: 0.32, ease: 'power1.inOut' }, 0);
         }
 
-        // Full scrub: bg05.currentTime dragged 0 → duration
+        // Full scrub — frame-gated, delta-gated, fastSeek path.
+        //
+        // Each layer fixes a different decoder-jank source on Chrome:
+        //
+        //   1. PROXY animation — GSAP tweens a plain number (`seekProxy.t`),
+        //      not video.currentTime directly. Decouples GSAP's RAF cadence
+        //      from when we actually ask the video to seek.
+        //
+        //   2. fastSeek() — bypasses Chrome's frame-accurate seek (which on
+        //      a sparsely-keyframed clip decodes every intermediate P-frame)
+        //      and jumps straight to the nearest keyframe.
+        //
+        //   3. requestVideoFrameCallback gate — never request the next seek
+        //      until the previous decoded frame has actually been presented.
+        //      Stops Chrome's decode queue from backing up under fast scroll.
+        //      If we got a newer target while busy, we seek to it now instead
+        //      of replaying every intermediate value.
+        //
+        //   4. Delta gate — skip seek requests that are <40ms of video time
+        //      from the last one. Slow scroll won't hammer the decoder for
+        //      effectively-the-same frame.
+        const seekProxy = { t: 0 };
+        let pending = false;
+        let lastSeekedT = -1;
+        const MIN_DELTA = 0.04;                  // ~1 frame at 25fps
+        const supportsRVFC =
+            typeof bg05.requestVideoFrameCallback === 'function';
+
+        const seekVideo = (t) => {
+            if (typeof bg05.fastSeek === 'function') bg05.fastSeek(t);
+            else bg05.currentTime = t;
+        };
+
+        const requestSeek = (target) => {
+            if (pending) return;                 // wait for in-flight frame
+            if (Math.abs(target - lastSeekedT) < MIN_DELTA) return;
+            pending = true;
+            lastSeekedT = target;
+            seekVideo(target);
+
+            // Once-only release — whichever signal fires first wins.
+            //
+            // Safari has a sharp edge here: requestVideoFrameCallback only
+            // fires after a frame is *presented to the compositor*. Until
+            // bg05's opacity animates above 0 it never gets composited, the
+            // callback never fires, `pending` stays true forever, and every
+            // subsequent seek is silently dropped — that's why scrub stayed
+            // dead until you reached Ch1 (which triggers a layout pass that
+            // wakes the compositor up).
+            //
+            // Belt + braces: register both rVFC and a 100ms timeout. The
+            // timeout is ignored on Chrome (rVFC fires first, well within
+            // 100ms when actually decoding) and acts as the rescue path on
+            // Safari while the video is invisible.
+            let released = false;
+            const release = () => {
+                if (released) return;
+                released = true;
+                pending = false;
+                if (Math.abs(seekProxy.t - lastSeekedT) >= MIN_DELTA) {
+                    requestSeek(seekProxy.t);
+                }
+            };
+            if (supportsRVFC) bg05.requestVideoFrameCallback(release);
+            setTimeout(release, 100);
+        };
+
         tl.fromTo(
-            bg05,
-            { currentTime: 0 },
-            { currentTime: duration, duration: 1, ease: 'none' },
+            seekProxy,
+            { t: 0 },
+            {
+                t: duration,
+                duration: 1,
+                ease: 'none',
+                onUpdate: () => requestSeek(seekProxy.t),
+                onComplete: () => {
+                    pending = false;             // make sure final frame lands
+                    seekVideo(duration);
+                    lastSeekedT = duration;
+                },
+            },
             0
         );
 
