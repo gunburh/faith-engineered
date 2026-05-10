@@ -203,6 +203,15 @@
         background var(--motion-fast) var(--ease-out);
 }
 
+/* Nav pills in Thai mode — IBM Plex Sans Thai, optical-size bumped from
+   12px → 14px to match Latin weight, and letter-spacing dropped (Thai
+   script doesn't take tracking the way Latin smallcaps do). */
+[data-lang="th"] [data-nav-link] {
+    font-family: var(--font-ui-th);
+    font-size: 14px;
+    letter-spacing: 0;
+}
+
 [data-nav-link]:hover {
     opacity: 1;
     color: var(--color-gold);
