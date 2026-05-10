@@ -343,3 +343,26 @@ border-radius: 100px;
 | B Structure | 5 | Semantic HTML, ≥5 sections, valid | ✅ locked |
 | C Code | 10 | CSS variables, Flexbox/Grid, JS works, UX | 🟡 partial |
 | D Visual | 10 | Consistent design, editorial quality | 🟡 hi-fi done, code pending |
+
+## Day 18 — 11 May 2026 (closed)
+
+### Shipped
+- Full QA pass: cross-browser testing (Chrome/Safari/Firefox desktop)
+- Console errors: zero
+- All animations fire correctly across browsers
+- Bug list: 0
+
+### Scope update from instructor (LINE, 11 May 2026)
+- Responsive mobile/tablet NOT required for submission
+- Site does not need to be publicly published
+- Screenshot of confirmation saved in submission folder
+
+### Sprint position
+Day 18/20 closed. 2 days remaining.
+- Day 19 (report + recording + package) → Day 20 (submit + presentation prep)
+- Presentation: 14 May 10:00 AM
+- Effective buffer: 1 day ahead
+- Status: 🟢 Green
+
+### Web state
+Feature complete. All quality gates passed. Ready for documentation phase.
