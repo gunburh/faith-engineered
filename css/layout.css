@@ -130,6 +130,36 @@ main {
     overflow: clip;
 }
 
+/* Seamless seam — fades the bottom of the hero into the page's ink
+   colour so the video frame doesn't terminate with a hard horizontal
+   line where Chapter 01 picks up. Sits at the very bottom of the .hero
+   section (not on the sticky .hero__bg), so it only enters the viewport
+   in the last stretch of the scrub and meets Ch1 cleanly. */
+.hero::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 280px;
+    pointer-events: none;
+    z-index: 5;
+    background: linear-gradient(to bottom,
+            rgba(10, 10, 10, 0)    0%,
+            rgba(10, 10, 10, 0.45) 35%,
+            rgba(10, 10, 10, 0.82) 65%,
+            rgba(10, 10, 10, 0.97) 88%,
+            var(--color-ink)       100%);
+    /* Backdrop blur peaks at the bottom edge — the inverse mask hides
+       the blur up top so the upper half of the gradient is just a
+       transparent fade, while the lower half adds a soft frosted blur
+       over whatever's behind (the dying tail of the hero video).      */
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
+    -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 55%, black 100%);
+    mask-image:         linear-gradient(to bottom, transparent 0%, black 55%, black 100%);
+}
+
 /* Stack bg + content in the same grid cell so both can be position:sticky */
 .hero > .hero__bg,
 .hero > .hero__content {
