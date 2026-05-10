@@ -3,97 +3,170 @@
  *
  * Click any stack card → set data-active="true", update sticky detail panel.
  * Default active layer: Layer 06 (DISTRIBUTION) on load.
+ *
+ * Bilingual: every text field in LAYER_DETAIL is `{ en, th }`. The active
+ * language is read from <html lang> at render time, and a MutationObserver
+ * on that attribute re-renders the detail panel when the toggle is clicked.
  */
+
+// ── i18n helpers ──────────────────────────────────────────
+const getLang = () => (document.documentElement.lang === 'th' ? 'th' : 'en');
+const t = (v) => (v && typeof v === 'object' && 'en' in v) ? (v[getLang()] || v.en) : v;
+
+// Static labels used by the detail panel (kept inline so the module is
+// self-contained — no need to read copy.json from here).
+const LABELS = {
+    layer:       { en: 'LAYER',                       th: 'ชั้น' },
+    origin:      { en: 'Origin',                      th: 'ที่มา' },
+    function:    { en: 'Function',                    th: 'หน้าที่' },
+    interaction: { en: 'Interaction with other layer', th: 'ปฏิสัมพันธ์กับชั้นอื่น' },
+};
 
 const LAYER_DETAIL = {
     '06': {
         idx: '06',
-        tag: 'DISTRIBUTION',
+        tag:      { en: 'DISTRIBUTION',                th: 'การกระจาย' },
         tagColor: '#38F593',
-        name: 'New Media / Influencer',
-        subtitle: 'Idol / Social',
-        origin: 'Emerged in the late 2010s as smartphones, TikTok, and LINE became default infrastructure in Thailand. Celebrity monks, fortune-teller streams, and Mutelu influencers turned existing belief into shareable content overnight.',
-        function: 'The distribution layer of the stack. It does not invent doctrine — it broadcasts the lower five layers to a younger audience using algorithmic feeds, lucky-number livestreams, sticker packs, and shrine-selfie aesthetics.',
-        interaction: 'Sits on top of every other layer. Animist amulets get unboxing reels, Brahmin court rituals get drone coverage, Theravada sermons get short-form edits. Nothing below is replaced — it is repackaged for the feed.',
+        name:     { en: 'New Media / Influencer',      th: 'สื่อใหม่ / อินฟลูเอนเซอร์' },
+        subtitle: { en: 'Idol / Social',               th: 'ไอดอล / โซเชียล' },
+        origin: {
+            en: 'Emerged in the late 2010s as smartphones, TikTok, and LINE became default infrastructure in Thailand. Celebrity monks, fortune-teller streams, and Mutelu influencers turned existing belief into shareable content overnight.',
+            th: 'เกิดขึ้นช่วงปลายปี 2010 เมื่อสมาร์ตโฟน TikTok และ LINE กลายเป็นโครงสร้างพื้นฐานหลักในไทย พระคนดัง สตรีมหมอดู และอินฟลูเอนเซอร์มูเตลู เปลี่ยนความเชื่อที่มีอยู่ให้เป็นคอนเทนต์ที่แชร์ได้ภายในข้ามคืน',
+        },
+        function: {
+            en: 'The distribution layer of the stack. It does not invent doctrine — it broadcasts the lower five layers to a younger audience using algorithmic feeds, lucky-number livestreams, sticker packs, and shrine-selfie aesthetics.',
+            th: 'ชั้นการกระจายของระบบ ไม่ได้สร้างหลักคำสอนใหม่ — แต่กระจายห้าชั้นด้านล่างสู่กลุ่มคนรุ่นใหม่ ผ่านฟีดอัลกอริทึม สตรีมเลขเด็ด สติกเกอร์ และสุนทรียะของเซลฟี่หน้าศาล',
+        },
+        interaction: {
+            en: 'Sits on top of every other layer. Animist amulets get unboxing reels, Brahmin court rituals get drone coverage, Theravada sermons get short-form edits. Nothing below is replaced — it is repackaged for the feed.',
+            th: 'อยู่บนสุดเหนือทุกชั้น เครื่องรางวิญญาณนิยมได้รีลแกะกล่อง พิธีพราหมณ์ราชสำนักได้ภาพมุมโดรน เทศนาเถรวาทได้คลิปสั้น ไม่มีอะไรของชั้นล่างถูกแทนที่ — แต่ถูกบรรจุใหม่สำหรับฟีด',
+        },
     },
     '05': {
         idx: '05',
-        tag: 'STATE',
+        tag:      { en: 'STATE',                       th: 'รัฐ' },
         tagColor: '#F53838',
-        name: 'Royal Brahmanism',
-        subtitle: 'Brahminical Rite of Power',
-        origin: 'Imported from the Khmer court tradition during the Ayutthaya period. Brahmin priests legitimized kingship through Vedic-derived rituals adapted into a Theravada-Buddhist political frame.',
-        function: 'Layer of state ceremony. Coronation, plowing rite, royal funerals. Provides theatrical authority that ordinary religion cannot — visible spectacle as proof of cosmic order.',
-        interaction: 'Sits above Theravada Buddhism without conflict — Buddhism handles personal merit, Brahmanism handles public sovereignty. They share temples, share calendars, share priests in some festivals.',
+        name:     { en: 'Royal Brahmanism',            th: 'พราหมณ์ราชสำนัก' },
+        subtitle: { en: 'Brahminical Rite of Power',   th: 'พิธีกรรมพราหมณ์แห่งอำนาจ' },
+        origin: {
+            en: 'Imported from the Khmer court tradition during the Ayutthaya period. Brahmin priests legitimized kingship through Vedic-derived rituals adapted into a Theravada-Buddhist political frame.',
+            th: 'นำเข้าจากประเพณีราชสำนักเขมรในสมัยอยุธยา พราหมณ์ทำให้อำนาจราชาชอบธรรมผ่านพิธีกรรมที่ดัดแปลงจากพระเวท เข้ากับกรอบการเมืองพุทธเถรวาท',
+        },
+        function: {
+            en: 'Layer of state ceremony. Coronation, plowing rite, royal funerals. Provides theatrical authority that ordinary religion cannot — visible spectacle as proof of cosmic order.',
+            th: 'ชั้นพิธีของรัฐ พระราชพิธีบรมราชาภิเษก พระราชพิธีจรดพระนังคัล พระราชพิธีพระบรมศพ ให้อำนาจในเชิงละครที่ศาสนาทั่วไปทำไม่ได้ — ภาพอันโอ่อ่าที่มองเห็นได้ในฐานะหลักฐานของระเบียบจักรวาล',
+        },
+        interaction: {
+            en: 'Sits above Theravada Buddhism without conflict — Buddhism handles personal merit, Brahmanism handles public sovereignty. They share temples, share calendars, share priests in some festivals.',
+            th: 'อยู่เหนือพุทธเถรวาทโดยไม่ขัดแย้ง — พุทธจัดการบุญส่วนบุคคล พราหมณ์จัดการอำนาจอธิปไตยสาธารณะ ใช้วัดร่วม ปฏิทินร่วม บางพิธีใช้พระสงฆ์ร่วม',
+        },
     },
     '04': {
         idx: '04',
-        tag: 'MERCHANT',
+        tag:      { en: 'MERCHANT',                    th: 'พ่อค้า' },
         tagColor: '#F56A38',
-        name: 'Chinese Folk Religion',
-        subtitle: 'Guanyin / Chinese New Year',
-        origin: 'Imported by Sino-Thai trading families through the 19th-century migration waves. Domestic shrines, Guanyin halls, and tutelary tudigong figures embedded directly into Bangkok shophouses.',
-        function: 'Commerce layer. Wealth gods, ancestor veneration, lunar holiday economy. Gives the merchant class a vocabulary for prosperity that Buddhism does not directly provide.',
-        interaction: 'Slots in beside Theravada without competing — Chinese Folk Religion is property-and-prosperity, Buddhism is karma-and-rebirth. Many Sino-Thai homes run both daily.',
+        name:     { en: 'Chinese Folk Religion',       th: 'ศาสนาพื้นบ้านจีน' },
+        subtitle: { en: 'Guanyin / Chinese New Year',  th: 'กวนอิม / ตรุษจีน' },
+        origin: {
+            en: 'Imported by Sino-Thai trading families through the 19th-century migration waves. Domestic shrines, Guanyin halls, and tutelary tudigong figures embedded directly into Bangkok shophouses.',
+            th: 'นำเข้าโดยตระกูลค้าขายชาวจีน-ไทย ผ่านคลื่นการอพยพในศตวรรษที่ 19 ศาลในบ้าน ศาลเจ้ากวนอิม และเทพเจ้าผู้ดูแลพื้นที่ ฝังตัวในห้องแถวกรุงเทพฯ โดยตรง',
+        },
+        function: {
+            en: 'Commerce layer. Wealth gods, ancestor veneration, lunar holiday economy. Gives the merchant class a vocabulary for prosperity that Buddhism does not directly provide.',
+            th: 'ชั้นการค้า เทพเจ้าแห่งทรัพย์ การบูชาบรรพบุรุษ เศรษฐกิจวันหยุดจันทรคติ ให้พ่อค้าวาทศัพท์แห่งความรุ่งเรืองที่พุทธไม่ได้ให้ตรงๆ',
+        },
+        interaction: {
+            en: 'Slots in beside Theravada without competing — Chinese Folk Religion is property-and-prosperity, Buddhism is karma-and-rebirth. Many Sino-Thai homes run both daily.',
+            th: 'เข้ากันได้กับเถรวาทโดยไม่แย่ง — ศาสนาพื้นบ้านจีนคือทรัพย์สินและความรุ่งเรือง พุทธคือกรรมและการเกิดใหม่ บ้านจีน-ไทยหลายหลังใช้ทั้งสองทุกวัน',
+        },
     },
     '03': {
         idx: '03',
-        tag: 'FORMAL OS',
+        tag:      { en: 'FORMAL OS',                   th: 'ระบบหลัก' },
         tagColor: '#385BF5',
-        name: 'Theravada Buddhism',
-        subtitle: 'Theravada Karmic System',
-        origin: 'Established as state religion in the 13th century via the Sukhothai court, codified through Sri Lankan textual lineages and a national ordination system.',
-        function: 'The formal operating system. Merit, karma, and rebirth as the underlying logic for ethics, law, education, and the life-cycle calendar (ordination, weddings, cremation).',
-        interaction: 'Provides the substrate every other layer is mounted on. Animism, Hinduism, and Chinese folk religion all operate inside a Buddhist worldview without overwriting it.',
+        name:     { en: 'Theravada Buddhism',          th: 'พุทธเถรวาท' },
+        subtitle: { en: 'Theravada Karmic System',     th: 'ระบบกรรมแบบเถรวาท' },
+        origin: {
+            en: 'Established as state religion in the 13th century via the Sukhothai court, codified through Sri Lankan textual lineages and a national ordination system.',
+            th: 'สถาปนาเป็นศาสนาแห่งรัฐในศตวรรษที่ 13 ผ่านราชสำนักสุโขทัย ประมวลผ่านสายตำราจากศรีลังกา และระบบการอุปสมบทระดับชาติ',
+        },
+        function: {
+            en: 'The formal operating system. Merit, karma, and rebirth as the underlying logic for ethics, law, education, and the life-cycle calendar (ordination, weddings, cremation).',
+            th: 'ระบบปฏิบัติการหลัก บุญ กรรม และการเกิดใหม่ คือตรรกะรากฐานของจริยธรรม กฎหมาย การศึกษา และปฏิทินวงจรชีวิต (อุปสมบท แต่งงาน ฌาปนกิจ)',
+        },
+        interaction: {
+            en: 'Provides the substrate every other layer is mounted on. Animism, Hinduism, and Chinese folk religion all operate inside a Buddhist worldview without overwriting it.',
+            th: 'เป็นพื้นฐานที่ทุกชั้นอื่นถูกติดตั้งบนนั้น วิญญาณนิยม ฮินดู และศาสนาพื้นบ้านจีน ทำงานภายในโลกทัศน์พุทธโดยไม่เขียนทับ',
+        },
     },
     '02': {
         idx: '02',
-        tag: 'COURT',
+        tag:      { en: 'COURT',                       th: 'ราชสำนัก' },
         tagColor: '#8A38F5',
-        name: 'Hindu Mythology',
-        subtitle: 'Brahmin-Hindu',
-        origin: 'Inherited from the Khmer Empire and refined through Ayutthayan court culture. Brahma, Ganesh, and Shiva were absorbed as cosmological power-brokers, not as primary objects of devotion.',
-        function: 'Royal-court layer. Provides iconography, court ritual vocabulary, and a pantheon for transactional petitions — career, art, success — that Buddhism deliberately does not address.',
-        interaction: 'Co-resident with Theravada at the same shrines. The Erawan Shrine in Bangkok runs almost entirely on this layer while sitting in a Buddhist-majority commercial district.',
+        name:     { en: 'Hindu Mythology',             th: 'เทพปกรณัมฮินดู' },
+        subtitle: { en: 'Brahmin-Hindu',               th: 'พราหมณ์-ฮินดู' },
+        origin: {
+            en: 'Inherited from the Khmer Empire and refined through Ayutthayan court culture. Brahma, Ganesh, and Shiva were absorbed as cosmological power-brokers, not as primary objects of devotion.',
+            th: 'สืบทอดจากจักรวรรดิเขมร และกลั่นผ่านวัฒนธรรมราชสำนักอยุธยา พระพรหม พระคเณศ และพระศิวะ ถูกดูดซับเป็นผู้คุมอำนาจทางจักรวาลวิทยา ไม่ใช่วัตถุแห่งความศรัทธาหลัก',
+        },
+        function: {
+            en: 'Royal-court layer. Provides iconography, court ritual vocabulary, and a pantheon for transactional petitions — career, art, success — that Buddhism deliberately does not address.',
+            th: 'ชั้นราชสำนัก ให้รูปสัญลักษณ์ วาทศัพท์พิธีราชสำนัก และวิหารเทพสำหรับคำขอเชิงธุรกรรม — อาชีพ ศิลปะ ความสำเร็จ — ที่พุทธเลี่ยงไม่กล่าวถึงโดยจงใจ',
+        },
+        interaction: {
+            en: 'Co-resident with Theravada at the same shrines. The Erawan Shrine in Bangkok runs almost entirely on this layer while sitting in a Buddhist-majority commercial district.',
+            th: 'อยู่ร่วมกับเถรวาทในศาลเดียวกัน ศาลเอราวัณกรุงเทพฯ ทำงานเกือบทั้งหมดบนชั้นนี้ ขณะตั้งอยู่ในย่านการค้าที่ส่วนใหญ่นับถือพุทธ',
+        },
     },
     '01': {
         idx: '01',
-        tag: 'FOUNDATION',
+        tag:      { en: 'FOUNDATION',                  th: 'รากฐาน' },
         tagColor: '#E6C878',
-        name: 'Animism',
-        subtitle: 'Ghost / Superstition',
-        origin: 'Predates every imported tradition. Indigenous belief that places, trees, rivers, and the dead retain spirits requiring acknowledgment. The spirit house predates the temple.',
-        function: 'Foundation layer. Handles the immediate and the personal — the spirit of the land, the ghost at the crossroads, the protective amulet, the inauspicious date.',
-        interaction: 'Survives underneath everything. No subsequent layer attempted to remove it; each one absorbed and re-described its rituals in its own vocabulary.',
+        name:     { en: 'Animism',                     th: 'วิญญาณนิยม' },
+        subtitle: { en: 'Ghost / Superstition',        th: 'ผี / ไสยศาสตร์' },
+        origin: {
+            en: 'Predates every imported tradition. Indigenous belief that places, trees, rivers, and the dead retain spirits requiring acknowledgment. The spirit house predates the temple.',
+            th: 'มีก่อนทุกประเพณีนำเข้า ความเชื่อพื้นเมืองว่าสถานที่ ต้นไม้ แม่น้ำ และผู้ตาย ยังคงมีวิญญาณที่ต้องการการยอมรับ ศาลพระภูมิมีก่อนวัด',
+        },
+        function: {
+            en: 'Foundation layer. Handles the immediate and the personal — the spirit of the land, the ghost at the crossroads, the protective amulet, the inauspicious date.',
+            th: 'ชั้นรากฐาน จัดการเรื่องใกล้ตัวและส่วนตัว — วิญญาณของแผ่นดิน ผีสามแยก เครื่องรางคุ้มครอง วันที่ไม่เป็นมงคล',
+        },
+        interaction: {
+            en: 'Survives underneath everything. No subsequent layer attempted to remove it; each one absorbed and re-described its rituals in its own vocabulary.',
+            th: 'อยู่รอดใต้ทุกอย่าง ไม่มีชั้นต่อมาพยายามลบ — แต่ละชั้นดูดซับและอธิบายพิธีกรรมของมันใหม่ในวาทศัพท์ของตัวเอง',
+        },
     },
 };
 
 /**
  * Build inner HTML for the sticky detail panel from a layer record.
+ * Text fields are translated via `t()` which reads <html lang> live, so
+ * a re-render after a language switch picks up the new strings.
  */
 function buildDetailHTML(layer) {
     return `
         <div class="ch01-stack-detail__head">
             <div class="ch01-stack-card__meta">
-                <span class="ch01-stack-card__num">LAYER ${layer.idx}</span>
-                <span class="ch01-stack-card__tag" style="--tag-color: ${layer.tagColor};">${layer.tag}</span>
+                <span class="ch01-stack-card__num">${t(LABELS.layer)} ${layer.idx}</span>
+                <span class="ch01-stack-card__tag" style="--tag-color: ${layer.tagColor};">${t(layer.tag)}</span>
             </div>
-            <h3 class="ch01-stack-card__name">${layer.name}</h3>
-            <p class="ch01-stack-card__sub">${layer.subtitle}</p>
+            <h3 class="ch01-stack-card__name">${t(layer.name)}</h3>
+            <p class="ch01-stack-card__sub">${t(layer.subtitle)}</p>
         </div>
         <hr class="ch01-stack-detail__divider">
         <div class="ch01-stack-detail__sections">
             <section>
-                <h4 class="ch01-stack-detail__sub">Origin</h4>
-                <p>${layer.origin}</p>
+                <h4 class="ch01-stack-detail__sub">${t(LABELS.origin)}</h4>
+                <p>${t(layer.origin)}</p>
             </section>
             <section>
-                <h4 class="ch01-stack-detail__sub">Function</h4>
-                <p>${layer.function}</p>
+                <h4 class="ch01-stack-detail__sub">${t(LABELS.function)}</h4>
+                <p>${t(layer.function)}</p>
             </section>
             <section>
-                <h4 class="ch01-stack-detail__sub">Interaction with other layer</h4>
-                <p>${layer.interaction}</p>
+                <h4 class="ch01-stack-detail__sub">${t(LABELS.interaction)}</h4>
+                <p>${t(layer.interaction)}</p>
             </section>
         </div>
     `;
@@ -401,5 +474,19 @@ export function initStackBuild() {
             e.preventDefault();
             activate();
         });
+    });
+
+    // Re-render the detail panel when the language toggle flips.
+    // lang-toggle.js writes <html lang="en|th"> on switch, so observing
+    // that attribute is the cheapest way to react without coupling to
+    // a custom event.
+    const langObserver = new MutationObserver(() => {
+        const activeIdx = root.querySelector('[data-layer-idx][data-active="true"]')
+            ?.dataset.layerIdx || '06';
+        setActiveLayer(activeIdx, cards, detail);
+    });
+    langObserver.observe(document.documentElement, {
+        attributes: true,
+        attributeFilter: ['lang'],
     });
 }

@@ -66,19 +66,24 @@
 }
 
 /* CTA in Thai mode — JetBrains Mono · Regular (Latin glyphs of mono +
-   browser-fallback Thai for "เริ่มอ่าน"). */
+   browser-fallback Thai for "เริ่มอ่าน"). Thai script reads ~25% smaller
+   than Latin at the same px, so bump it from 12px → 16px to match the
+   English version's optical weight. */
 [data-lang="th"] .btn-cta__label {
     font-family: var(--font-mono);
     font-weight: 400;
+    font-size: 16px;
     letter-spacing: 0.06em;
     text-transform: none;
 }
 
 /* Scroll cue uses Inter — Thai glyphs fall back to IBM Plex Sans Thai
-   so display is deterministic across OS / browser. */
+   so display is deterministic across OS / browser. Same optical-size
+   bump (11px → 14px) so "เลื่อน" doesn't read tiny next to the Latin. */
 [data-lang="th"] .scroll-cue__label {
     font-family: 'Inter', 'IBM Plex Sans Thai', sans-serif;
     font-weight: 400;
+    font-size: 14px;
     text-transform: none;
 }
 

@@ -81,6 +81,172 @@
                 "en": "<em>The Geography of Luck</em>",
                 "th": "<em>ภูมิศาสตร์แห่งโชค</em>"
             }
+        },
+        "pullquote1": {
+            "en": "“In Thailand, the sacred has a business model. And it’s working.”",
+            "th": "“ในประเทศไทย ความศักดิ์สิทธิ์มีโมเดลธุรกิจ และมันได้ผล”"
+        },
+        "pullquote2": {
+            "en": "“belief is not an anomaly; it is an engineered response to a meticulously designed structural void.”",
+            "th": "“ความเชื่อไม่ใช่ความผิดปกติ แต่เป็นการตอบสนองที่ถูกออกแบบมาอย่างพิถีพิถัน ต่อช่องว่างเชิงโครงสร้างที่ถูกวางอย่างประณีต”"
+        },
+        "syncretism": {
+            "lead": {
+                "en": "Western observers call Thai spirituality “syncretic” — mixing incompatible systems.<br>This is wrong. The Stack is modular. Each layer has a defined function.",
+                "th": "นักสังเกตการณ์ตะวันตกเรียกจิตวิญญาณไทยว่า “ผสมผสาน” — ผสมระบบที่เข้ากันไม่ได้<br>นี่เป็นความเข้าใจที่ผิด ระบบชั้นนี้เป็นโมดูล แต่ละชั้นมีหน้าที่กำหนดไว้ชัดเจน"
+            },
+            "card1Title": {
+                "en": "Layer Isolation",
+                "th": "การแยกชั้น"
+            },
+            "card1Body": {
+                "en": "A Thai person prays to Ganesha for business success (Hindu layer), then meditates at a Buddhist temple (Buddhist layer). No contradiction — different layers serve different functions.",
+                "th": "คนไทยอธิษฐานพระคเณศเพื่อความสำเร็จในธุรกิจ (ชั้นฮินดู) แล้วไปนั่งสมาธิที่วัดพุทธ (ชั้นพุทธ) ไม่มีความขัดแย้ง — ชั้นต่างกันมีหน้าที่ต่างกัน"
+            },
+            "card2Title": {
+                "en": "Error Handling",
+                "th": "การจัดการข้อผิดพลาด"
+            },
+            "card2Body": {
+                "en": "When Buddhist merit alone doesn’t suffice, animist rites are invoked. The system has fallback logic — not theological confusion.",
+                "th": "เมื่อบุญทางพุทธอย่างเดียวไม่พอ ก็เรียกพิธีกรรมวิญญาณนิยมมาช่วย ระบบนี้มีตรรกะสำรอง — ไม่ใช่ความสับสนทางเทววิทยา"
+            },
+            "card3Title": {
+                "en": "Version Control",
+                "th": "การควบคุมเวอร์ชัน"
+            },
+            "card3Body": {
+                "en": "Each layer retains its original logic. Buddhism was not corrupted by Hinduism — it was extended. The stack grew without breaking backward compatibility.",
+                "th": "แต่ละชั้นยังคงตรรกะดั้งเดิม พุทธศาสนาไม่ได้ถูกฮินดูทำให้เพี้ยน — แต่ถูกขยาย ระบบเติบโตโดยไม่ทำลายความเข้ากันได้ย้อนหลัง"
+            }
+        },
+        "stack": {
+            "06": {
+                "tag": {
+                    "en": "Distribution",
+                    "th": "การกระจาย"
+                },
+                "name": {
+                    "en": "New Media / Influencer",
+                    "th": "สื่อใหม่ / อินฟลูเอนเซอร์"
+                },
+                "sub": {
+                    "en": "Idol / Social",
+                    "th": "ไอดอล / โซเชียล"
+                },
+                "desc": {
+                    "en": "The distribution layer. TikTok monks, LINE stickers, shrine selfies.",
+                    "th": "ชั้นการกระจาย พระ TikTok สติกเกอร์ LINE เซลฟี่หน้าศาล"
+                }
+            },
+            "05": {
+                "tag": {
+                    "en": "State",
+                    "th": "รัฐ"
+                },
+                "name": {
+                    "en": "Royal Brahmanism",
+                    "th": "พราหมณ์ราชสำนัก"
+                },
+                "sub": {
+                    "en": "Brahminical Rite of Power",
+                    "th": "พิธีกรรมพราหมณ์แห่งอำนาจ"
+                },
+                "desc": {
+                    "en": "State religion layer. Legitimizes power through ritual spectacle.",
+                    "th": "ชั้นศาสนาแห่งรัฐ ทำให้อำนาจชอบธรรมผ่านพิธีอันโอ่อ่า"
+                }
+            },
+            "04": {
+                "tag": {
+                    "en": "Merchant",
+                    "th": "พ่อค้า"
+                },
+                "name": {
+                    "en": "Chinese Folk Religion",
+                    "th": "ศาสนาพื้นบ้านจีน"
+                },
+                "sub": {
+                    "en": "Guanyin / Chinese New Year",
+                    "th": "กวนอิม / ตรุษจีน"
+                },
+                "desc": {
+                    "en": "Merchant layer. Imported by Sino-Thai trading class, 19th century.",
+                    "th": "ชั้นของพ่อค้า นำเข้าโดยคนไทยเชื้อสายจีน ศตวรรษที่ 19"
+                }
+            },
+            "03": {
+                "tag": {
+                    "en": "Formal OS",
+                    "th": "ระบบหลัก"
+                },
+                "name": {
+                    "en": "Theravada Buddhism",
+                    "th": "พุทธเถรวาท"
+                },
+                "sub": {
+                    "en": "Theravada Karmic System",
+                    "th": "ระบบกรรมแบบเถรวาท"
+                },
+                "desc": {
+                    "en": "The formal OS. Merit, karma, reincarnation as operating logic.",
+                    "th": "ระบบปฏิบัติการหลัก บุญ กรรม การเวียนว่ายตายเกิด เป็นตรรกะหลัก"
+                }
+            },
+            "02": {
+                "tag": {
+                    "en": "Court",
+                    "th": "ราชสำนัก"
+                },
+                "name": {
+                    "en": "Hindu Mythology",
+                    "th": "เทพปกรณัมฮินดู"
+                },
+                "sub": {
+                    "en": "Brahmin-Hindu",
+                    "th": "พราหมณ์-ฮินดู"
+                },
+                "desc": {
+                    "en": "Royal court religion. Brahma, Ganesh, Shiva as power-brokers.",
+                    "th": "ศาสนาราชสำนัก พระพรหม พระคเณศ พระศิวะ ในฐานะผู้คุมอำนาจ"
+                }
+            },
+            "01": {
+                "tag": {
+                    "en": "Foundation",
+                    "th": "รากฐาน"
+                },
+                "name": {
+                    "en": "Animism",
+                    "th": "วิญญาณนิยม"
+                },
+                "sub": {
+                    "en": "Ghost / Superstition",
+                    "th": "ผี / ไสยศาสตร์"
+                },
+                "desc": {
+                    "en": "The oldest layer. Everything alive has a spirit.",
+                    "th": "ชั้นเก่าแก่ที่สุด ทุกสิ่งที่มีชีวิตมีวิญญาณ"
+                }
+            }
+        },
+        "stackDetail": {
+            "layerLabel": {
+                "en": "LAYER",
+                "th": "ชั้น"
+            },
+            "originLabel": {
+                "en": "Origin",
+                "th": "ที่มา"
+            },
+            "functionLabel": {
+                "en": "Function",
+                "th": "หน้าที่"
+            },
+            "interactionLabel": {
+                "en": "Interaction with other layer",
+                "th": "ปฏิสัมพันธ์กับชั้นอื่น"
+            }
         }
     },
     "ch02": {
@@ -124,6 +290,44 @@
             "title": {
                 "en": "<em>The Offering Economy</em>",
                 "th": "<em>เศรษฐกิจแห่งการบูชา</em>"
+            }
+        },
+        "pullquote": {
+            "en": "“Bangkok is a CRUD application for the soul.”",
+            "th": "“กรุงเทพฯ คือ CRUD application สำหรับจิตวิญญาณ”"
+        },
+        "mapCaption": {
+            "en": "Click any pin on the map to select and explore shrine details.",
+            "th": "คลิกหมุดบนแผนที่เพื่อดูรายละเอียดของศาลแต่ละแห่ง"
+        },
+        "thesis": {
+            "lead": {
+                "en": "Thailand has productized spirituality.<br>Every shrine is a specialized service with a known success rate and a known price.",
+                "th": "ประเทศไทยได้ทำให้จิตวิญญาณกลายเป็นผลิตภัณฑ์<br>ทุกศาลคือบริการเฉพาะทางที่มีอัตราความสำเร็จและราคาชัดเจน"
+            },
+            "compareTitle": {
+                "en": "Cultural Comparison",
+                "th": "การเปรียบเทียบเชิงวัฒนธรรม"
+            },
+            "compareItem1": {
+                "en": "Japan has <em>ema</em> — wooden wish plaques at Shinto shrines.",
+                "th": "ญี่ปุ่นมี <em>เอมะ</em> — แผ่นไม้ขออธิษฐานที่ศาลเจ้าชินโต"
+            },
+            "compareItem2": {
+                "en": "The Vatican has <em>ex-votos</em> — silver offerings for answered prayers.",
+                "th": "วาติกันมี <em>ex-votos</em> — เครื่องเงินถวายแก้บนเมื่อคำอธิษฐานเป็นจริง"
+            },
+            "compareItem3": {
+                "en": "Thailand has all of these — plus a hyperlocal delivery network and an Instagram-optimized shrine aesthetic.",
+                "th": "ประเทศไทยมีครบทุกอย่าง — บวกกับเครือข่ายเข้าถึงเฉพาะพื้นที่ และสุนทรียะของศาลที่ออกแบบสำหรับ Instagram"
+            },
+            "bignumSub": {
+                "en": "Registered shrines in Bangkok alone",
+                "th": "ศาลที่จดทะเบียนเฉพาะในกรุงเทพฯ"
+            },
+            "bignumFoot": {
+                "en": "That’s one shrine per ~0.04 km².<br>‘Denser than 7-Elevens’",
+                "th": "เฉลี่ย 1 ศาลต่อพื้นที่ ~0.04 ตร.กม.<br>‘หนาแน่นกว่าร้าน 7-Eleven’"
             }
         }
     },
@@ -263,6 +467,60 @@
                 "en": "Logarithmic scale. Every tier coexists in the same shrine, on the same day.",
                 "th": "มาตราส่วนลอการิทึม ทุกระดับอยู่ร่วมกันในศาลเดียวกัน ในวันเดียวกัน"
             }
+        },
+        "chain": {
+            "lead": {
+                "en": "Where ฿20 flows — from farm to offering table",
+                "th": "เส้นทางการไหลของ ฿20 — จากไร่ดอกไม้สู่แท่นบูชา"
+            },
+            "step1Label": {
+                "en": "Flower Farm",
+                "th": "ไร่ดอกไม้"
+            },
+            "step1Sub": {
+                "en": "Nakhon Pathom<br>Supplier",
+                "th": "นครปฐม<br>ผู้ผลิต"
+            },
+            "step2Label": {
+                "en": "Damnoen Saduak Market",
+                "th": "ตลาดดำเนินสะดวก"
+            },
+            "step2Sub": {
+                "en": "Wholesale<br>Distribution",
+                "th": "ขายส่ง<br>กระจายสินค้า"
+            },
+            "step3Label": {
+                "en": "Street Vendor",
+                "th": "พ่อค้าหาบเร่"
+            },
+            "step3Sub": {
+                "en": "Ratchaprasong<br>Sidewalk",
+                "th": "ทางเท้า<br>ราชประสงค์"
+            },
+            "step4Label": {
+                "en": "Temple Stall",
+                "th": "ร้านในวัด"
+            },
+            "step4Sub": {
+                "en": "Shrine grounds<br>Retail",
+                "th": "บริเวณศาล<br>ค้าปลีก"
+            },
+            "step5Label": {
+                "en": "Offering Table",
+                "th": "แท่นบูชา"
+            },
+            "step5Sub": {
+                "en": "Daily receives<br>Prayer sent",
+                "th": "รับทุกวัน<br>คำอธิษฐานออก"
+            },
+            "merit": {
+                "en": "MERIT",
+                "th": "บุญ"
+            }
+        },
+        "closingQuote": {
+            "en": "This isn’t a side industry. This is a parallel financial system,<br>denominated in merit.",
+            "th": "นี่ไม่ใช่อุตสาหกรรมเสริม นี่คือระบบการเงินคู่ขนาน<br>ที่ตีค่าเป็นบุญ"
         }
     },
     "ch04": {
@@ -307,6 +565,170 @@
                 "en": "<em>Sources & About</em>",
                 "th": "<em>แหล่งข้อมูลและเกี่ยวกับ</em>"
             }
+        },
+        "timeline": {
+            "lead": {
+                "en": "Thailand iterates its pantheon faster than any religion on earth.<br>Four spirits, four different anxieties, four different eras. All coexisting. All functional.",
+                "th": "ประเทศไทยปรับวิหารเทพเร็วกว่าศาสนาใดในโลก<br>วิญญาณสี่องค์ ความกังวลสี่แบบ สี่ยุคสมัย อยู่ร่วมกัน ทำงานพร้อมกัน"
+            }
+        },
+        "eyebrows": {
+            "origin": {
+                "en": "Origin",
+                "th": "ที่มา"
+            },
+            "viral": {
+                "en": "THE VIRAL MOMENT",
+                "th": "ช่วงเวลาไวรัล"
+            },
+            "says": {
+                "en": "WHAT IT SAYS",
+                "th": "บอกอะไรเรา"
+            }
+        },
+        "saints": {
+            "nangKwak": {
+                "name": {
+                    "en": "Nang Kwak",
+                    "th": "นางกวัก"
+                },
+                "tag": {
+                    "en": "SMALL BUSINESS CULTURE",
+                    "th": "วัฒนธรรมธุรกิจรายย่อย"
+                },
+                "originBody": {
+                    "en": "Traditional Thai folk spirit — the beckoning woman. Predates all modern saints.",
+                    "th": "วิญญาณพื้นบ้านไทยดั้งเดิม — หญิงผู้กวักมือเรียก มีก่อนนักบุญสมัยใหม่ทั้งหมด"
+                },
+                "viralBody": {
+                    "en": "Not viral — perennial. Found in every Thai shop, restaurant, taxi. The “stable classic.”",
+                    "th": "ไม่ไวรัล — แต่อยู่ตลอดไป พบในทุกร้านไทย ร้านอาหาร แท็กซี่ คือ “คลาสสิกที่นิ่ง”"
+                },
+                "saysBody": {
+                    "en": "Female entrepreneurship + small business culture. Reliability over spectacle.",
+                    "th": "ผู้ประกอบการหญิง + วัฒนธรรมธุรกิจรายย่อย ความน่าเชื่อถือเหนือความตื่นตา"
+                }
+            },
+            "aiKhai": {
+                "name": {
+                    "en": "Ai Khai",
+                    "th": "ไอ้ไข่"
+                },
+                "tag": {
+                    "en": "FAST MONEY CULTURE",
+                    "th": "วัฒนธรรมเงินด่วน"
+                },
+                "originBody": {
+                    "en": "Child spirit of Wat Chedi, Nakhon Si Thammarat. Known for granting lottery luck.",
+                    "th": "วิญญาณเด็กแห่งวัดเจดีย์ จังหวัดนครศรีธรรมราช ขึ้นชื่อเรื่องให้โชคหวย"
+                },
+                "viralBody": {
+                    "en": "Viral moment: winner credited Ai Khai on national TV, 2019. Replicas sold out within 48 hours.",
+                    "th": "ช่วงไวรัล: ผู้ถูกหวยให้เครดิตไอ้ไข่ออกทีวีระดับชาติ ปี 2562 รูปจำลองขายหมดภายใน 48 ชั่วโมง"
+                },
+                "saysBody": {
+                    "en": "Gambling culture + “fast money” spirituality — the lottery as economic ladder.",
+                    "th": "วัฒนธรรมการพนัน + จิตวิญญาณ “เงินด่วน” — หวยในฐานะบันไดเศรษฐกิจ"
+                }
+            },
+            "taowessuwan": {
+                "name": {
+                    "en": "Taowessuwan",
+                    "th": "ท้าวเวสสุวรรณ"
+                },
+                "tag": {
+                    "en": "ECONOMIC ANXIETY",
+                    "th": "ความกังวลทางเศรษฐกิจ"
+                },
+                "originBody": {
+                    "en": "Buddhist guardian deity — Vaisravana. Known since ancient times but spiked in 2022.",
+                    "th": "เทพผู้พิทักษ์ในพุทธศาสนา — ไวศรวัณ มีมาตั้งแต่โบราณ แต่พุ่งสูงในปี 2565"
+                },
+                "viralBody": {
+                    "en": "Viral moment: 2022 amulet shortage. Thai amulet market hit record sales, attributed to economic uncertainty.",
+                    "th": "ช่วงไวรัล: เครื่องรางขาดตลาดปี 2565 ตลาดเครื่องรางไทยทำยอดขายสูงสุดเป็นประวัติการณ์ จากความไม่แน่นอนทางเศรษฐกิจ"
+                },
+                "saysBody": {
+                    "en": "Protection culture — economic anxiety displaced into ritual armor.",
+                    "th": "วัฒนธรรมการปกป้อง — ความกังวลทางเศรษฐกิจถูกย้ายไปเป็นเกราะพิธีกรรม"
+                }
+            },
+            "kruKai": {
+                "name": {
+                    "en": "Kru Kai Kaew",
+                    "th": "ครูกายแก้ว"
+                },
+                "tag": {
+                    "en": "FAST MONEY CULTURE",
+                    "th": "วัฒนธรรมเงินด่วน"
+                },
+                "originBody": {
+                    "en": "Allegedly an ancient hermit spirit who materialized at a hotel in Bangkok, 2023.",
+                    "th": "เล่ากันว่าเป็นวิญญาณฤาษีโบราณ ปรากฏกายที่โรงแรมแห่งหนึ่งในกรุงเทพฯ ปี 2566"
+                },
+                "viralBody": {
+                    "en": "Viral moment: hotel CCTV footage shared 4M times in 72 hours. LINE groups flooded.",
+                    "th": "ช่วงไวรัล: ภาพ CCTV ของโรงแรมถูกแชร์ 4 ล้านครั้งใน 72 ชั่วโมง กลุ่ม LINE แพร่กระจาย"
+                },
+                "saysBody": {
+                    "en": "Post-pandemic spiritual anxiety — desire for direct, immediate divine intervention.",
+                    "th": "ความกังวลทางจิตวิญญาณยุคหลังโรคระบาด — ปรารถนาการแทรกแซงจากเทพโดยตรง ทันที"
+                }
+            }
+        },
+        "pattern": {
+            "lead": {
+                "en": "Each saint maps to an unmet need.<br>Each went viral when that need became acute.",
+                "th": "นักบุญแต่ละองค์สอดคล้องกับความต้องการที่ยังไม่ได้รับการตอบสนอง<br>ไวรัลเมื่อความต้องการนั้นรุนแรงขึ้น"
+            },
+            "needLabel": {
+                "en": "NEED",
+                "th": "ความต้องการ"
+            },
+            "triggerLabel": {
+                "en": "TRIGGER",
+                "th": "ตัวจุดชนวน"
+            },
+            "p1Need": {
+                "en": "Business Luck, Stability",
+                "th": "โชคในธุรกิจ ความมั่นคง"
+            },
+            "p1Trigger": {
+                "en": "Always. Perennial",
+                "th": "ตลอดเวลา ถาวร"
+            },
+            "p2Need": {
+                "en": "Fast Wealth, Lottery Luck",
+                "th": "ความรวยด่วน โชคหวย"
+            },
+            "p2Trigger": {
+                "en": "Economic Inequality",
+                "th": "ความเหลื่อมล้ำทางเศรษฐกิจ"
+            },
+            "p3Need": {
+                "en": "Protection, Armor",
+                "th": "การปกป้อง เกราะคุ้มครอง"
+            },
+            "p3Trigger": {
+                "en": "2022 Economic Fear",
+                "th": "ความกลัวทางเศรษฐกิจปี 2565"
+            },
+            "p4Need": {
+                "en": "Direct Divine Intervention",
+                "th": "การแทรกแซงจากเทพโดยตรง"
+            },
+            "p4Trigger": {
+                "en": "Post COVID Grief",
+                "th": "ความเศร้าหลังโควิด"
+            }
+        },
+        "pullquote": {
+            "en": "Thailand does not preserve its pantheon. It updates it.<br>Every generation ships a new saint — and the old ones remain in the stack.",
+            "th": "ประเทศไทยไม่ได้รักษาวิหารเทพไว้ มันอัปเดตเทพ<br>ทุกรุ่นส่งนักบุญใหม่ — และองค์เก่ายังอยู่ในระบบชั้น"
+        },
+        "endLabel": {
+            "en": "End of Chapters",
+            "th": "จบบทสุดท้าย"
         }
     },
     "ch05": {
@@ -336,6 +758,88 @@
             "typographyCredits": {
                 "en": "Typography Credits",
                 "th": "เครดิตงานออกแบบตัวอักษร"
+            }
+        },
+        "projectLead": {
+            "en": "Faith Engineered is a visual essay exploring Thai Mutelu — the layered spiritual culture that underlies modern Thai life. This project argues that Thai spirituality is not confused syncretism but sophisticated systems design: a modular belief stack, updated continuously for 700 years.",
+            "th": "Faith Engineered คือ visual essay ที่สำรวจมูเตลูแบบไทย — วัฒนธรรมจิตวิญญาณซ้อนชั้นที่อยู่เบื้องหลังชีวิตไทยสมัยใหม่ โครงการนี้เสนอว่าจิตวิญญาณไทยไม่ใช่การผสมผสานที่สับสน แต่คือการออกแบบระบบที่ซับซ้อน: ระบบชั้นความเชื่อแบบโมดูล อัปเดตต่อเนื่องมา 700 ปี"
+        },
+        "authorSub": {
+            "en": "College of Social Communication Innovation · Sophomore · SWU · Bangkok · 2026",
+            "th": "วิทยาลัยนวัตกรรมสื่อสารสังคม · ปี 2 · มศว · กรุงเทพฯ · 2569"
+        },
+        "accordion": {
+            "ch1Title": {
+                "en": "Chapter 1 · The Stack",
+                "th": "บทที่ 1 · ระบบชั้น"
+            },
+            "ch2Title": {
+                "en": "Chapter 2 · The Geography of Luck",
+                "th": "บทที่ 2 · ภูมิศาสตร์แห่งโชค"
+            },
+            "ch3Title": {
+                "en": "Chapter 3 · The Offering Economy",
+                "th": "บทที่ 3 · เศรษฐกิจการถวาย"
+            },
+            "ch4Title": {
+                "en": "Chapter 4 · The New Saints",
+                "th": "บทที่ 4 · นักบุญรุ่นใหม่"
+            },
+            "genTitle": {
+                "en": "General / Background",
+                "th": "ทั่วไป / พื้นหลัง"
+            },
+            "count17": {
+                "en": "17 sources",
+                "th": "17 แหล่งอ้างอิง"
+            },
+            "count9": {
+                "en": "9 sources",
+                "th": "9 แหล่งอ้างอิง"
+            },
+            "count10": {
+                "en": "10 sources",
+                "th": "10 แหล่งอ้างอิง"
+            },
+            "count13": {
+                "en": "13 sources",
+                "th": "13 แหล่งอ้างอิง"
+            },
+            "count5": {
+                "en": "5 sources",
+                "th": "5 แหล่งอ้างอิง"
+            }
+        },
+        "credits": {
+            "visual1": {
+                "en": "AI-generated Visuals: Midjourney v7, GPT Image2",
+                "th": "ภาพที่สร้างด้วย AI: Midjourney v7, GPT Image2"
+            },
+            "visual2": {
+                "en": "Hero video and Chapter 4 Opening Visual: Higgsfield Cinema Studio Video",
+                "th": "วิดีโอ Hero และวิดีโอเปิดบทที่ 4: Higgsfield Cinema Studio Video"
+            },
+            "visual3": {
+                "en": "No copyrighted imagery used without license",
+                "th": "ไม่มีการใช้ภาพที่มีลิขสิทธิ์โดยไม่ได้รับอนุญาต"
+            },
+            "bangkokPostSrc": {
+                "en": "Bangkok Post · “The economics of merit-making” (2024)",
+                "th": "Bangkok Post · “เศรษฐศาสตร์ของการทำบุญ” (2567)"
+            }
+        },
+        "cards": {
+            "aboutTitle": {
+                "en": "ABOUT THIS PROJECT",
+                "th": "เกี่ยวกับโครงการนี้"
+            },
+            "aboutBody": {
+                "en": "Faith Engineered is an editorial interactive essay built as a final project for SWU COSCI Track B. It explores Thai Mutelu through the lens of systems design and cultural analysis.",
+                "th": "Faith Engineered คือ editorial interactive essay ที่ทำเป็นโครงการจบของ มศว COSCI Track B สำรวจมูเตลูไทยผ่านเลนส์ของการออกแบบระบบและการวิเคราะห์เชิงวัฒนธรรม"
+            },
+            "techTitle": {
+                "en": "TECH STACK",
+                "th": "ระบบเทคโนโลยี"
             }
         }
     },
