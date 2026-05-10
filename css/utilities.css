@@ -62,3 +62,21 @@
 [data-animating="false"] {
     will-change: auto;
 }
+
+/* ──────────────────────────────────────────
+   Justified body text — newsprint feel for
+   long-form prose across chapters. Both EN
+   and TH. Last line keeps default start-align,
+   so single-line / short paragraphs aren't
+   forced into wide gaps. */
+.ch01-header__lead,
+.ch02-header__lead,
+.ch03-header__lead,
+.ch04-header__lead,
+.ch05-block__lead,
+.ch05-card__body,
+.ch03-parallel__cap,
+.ch04-saint__body {
+    text-align: justify;
+    hyphens: auto;
+}

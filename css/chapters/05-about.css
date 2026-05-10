@@ -151,6 +151,16 @@
     text-shadow: 0 0 18px rgba(255, 255, 255, 0.18);
 }
 
+/* TH author name ("ภาณุพงศ์ โฉมฉิน") — Latin uppercase + 0.19em tracking
+   widens the gap between every Thai glyph and visually swallows the
+   actual word-break space. Drop both for TH; bump weight down a notch
+   so Thai serif fallback doesn't read too heavy. */
+[data-lang="th"] .ch05-block__name {
+    font-weight: 500;
+    text-transform: none;
+    letter-spacing: 0;
+}
+
 .ch05-block__sub {
     font-family: var(--font-ui);
     font-weight: 400;
