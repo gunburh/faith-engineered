@@ -88,6 +88,44 @@ main {
     padding-inline: var(--space-5);
 }
 
+/* ── Aurora shader background (shader-bg.js) ───────────────
+   Single fixed canvas at body level, viewport-sized. JS gates render +
+   visibility to the .sources-section via IntersectionObserver:
+     • when section enters → .is-visible → opacity fades in + RAF starts
+     • when section leaves → class removed → fades out + RAF stops
+   No sticky / containing-block tricks; nothing in the section changes
+   layout or stacking so ch05's entrance animations stay untouched. */
+.shader-bg-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    /* z-index: -1 + body { background: transparent } puts the canvas
+       BEHIND every page-level content layer. html still owns the ink
+       backdrop, so chapters / footer / nav all paint on top of the
+       canvas naturally — no mix-blend tricks needed for layering. */
+    z-index: -1;
+    pointer-events: none;
+    opacity: 0;
+    /* Screen blend lets gold ribbons feel luminous against the html ink
+       behind them without bleaching neutral content above. */
+    mix-blend-mode: screen;
+    transition: opacity 600ms ease;
+}
+
+.shader-bg-canvas.is-visible {
+    opacity: 0.55;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .shader-bg-canvas { opacity: 0.18; }    /* dimmer when frozen so static frame doesn't read as a stuck image */
+}
+
+@media (max-width: 767px) {
+    .shader-bg-canvas { display: none; }    /* mobile perf budget — see shader-bg.js */
+}
+
 /* Chapter header: eyebrow → title → subtitle stacked */
 .chapter__header {
     margin-bottom: var(--space-8);

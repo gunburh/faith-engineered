@@ -29,6 +29,7 @@ import { initGeographyMap }   from './chapters/geography-map.js';
 import { initEconomyInteractions } from './chapters/economy-interactions.js';
 import { initSeasonalPeaks }   from './chapters/seasonal-peaks.js';
 import { initViralTimeline }   from './chapters/viral-timeline.js';
+import { initShaderBackgrounds } from './chapters/shader-bg.js';
 import { initAboutAccordion }  from './chapters/about-accordion.js';
 // import { initMotion }         from './core/motion.js';
 // import { initHeroSmoke }      from './chapters/hero-smoke.js';
@@ -69,6 +70,12 @@ document.addEventListener('DOMContentLoaded', async () => {
     initCh04Scroll();
     initAboutAccordion();
     initCh05Scroll();
+
+    // Aurora gold shader behind every long-form section (skips hero).
+    // Per-section <canvas>; auto pause/resume via IntersectionObserver;
+    // disabled on mobile + reduced-motion. Add `data-no-shader-bg` to
+    // any .chapter / .sources-section to opt that section out.
+    initShaderBackgrounds();
 
     // Pause videos that are off-screen — biggest scroll-jank fix on this page.
     initVideoVisibilityGate();
