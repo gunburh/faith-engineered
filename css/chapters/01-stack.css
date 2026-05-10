@@ -66,13 +66,14 @@
 /* TH headline ("ระบบชั้น") — Cormorant Garamond Regular, no italic.
    Override the .ch01-headline em italic since the TH translation wraps
    the whole word in <em> for parity with EN markup.
-   Cormorant has no Thai glyphs, so we explicitly fall back to
-   IBM Plex Sans Thai (the LOOPLESS / ไม่มีหัว variant) — without this,
-   browsers pick the system Thai font (Thonburi on macOS) which has
-   loops and breaks parity with the Figma spec. */
+   The TH copy is 100% Thai, so put IBM Plex Sans Thai FIRST — when
+   Cormorant led the stack, the browser tried to shape the Thai cluster
+   (ช + ◌ั + ◌้) in Cormorant first, then fell back per-glyph rather
+   than per-cluster, which broke mark-to-mark positioning and stacked
+   the tone mark (◌้) on top of the vowel (◌ั) instead of above it. */
 [data-lang="th"] .ch01-headline,
 [data-lang="th"] .ch01-headline em {
-    font-family: 'Cormorant Garamond', 'IBM Plex Sans Thai', serif;
+    font-family: 'IBM Plex Sans Thai', 'Cormorant Garamond', serif;
     font-weight: 400;
     font-style: normal;
 }
@@ -96,11 +97,13 @@
 }
 
 /* TH lead ("คนไทยหนึ่งคน...") — Cormorant Garamond italic spec, but
-   Cormorant has no Thai glyphs. Force the loopless IBM Plex Sans Thai
-   fallback (same reason as the headline) so Thai renders without heads
-   to match the Figma design. */
+   Cormorant has no Thai glyphs. Same fix as the headline: put
+   IBM Plex Sans Thai FIRST so the Thai cluster (e.g. ชั้น / เชื่อ /
+   หนึ่ง — all have stacked vowel + tone marks) gets shaped in one
+   font and mkmk positioning works. The em-dash is the only non-Thai
+   char and renders fine in either font. */
 [data-lang="th"] .ch01-header__lead {
-    font-family: 'Cormorant Garamond', 'IBM Plex Sans Thai', serif;
+    font-family: 'IBM Plex Sans Thai', 'Cormorant Garamond', serif;
 }
 
 .ch01-header__lead {
