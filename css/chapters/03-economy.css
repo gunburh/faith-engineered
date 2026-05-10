@@ -49,6 +49,14 @@
     margin: 0;
 }
 
+[data-lang="th"] .ch03-header__eyebrow {
+    font-family: var(--font-ui-th);
+    font-size: 14px;
+    font-weight: 400;
+    letter-spacing: 0;
+    text-transform: none;
+}
+
 .ch03-header__divider {
     width: 100%;
     height: 1px;

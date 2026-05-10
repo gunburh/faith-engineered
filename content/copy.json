@@ -47,7 +47,7 @@
         "header": {
             "eyebrow": {
                 "en": "CHAPTER 01",
-                "th": "บทที่ 01"
+                "th": "บทที่ ๑"
             },
             "headline": {
                 "en": "The <em>Stack</em>",
@@ -253,7 +253,7 @@
         "header": {
             "eyebrow": {
                 "en": "CHAPTER 02",
-                "th": "บทที่ 02"
+                "th": "บทที่ ๒"
             },
             "headline": {
                 "en": "The <em>Geography of <span class=\"ch02-luck\">Luck</span></em>",
@@ -335,7 +335,7 @@
         "header": {
             "eyebrow": {
                 "en": "CHAPTER 03",
-                "th": "บทที่ 03"
+                "th": "บทที่ ๓"
             },
             "headline": {
                 "en": "The <em>Offering Economy</em>",
@@ -527,7 +527,7 @@
         "header": {
             "eyebrow": {
                 "en": "CHAPTER 04",
-                "th": "บทที่ 04"
+                "th": "บทที่ ๔"
             },
             "headline": {
                 "en": "The <span class=\"ch04-headline__main\">NEW SAINT<span class=\"ch04-headline__s\">S</span></span>",
@@ -735,7 +735,7 @@
         "header": {
             "eyebrow": {
                 "en": "SOURCES & ABOUT",
-                "th": "แหล่งข้อมูลและเกี่ยวกับ"
+                "th": "เกี่ยวกับและอ้างอิง"
             }
         },
         "labels": {
