@@ -212,8 +212,11 @@ export async function initLanguageToggle() {
 
     // Apply on first load — set BOTH `lang` and `data-lang` so CSS
     // rules `[data-lang="th"] ...` activate from the very first paint.
+    // Also mirror onto <body> for any rules that scope `body[data-lang]`
+    // (matches what setLanguage does on toggle).
     document.documentElement.lang = currentLang;
     document.documentElement.dataset.lang = currentLang;
+    if (document.body) document.body.dataset.lang = currentLang;
     applyLanguage(currentLang);
     updateToggleState(currentLang);
 

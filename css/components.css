@@ -90,8 +90,10 @@
     width: calc(100% - var(--space-7));
     max-width: 1280px;
 
-    /* Force Inter regular across the entire nav — overrides body's serif */
-    font-family: 'Inter', sans-serif;
+    /* Force Inter regular across the entire nav — overrides body's serif.
+       IBM Plex Sans Thai is the loopless TH fallback so Thai chars don't
+       drop to the system Thai font (which has loops/heads). */
+    font-family: 'Inter', 'IBM Plex Sans Thai', sans-serif;
     font-weight: 400;
     font-style: normal;
 
@@ -682,7 +684,7 @@
 
 /* Force Inter regular across the entire footer (matches header treatment) */
 .site-footer {
-    font-family: 'Inter', sans-serif;
+    font-family: 'Inter', 'IBM Plex Sans Thai', sans-serif;
     font-weight: 400;
     font-style: normal;
 }
@@ -695,7 +697,7 @@
 /* Column heading — gold label ON TOP, hairline BELOW spanning full column width */
 .footer__heading {
     display: block;
-    font-family: 'Inter', sans-serif;
+    font-family: 'Inter', 'IBM Plex Sans Thai', sans-serif;
     font-size: 10px;
     font-weight: 600;
     letter-spacing: 0.18em;
