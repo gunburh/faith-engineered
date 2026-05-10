@@ -81,6 +81,17 @@
     font-weight: 500;
 }
 
+/* TH headline ("เศรษฐกิจแห่งการบูชา") — same spec as ch01: Cormorant
+   Regular for any Latin glyph, IBM Plex Sans Thai loopless first so
+   Thai clusters get shaped in one font. No italic since em wraps the
+   whole headline in TH copy. */
+[data-lang="th"] .ch03-headline,
+[data-lang="th"] .ch03-headline em {
+    font-family: 'IBM Plex Sans Thai', 'Cormorant Garamond', serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
 .ch03-header__subhead {
     font-family: var(--font-display-th);
     font-weight: 400;
@@ -89,6 +100,12 @@
     margin: 0;
     max-width: none;
     opacity: 1;
+}
+
+/* TH subhead — quieter loopless IBM Plex (matches ch01). */
+[data-lang="th"] .ch03-header__subhead {
+    font-family: var(--font-body-th);
+    font-weight: 400;
 }
 
 .ch03-header__lead {
@@ -101,6 +118,11 @@
     margin: var(--space-3) 0 0;
     max-width: 80ch;
     opacity: 1;
+}
+
+/* TH lead — IBM Plex Sans Thai first so Thai cluster shaping is intact. */
+[data-lang="th"] .ch03-header__lead {
+    font-family: 'IBM Plex Sans Thai', 'Cormorant Garamond', serif;
 }
 
 /* ──────────────────────────────────────────

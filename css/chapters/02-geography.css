@@ -125,6 +125,18 @@
     font-weight: 500;
 }
 
+/* TH headline ("ภูมิศาสตร์แห่งโชค") — same spec as ch01: Cormorant
+   Regular for any Latin glyph, IBM Plex Sans Thai (loopless) for Thai.
+   IBM Plex first so Thai clusters get shaped in one font (mkmk works).
+   No italic since em wraps the whole headline in TH copy. */
+[data-lang="th"] .ch02-headline,
+[data-lang="th"] .ch02-headline em,
+[data-lang="th"] .ch02-luck {
+    font-family: 'IBM Plex Sans Thai', 'Cormorant Garamond', serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
 /* ── "Luck" / "โชค" — cinematic gold ignition target ────────
    Inline-block so we can apply transform/filter without breaking the
    line. Initial color matches the rest of the headline (cream); GSAP
@@ -191,6 +203,12 @@
     opacity: 1;
 }
 
+/* TH subhead — quieter loopless IBM Plex (matches ch01). */
+[data-lang="th"] .ch02-header__subhead {
+    font-family: var(--font-body-th);
+    font-weight: 400;
+}
+
 .ch02-header__lead {
     font-family: var(--font-display-en);
     font-style: italic;
@@ -201,6 +219,12 @@
     margin: var(--space-3) 0 0;
     max-width: 70ch;
     opacity: 1;
+}
+
+/* TH lead — IBM Plex Sans Thai first so Thai cluster shaping is intact
+   (em-dash and other Latin punctuation render fine in IBM Plex). */
+[data-lang="th"] .ch02-header__lead {
+    font-family: 'IBM Plex Sans Thai', 'Cormorant Garamond', serif;
 }
 
 /* ──────────────────────────────────────────

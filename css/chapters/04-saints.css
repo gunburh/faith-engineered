@@ -84,6 +84,18 @@
     font-style: italic;
 }
 
+/* TH headline ("เทพยุคใหม่") — same spec as ch01: Cormorant Regular
+   fallback, IBM Plex Sans Thai loopless first for Thai cluster shaping.
+   "ใหม่" (.ch04-headline__s) keeps the oxblood color via the existing
+   rule below; we only override font-family + style here. */
+[data-lang="th"] .ch04-headline,
+[data-lang="th"] .ch04-headline__main,
+[data-lang="th"] .ch04-headline__s {
+    font-family: 'IBM Plex Sans Thai', 'Cormorant Garamond', serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
 /* The typographic moment — final "S" recoloured oxblood */
 .ch04-headline__s {
     position: relative;
@@ -158,6 +170,12 @@
     opacity: 1;
 }
 
+/* TH subhead — quieter loopless IBM Plex (matches ch01). */
+[data-lang="th"] .ch04-header__subhead {
+    font-family: var(--font-body-th);
+    font-weight: 400;
+}
+
 .ch04-header__lead {
     font-family: var(--font-display-en);
     font-style: italic;
@@ -168,6 +186,11 @@
     margin: var(--space-3) 0 0;
     max-width: 80ch;
     opacity: 1;
+}
+
+/* TH lead — IBM Plex Sans Thai first so Thai cluster shaping is intact. */
+[data-lang="th"] .ch04-header__lead {
+    font-family: 'IBM Plex Sans Thai', 'Cormorant Garamond', serif;
 }
 
 /* ──────────────────────────────────────────

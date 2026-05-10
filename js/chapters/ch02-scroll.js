@@ -24,8 +24,16 @@ const REDUCED_MOTION =
     typeof window !== 'undefined' &&
     window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-// Custom char splitter — preserves nested elements (e.g. <em>) and
-// returns the array of char spans in DOM order. Same helper as ch01.
+// Grapheme-aware splitter — Thai clusters (ช + ◌ั + ◌้) stay as ONE
+// segment; per-codepoint splitting puts combining marks in their own
+// inline-block which breaks mkmk shaping. Same helper shape as ch01.
+const _segmenter =
+    typeof Intl !== 'undefined' && typeof Intl.Segmenter === 'function'
+        ? new Intl.Segmenter(undefined, { granularity: 'grapheme' })
+        : null;
+const _toGraphemes = (text) =>
+    _segmenter ? Array.from(_segmenter.segment(text), s => s.segment) : [...text];
+
 function splitChars(el) {
     const chars = [];
     function walk(node) {
@@ -33,7 +41,7 @@ function splitChars(el) {
             const text = node.textContent;
             if (!text) return;
             const frag = document.createDocumentFragment();
-            for (const c of text) {
+            for (const c of _toGraphemes(text)) {
                 const span = document.createElement('span');
                 span.className = 'ch02-anim-char';
                 span.style.display = 'inline-block';
@@ -97,6 +105,11 @@ export function initCh02Scroll() {
     if (luckSpan) {
         luckSpan.setAttribute('data-text', luckSpan.textContent.trim());
     }
+    // TH copy: "<em>ภูมิศาสตร์แห่ง<span class="ch02-luck">โชค</span></em>".
+    // Gold drop-shadow on .ch02-luck halos the Thai diacritics on "โชค"
+    // and visually collides with the headline's tone marks. Skip the
+    // ignition + halo + shimmer in TH.
+    const skipEmGlow = document.documentElement.lang === 'th';
 
     if (header) {
         if (headline) {
@@ -122,7 +135,7 @@ export function initCh02Scroll() {
         });
         if (subhead) gsap.set(subhead, { opacity: 0, y: 24, filter: 'blur(8px)' });
         if (lead)    gsap.set(lead,    { opacity: 0, y: 24, filter: 'blur(8px)' });
-        if (luckSpan) gsap.set(luckSpan, {
+        if (luckSpan && !skipEmGlow) gsap.set(luckSpan, {
             filter: 'drop-shadow(0 0 0px rgba(201, 169, 97, 0))',
             letterSpacing: '0em',
         });
@@ -175,7 +188,7 @@ export function initCh02Scroll() {
         //   3. Subtle letter-spacing breath — word "expands" by ~0.02em
         //   4. Switch on .is-ignited which engages the CSS shimmer sweep
         //      (a single ::after gradient pass via CSS animation)
-        if (luckChars.length) {
+        if (luckChars.length && !skipEmGlow) {
             tl.to(luckChars, {
                 color: '#FFE4A8',
                 textShadow:
@@ -188,7 +201,7 @@ export function initCh02Scroll() {
             }, '-=0.55');
         }
 
-        if (luckSpan) {
+        if (luckSpan && !skipEmGlow) {
             tl.to(luckSpan, {
                 filter:
                     'drop-shadow(0 0 14px rgba(255, 220, 130, 0.95)) ' +

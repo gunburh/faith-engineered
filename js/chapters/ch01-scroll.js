@@ -28,6 +28,18 @@ const REDUCED_MOTION =
 // Walks text nodes, wraps each glyph in <span class="char">. Returns
 // the array of char spans (in DOM order). Spaces become non-breaking
 // spaces so display:inline-block doesn't collapse them.
+// Grapheme-aware splitter — Thai clusters like "ชั้" (ช + ◌ั + ◌้) must
+// stay as ONE segment, otherwise wrapping each codepoint in its own
+// inline-block span breaks mkmk shaping and the tone mark sits on top
+// of the vowel instead of above it. Falls back to codepoint iteration
+// on browsers without Intl.Segmenter.
+const _segmenter =
+    typeof Intl !== 'undefined' && typeof Intl.Segmenter === 'function'
+        ? new Intl.Segmenter(undefined, { granularity: 'grapheme' })
+        : null;
+const _toGraphemes = (text) =>
+    _segmenter ? Array.from(_segmenter.segment(text), s => s.segment) : [...text];
+
 function splitChars(el) {
     const chars = [];
     function walk(node) {
@@ -35,7 +47,7 @@ function splitChars(el) {
             const text = node.textContent;
             if (!text) return;
             const frag = document.createDocumentFragment();
-            for (const c of text) {
+            for (const c of _toGraphemes(text)) {
                 const span = document.createElement('span');
                 span.className = 'ch01-anim-char';
                 span.style.display = 'inline-block';
@@ -92,6 +104,11 @@ export function initCh01Scroll() {
     const subhead  = document.querySelector('.ch01-header__subhead');
     const lead     = document.querySelector('.ch01-header__lead');
     const stackEm  = headline?.querySelector('em');
+    // TH copy wraps the entire headline ("ระบบชั้น") in <em> for markup
+    // parity with EN's "<em>Stack</em>" — applying the gold drop-shadow
+    // to the whole word casts a halo over Thai diacritics that visually
+    // collides with the vowel/tone stack. Gate the em glow to EN only.
+    const skipEmGlow = document.documentElement.lang === 'th';
 
     if (header) {
         // Add perspective on the headline so per-char rotateX reads as 3D.
@@ -114,7 +131,7 @@ export function initCh01Scroll() {
         });
         if (subhead) gsap.set(subhead, { opacity: 0, y: 24, filter: 'blur(8px)' });
         if (lead)    gsap.set(lead,    { opacity: 0, y: 24, filter: 'blur(8px)' });
-        if (stackEm) gsap.set(stackEm, { filter: 'drop-shadow(0 0 0px rgba(201, 169, 97, 0))' });
+        if (stackEm && !skipEmGlow) gsap.set(stackEm, { filter: 'drop-shadow(0 0 0px rgba(201, 169, 97, 0))' });
 
         const tl = gsap.timeline({
             scrollTrigger: trigger({
@@ -145,8 +162,10 @@ export function initCh01Scroll() {
                 stagger: 0.06,
             }, 0.4);
         }
-        // "Stack" em — glow burst lands as the last char settles
-        if (stackEm) {
+        // "Stack" em — glow burst lands as the last char settles.
+        // Skipped in TH because em wraps the whole headline (see comment
+        // at the top of this block).
+        if (stackEm && !skipEmGlow) {
             tl.to(stackEm, {
                 filter: 'drop-shadow(0 0 18px rgba(201, 169, 97, 0.85)) drop-shadow(0 0 36px rgba(201, 169, 97, 0.45))',
                 duration: 1.4,

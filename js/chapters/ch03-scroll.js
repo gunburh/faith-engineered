@@ -34,6 +34,16 @@ const REDUCED_MOTION =
     typeof window !== 'undefined' &&
     window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+// Grapheme-aware splitter — Thai clusters (ช + ◌ั + ◌้) stay as ONE
+// segment; per-codepoint splitting puts combining marks in their own
+// inline-block which breaks mkmk shaping. Same helper shape as ch01.
+const _segmenter =
+    typeof Intl !== 'undefined' && typeof Intl.Segmenter === 'function'
+        ? new Intl.Segmenter(undefined, { granularity: 'grapheme' })
+        : null;
+const _toGraphemes = (text) =>
+    _segmenter ? Array.from(_segmenter.segment(text), s => s.segment) : [...text];
+
 function splitChars(el) {
     const chars = [];
     function walk(node) {
@@ -41,7 +51,7 @@ function splitChars(el) {
             const text = node.textContent;
             if (!text) return;
             const frag = document.createDocumentFragment();
-            for (const c of text) {
+            for (const c of _toGraphemes(text)) {
                 const span = document.createElement('span');
                 span.className = 'ch03-anim-char';
                 span.style.display = 'inline-block';
@@ -131,6 +141,10 @@ export function initCh03Scroll() {
     const subhead  = header?.querySelector('.ch03-header__subhead');
     const lead     = header?.querySelector('.ch03-header__lead');
     const offerEm  = headline?.querySelector('em');
+    // TH copy: "<em>เศรษฐกิจแห่งการบูชา</em>" — em wraps the whole
+    // headline, so the gold halo casts over Thai diacritics and visually
+    // overlaps the tone marks. Gate the em glow to EN only.
+    const skipEmGlow = document.documentElement.lang === 'th';
 
     if (header) {
         if (headline) {
@@ -157,7 +171,7 @@ export function initCh03Scroll() {
         });
         if (subhead) gsap.set(subhead, { opacity: 0, y: 24, filter: 'blur(8px)' });
         if (lead)    gsap.set(lead,    { opacity: 0, y: 24, filter: 'blur(8px)' });
-        if (offerEm) gsap.set(offerEm, { filter: 'drop-shadow(0 0 0px rgba(201, 169, 97, 0))' });
+        if (offerEm && !skipEmGlow) gsap.set(offerEm, { filter: 'drop-shadow(0 0 0px rgba(201, 169, 97, 0))' });
 
         const tl = gsap.timeline({
             scrollTrigger: trigger({
@@ -189,7 +203,7 @@ export function initCh03Scroll() {
             stagger: 0.05,
         }, 0.4);
 
-        if (offerEm) tl.to(offerEm, {
+        if (offerEm && !skipEmGlow) tl.to(offerEm, {
             filter: 'drop-shadow(0 0 18px rgba(201, 169, 97, 0.85)) drop-shadow(0 0 36px rgba(201, 169, 97, 0.45))',
             duration: 1.5,
             ease: 'power2.out',

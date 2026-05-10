@@ -73,7 +73,7 @@
    the tone mark (◌้) on top of the vowel (◌ั) instead of above it. */
 [data-lang="th"] .ch01-headline,
 [data-lang="th"] .ch01-headline em {
-    font-family: 'Inter', sans-serif;
+    font-family: 'IBM Plex Sans Thai', 'Cormorant Garamond', serif;
     font-weight: 400;
     font-style: normal;
 }
@@ -103,7 +103,7 @@
    font and mkmk positioning works. The em-dash is the only non-Thai
    char and renders fine in either font. */
 [data-lang="th"] .ch01-header__lead {
-    font-family: 'Inter', sans-serif;
+    font-family: 'IBM Plex Sans Thai', 'Cormorant Garamond', serif;
 }
 
 .ch01-header__lead {

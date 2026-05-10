@@ -29,6 +29,16 @@ const REDUCED_MOTION =
     typeof window !== 'undefined' &&
     window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+// Grapheme-aware splitter — Thai clusters (ช + ◌ั + ◌้) stay as ONE
+// segment; per-codepoint splitting puts combining marks in their own
+// inline-block which breaks mkmk shaping. Same helper shape as ch01.
+const _segmenter =
+    typeof Intl !== 'undefined' && typeof Intl.Segmenter === 'function'
+        ? new Intl.Segmenter(undefined, { granularity: 'grapheme' })
+        : null;
+const _toGraphemes = (text) =>
+    _segmenter ? Array.from(_segmenter.segment(text), s => s.segment) : [...text];
+
 function splitChars(el) {
     const chars = [];
     function walk(node) {
@@ -36,7 +46,7 @@ function splitChars(el) {
             const text = node.textContent;
             if (!text) return;
             const frag = document.createDocumentFragment();
-            for (const c of text) {
+            for (const c of _toGraphemes(text)) {
                 const span = document.createElement('span');
                 span.className = 'ch04-anim-char';
                 span.style.display = 'inline-block';
@@ -131,6 +141,11 @@ export function initCh04Scroll() {
     if (oxbloodS) {
         oxbloodS.setAttribute('data-text', oxbloodS.textContent.trim());
     }
+    // TH copy: "<span class="ch04-headline__main">เทพยุค<span class="ch04-headline__s">ใหม่</span></span>".
+    // Crimson drop-shadow on .ch04-headline__s halos the Thai diacritics
+    // on "ใหม่" and visually collides with tone marks. Skip the ignition
+    // + halo + shimmer in TH (mirrors ch01-03 em-glow gating).
+    const skipEmGlow = document.documentElement.lang === 'th';
 
     if (header) {
         if (headline) {
@@ -176,7 +191,7 @@ export function initCh04Scroll() {
         });
         if (subhead) gsap.set(subhead, { opacity: 0, y: 24, filter: 'blur(8px)' });
         if (lead)    gsap.set(lead,    { opacity: 0, y: 24, filter: 'blur(8px)' });
-        if (oxbloodS) gsap.set(oxbloodS, { filter: 'drop-shadow(0 0 0px rgba(107, 31, 46, 0))' });
+        if (oxbloodS && !skipEmGlow) gsap.set(oxbloodS, { filter: 'drop-shadow(0 0 0px rgba(107, 31, 46, 0))' });
 
         const tl = gsap.timeline({
             scrollTrigger: trigger({
@@ -226,7 +241,7 @@ export function initCh04Scroll() {
         //   2. Container drop-shadow halo expands (3-layer crimson bloom)
         //   3. CSS .is-ignited engages a one-shot shimmer sweep across
         //      the glyph via background-clip:text (mirrors ch02 mechanic)
-        if (oxbloodS) {
+        if (oxbloodS && !skipEmGlow) {
             tl.to(oxbloodS, {
                 color: '#FF99A8',
                 textShadow:
