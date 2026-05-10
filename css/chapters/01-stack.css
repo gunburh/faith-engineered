@@ -63,6 +63,15 @@
     font-weight: 500;
 }
 
+/* TH headline ("ระบบชั้น") — Cormorant Garamond Regular, no italic.
+   Override the .ch01-headline em italic since the TH translation wraps
+   the whole word in <em> for parity with EN markup. */
+[data-lang="th"] .ch01-headline,
+[data-lang="th"] .ch01-headline em {
+    font-weight: 400;
+    font-style: normal;
+}
+
 .ch01-header__subhead {
     font-family: var(--font-display-th);
     font-weight: 400;
@@ -71,6 +80,14 @@
     margin: 0;
     max-width: none;
     opacity: 1;
+}
+
+/* TH subhead ("| หกชั้น หนึ่งระบบ") — switch from the Looped variant
+   (used by --font-display-th for headlines) to plain IBM Plex Sans Thai
+   Regular for a quieter UI feel here. */
+[data-lang="th"] .ch01-header__subhead {
+    font-family: var(--font-body-th);
+    font-weight: 400;
 }
 
 .ch01-header__lead {
